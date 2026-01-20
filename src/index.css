@@ -48,6 +48,12 @@
     --gradient-card: linear-gradient(145deg, hsl(0, 0%, 8%) 0%, hsl(0, 0%, 5%) 100%);
     --gradient-glow: radial-gradient(ellipse at center, hsl(265, 89%, 62%, 0.15) 0%, transparent 70%);
     
+    /* Light section colors */
+    --light-bg: 0 0% 98%;
+    --light-card: 0 0% 100%;
+    --light-text: 0 0% 8%;
+    --light-muted: 0 0% 40%;
+    
     --shadow-glow: 0 0 60px -15px hsl(265, 89%, 62%, 0.4);
     --shadow-card: 0 25px 50px -12px hsl(0, 0%, 0%, 0.5);
     --shadow-button: 0 10px 40px -10px hsl(265, 89%, 62%, 0.5);
@@ -81,21 +87,21 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 
-  /* Premium Typography */
+  /* Premium Typography - Headlines Imponentes */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-bold tracking-tight;
   }
 
   h1 {
-    @apply text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-[1.1];
+    @apply text-5xl md:text-6xl lg:text-7xl xl:text-8xl leading-[1.05];
   }
 
   h2 {
-    @apply text-3xl md:text-4xl lg:text-5xl leading-[1.15];
+    @apply text-4xl md:text-5xl lg:text-6xl leading-[1.1];
   }
 
   h3 {
-    @apply text-2xl md:text-3xl leading-snug;
+    @apply text-2xl md:text-3xl lg:text-4xl leading-snug;
   }
 }
 
@@ -220,6 +226,36 @@
   /* Feature Grid */
   .feature-grid {
     @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+
+  /* Light Section */
+  .section-light {
+    background: hsl(var(--light-bg));
+    color: hsl(var(--light-text));
+  }
+
+  .section-light .text-muted-foreground {
+    color: hsl(var(--light-muted));
+  }
+
+  .section-light .bg-card {
+    background: hsl(var(--light-card));
+    border-color: hsl(0, 0%, 90%);
+  }
+
+  .section-light .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+
+  /* Portfolio Card Blur Overlay */
+  .portfolio-blur-overlay {
+    background: linear-gradient(to top, 
+      hsl(0, 0%, 0%) 0%,
+      hsl(0, 0%, 0%, 0.9) 20%,
+      hsl(0, 0%, 0%, 0.7) 40%,
+      transparent 100%
+    );
   }
 }
 

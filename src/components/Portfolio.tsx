@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
-import { ExternalLink } from "lucide-react";
 
 // Portfolio images
 import advocaciaImg from "@/assets/portfolio/advocacia.jpg";
@@ -84,63 +83,68 @@ const Portfolio = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section ref={ref} id="portfolio" className="section-padding">
+    <section ref={ref} id="portfolio" className="section-padding section-light">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="mb-4">
+          <h2 className="mb-6">
             Projetos que <span className="text-gradient">geram resultados</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Conheça alguns dos sites e landing pages que criamos para nossos clientes em diversos segmentos.
           </p>
         </motion.div>
 
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.name}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="group relative rounded-2xl overflow-hidden bg-card border border-border card-hover cursor-pointer"
+              className="group relative rounded-2xl overflow-hidden bg-card border border-border/50 shadow-xl cursor-pointer"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
               {/* Image */}
-              <div className="relative aspect-[4/3] overflow-hidden">
+              <div className="relative aspect-[16/10] overflow-hidden">
                 <img
                   src={project.image}
                   alt={project.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {/* Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-90' : 'opacity-0'}`} />
+                
+                {/* Always visible blur overlay at bottom */}
+                <div className="absolute inset-x-0 bottom-0 h-32 portfolio-blur-overlay" />
+                
+                {/* Hover overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent transition-opacity duration-300 ${hoveredIndex === index ? 'opacity-95' : 'opacity-0'}`} />
+                
+                {/* Always visible info at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">{project.niche}</p>
+                  <h3 className="text-lg font-bold text-white">{project.name}</h3>
+                </div>
                 
                 {/* Hover Content */}
                 <motion.div
                   initial={false}
                   animate={{ opacity: hoveredIndex === index ? 1 : 0, y: hoveredIndex === index ? 0 : 20 }}
                   transition={{ duration: 0.3 }}
-                  className="absolute inset-0 flex items-end p-6"
+                  className="absolute inset-0 flex items-center justify-center p-6"
                 >
-                  <div>
-                    <p className="text-sm font-medium text-primary mb-2">{project.niche}</p>
-                    <h3 className="text-xl font-semibold mb-2">{project.name}</h3>
-                    <p className="text-sm text-muted-foreground">{project.description}</p>
+                  <div className="text-center">
+                    <p className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">{project.niche}</p>
+                    <h3 className="text-2xl font-bold text-white mb-3">{project.name}</h3>
+                    <p className="text-sm text-white/80 max-w-xs mx-auto">{project.description}</p>
                   </div>
                 </motion.div>
-              </div>
-
-              {/* Badge */}
-              <div className="absolute top-4 right-4 px-3 py-1 rounded-full bg-background/80 backdrop-blur-sm border border-border text-xs font-medium">
-                {project.niche}
               </div>
             </motion.div>
           ))}

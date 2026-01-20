@@ -41,19 +41,19 @@ const Benefits = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="section-padding bg-gradient-dark">
+    <section ref={ref} className="section-padding">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="mb-4">
+          <h2 className="mb-6">
             Por que escolher a <span className="text-gradient">nossa equipe?</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Simplificamos todo o processo para que você tenha um site profissional sem dor de cabeça.
           </p>
         </motion.div>
@@ -68,11 +68,11 @@ const Benefits = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group p-8 rounded-2xl bg-card border border-border card-hover"
             >
-              <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                <benefit.icon className="h-7 w-7 text-primary-foreground" />
+              <div className="w-16 h-16 rounded-xl bg-gradient-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                <benefit.icon className="h-8 w-8 text-primary-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">{benefit.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{benefit.description}</p>
+              <h3 className="text-2xl font-bold mb-3">{benefit.title}</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">{benefit.description}</p>
             </motion.div>
           ))}
         </div>

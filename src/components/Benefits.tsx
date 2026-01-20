@@ -55,13 +55,13 @@ const Benefits = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-10 xs:mb-12 sm:mb-16 md:mb-20"
         >
-          <h2 className="mb-6">
+          <h2 className="mb-4 xs:mb-5 sm:mb-6">
             Por que escolher a<br />
             <span className="text-gradient">nossa equipe?</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base xs:text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             Simplificamos todo o processo para que você<br className="hidden md:block" />
             tenha um site profissional sem dor de cabeça.
           </p>
@@ -75,25 +75,25 @@ const Benefits = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group p-8 rounded-2xl border card-hover ${
+              className={`group p-5 xs:p-6 sm:p-8 rounded-xl xs:rounded-2xl border card-hover ${
                 benefit.highlighted 
                   ? 'bg-white border-2 border-primary shadow-2xl shadow-primary/20' 
                   : 'bg-card border-border'
               }`}
             >
-              <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 ${
+              <div className={`w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-lg xs:rounded-xl flex items-center justify-center mb-4 xs:mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300 ${
                 benefit.highlighted 
                   ? 'bg-gradient-primary' 
                   : 'bg-gradient-primary'
               }`}>
-                <benefit.icon className="h-8 w-8 text-primary-foreground" />
+                <benefit.icon className="h-6 w-6 xs:h-7 xs:w-7 sm:h-8 sm:w-8 text-primary-foreground" />
               </div>
-              <h3 className={`text-2xl font-bold mb-3 ${
+              <h3 className={`text-lg xs:text-xl sm:text-2xl font-bold mb-2 xs:mb-3 ${
                 benefit.highlighted ? 'text-primary' : 'text-foreground'
               }`}>
                 {benefit.title}
               </h3>
-              <p className={`text-lg leading-relaxed ${
+              <p className={`text-sm xs:text-base sm:text-lg leading-relaxed ${
                 benefit.highlighted ? 'text-gray-600' : 'text-muted-foreground'
               }`}>
                 {benefit.description}
@@ -107,7 +107,7 @@ const Benefits = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-16"
+          className="text-center mt-10 xs:mt-12 sm:mt-16"
         >
           <WhatsAppButton showResponseTime />
         </motion.div>

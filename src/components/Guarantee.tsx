@@ -43,34 +43,34 @@ const Guarantee = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-center mb-20"
+            className="text-center mb-10 xs:mb-12 sm:mb-16 md:mb-20"
           >
-            <h2 className="mb-6">
+            <h2 className="mb-4 xs:mb-5 sm:mb-6">
               Sua satisfação<br />
               <span className="text-gradient">100% garantida</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-base xs:text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Trabalhamos com transparência total.<br className="hidden md:block" />
               Você tem controle absoluto do processo.
             </p>
           </motion.div>
 
           {/* Guarantees Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-6 sm:gap-8 mb-10 xs:mb-12 sm:mb-16 md:mb-20">
             {guarantees.map((guarantee, index) => (
               <motion.div
                 key={guarantee.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex gap-6 p-8 rounded-2xl bg-card/50 border border-border backdrop-blur-sm"
+                className="flex gap-4 xs:gap-5 sm:gap-6 p-5 xs:p-6 sm:p-8 rounded-xl xs:rounded-2xl bg-card/50 border border-border backdrop-blur-sm"
               >
-                <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
-                  <guarantee.icon className="h-7 w-7 text-primary" />
+                <div className="flex-shrink-0 w-11 h-11 xs:w-12 xs:h-12 sm:w-14 sm:h-14 rounded-lg xs:rounded-xl bg-primary/10 flex items-center justify-center">
+                  <guarantee.icon className="h-5 w-5 xs:h-6 xs:w-6 sm:h-7 sm:w-7 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold mb-3">{guarantee.title}</h3>
-                  <p className="text-muted-foreground text-lg">{guarantee.description}</p>
+                  <h3 className="text-lg xs:text-xl font-bold mb-2 xs:mb-3">{guarantee.title}</h3>
+                  <p className="text-muted-foreground text-sm xs:text-base sm:text-lg">{guarantee.description}</p>
                 </div>
               </motion.div>
             ))}

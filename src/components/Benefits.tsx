@@ -56,6 +56,8 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
   const sectionRef = useRef<HTMLElement>(null);
+  const endSentinelRef = useRef<HTMLDivElement>(null);
+  const isAtEndRef = useRef(false);
 
   useEffect(() => {
     // Generate random stars
@@ -75,25 +77,46 @@ const Benefits = () => {
   // Toggle scroll-snap on html when Benefits section is in view
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
+    const endSentinel = endSentinelRef.current;
+    if (!section || !endSentinel) return;
 
-    const observer = new IntersectionObserver(
+    // Observer for the section - enables snap when entering
+    const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0.1) {
+          if (entry.intersectionRatio > 0.1 && !isAtEndRef.current) {
             document.documentElement.classList.add('snap-benefits-active');
           } else if (entry.intersectionRatio < 0.05) {
             document.documentElement.classList.remove('snap-benefits-active');
+            isAtEndRef.current = false;
           }
         });
       },
       { threshold: [0.05, 0.1, 0.5] }
     );
 
-    observer.observe(section);
+    // Observer for the end sentinel - disables snap when reaching the end
+    const endObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
+            // User reached the end, release the snap
+            isAtEndRef.current = true;
+            document.documentElement.classList.remove('snap-benefits-active');
+          } else if (!entry.isIntersecting) {
+            isAtEndRef.current = false;
+          }
+        });
+      },
+      { threshold: [0.1, 0.3, 0.5], rootMargin: '0px 0px -10% 0px' }
+    );
+
+    sectionObserver.observe(section);
+    endObserver.observe(endSentinel);
 
     return () => {
-      observer.disconnect();
+      sectionObserver.disconnect();
+      endObserver.disconnect();
       document.documentElement.classList.remove('snap-benefits-active');
     };
   }, []);
@@ -191,6 +214,8 @@ const Benefits = () => {
             </motion.div>
           </div>
         ))}
+        {/* End sentinel - triggers snap release when user reaches the last card */}
+        <div ref={endSentinelRef} aria-hidden="true" className="h-[50vh] w-full" />
       </div>
     </section>
   );

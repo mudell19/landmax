@@ -106,24 +106,24 @@ const Benefits = () => {
     const lastCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
             isLastCardActiveRef.current = true;
           } else {
             isLastCardActiveRef.current = false;
           }
         });
       },
-      { threshold: [0.2, 0.4, 0.55, 0.7] }
+      { threshold: [0.1, 0.2, 0.3, 0.5] }
     );
 
     // Observer for the first card - tracks when it's active (visible enough)
     const firstCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          isFirstCardActiveRef.current = entry.isIntersecting && entry.intersectionRatio > 0.55;
+          isFirstCardActiveRef.current = entry.isIntersecting && entry.intersectionRatio > 0.3;
         });
       },
-      { threshold: [0.2, 0.4, 0.55, 0.7] }
+      { threshold: [0.1, 0.2, 0.3, 0.5] }
     );
 
     // Release snap when user tries to scroll DOWN while on last card or UP while on first card

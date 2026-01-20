@@ -80,14 +80,14 @@ const Benefits = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+          if (entry.intersectionRatio > 0.1) {
             document.documentElement.classList.add('snap-benefits-active');
-          } else {
+          } else if (entry.intersectionRatio < 0.05) {
             document.documentElement.classList.remove('snap-benefits-active');
           }
         });
       },
-      { threshold: [0.1, 0.5] }
+      { threshold: [0.05, 0.1, 0.5] }
     );
 
     observer.observe(section);

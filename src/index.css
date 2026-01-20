@@ -54,13 +54,6 @@
     --light-text: 0 0% 8%;
     --light-muted: 0 0% 40%;
     
-    /* Review card colors (light cards on dark bg) */
-    --review-bg: 0 0% 98%;
-    --review-border: 0 0% 88%;
-    --review-text: 0 0% 15%;
-    --review-text-muted: 0 0% 40%;
-    --review-star: 45 93% 58%;
-    
     --shadow-glow: 0 0 60px -15px hsl(265, 89%, 62%, 0.4);
     --shadow-card: 0 25px 50px -12px hsl(0, 0%, 0%, 0.5);
     --shadow-button: 0 10px 40px -10px hsl(265, 89%, 62%, 0.5);
@@ -154,14 +147,9 @@
     pointer-events: none;
   }
 
-  /* Section Styles - Increased vertical spacing for visual breathing room */
+  /* Section Styles */
   .section-padding {
-    @apply px-4 xs:px-5 sm:px-6 lg:px-8 py-16 xs:py-20 sm:py-24 md:py-32 lg:py-40;
-  }
-  
-  /* Section Divider - Subtle transition between sections */
-  .section-divider {
-    @apply border-t border-white/[0.08];
+    @apply px-4 xs:px-5 sm:px-6 lg:px-8 py-12 xs:py-14 sm:py-16 md:py-24 lg:py-32;
   }
 
   /* Container Max Width */

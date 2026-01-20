@@ -169,28 +169,24 @@ const Portfolio = () => {
           ))}
         </div>
 
-        {/* Stats Feature Block - Glassmorphism Highlight */}
+        {/* Stats Row */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-12 xs:mt-16 sm:mt-20 md:mt-24 p-8 xs:p-10 sm:p-12 rounded-2xl xs:rounded-3xl bg-white/[0.03] backdrop-blur-sm border border-white/[0.08]"
+          className="flex flex-wrap items-center justify-center gap-6 xs:gap-8 md:gap-16 mt-10 xs:mt-12 sm:mt-16 md:mt-20 py-6 xs:py-8 border-y border-white/10"
         >
-          <div className="flex flex-wrap items-center justify-center gap-8 xs:gap-12 md:gap-20">
-            <div className="text-center">
-              <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">200+</p>
-              <p className="text-sm xs:text-base text-muted-foreground">Projetos entregues</p>
-            </div>
-            <div className="hidden sm:block w-px h-16 bg-white/10" />
-            <div className="text-center">
-              <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">50+</p>
-              <p className="text-sm xs:text-base text-muted-foreground">Segmentos atendidos</p>
-            </div>
-            <div className="hidden sm:block w-px h-16 bg-white/10" />
-            <div className="text-center">
-              <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">98%</p>
-              <p className="text-sm xs:text-base text-muted-foreground">Clientes satisfeitos</p>
-            </div>
+          <div className="text-center">
+            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">200+</p>
+            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Projetos entregues</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">50+</p>
+            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Segmentos atendidos</p>
+          </div>
+          <div className="text-center">
+            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">98%</p>
+            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Clientes satisfeitos</p>
           </div>
         </motion.div>
 

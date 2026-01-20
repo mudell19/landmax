@@ -17,7 +17,7 @@ const Footer = () => {
           className="text-center mb-20"
         >
           <h2 className="mb-6">
-            Comece agora e tenha seu site em <span className="text-gradient">2 dias</span>
+            Comece agora e tenha seu site em <span className="text-gradient">7 dias</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
             Não perca mais clientes por não ter presença online. 

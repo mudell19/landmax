@@ -31,29 +31,9 @@ const comparisonData = [
     others: "Cobrado por hora"
   },
   {
-    feature: "Design responsivo",
-    us: "100% mobile-first",
-    others: "Nem sempre incluso"
-  },
-  {
-    feature: "Otimização SEO",
-    us: "Incluso no projeto",
-    others: "Serviço adicional"
-  },
-  {
-    feature: "Integração WhatsApp",
-    us: "Configurado e pronto",
-    others: "Custo extra"
-  },
-  {
-    feature: "Equipe de design",
-    us: "Designers profissionais",
-    others: "Freelancers variados"
-  },
-  {
     feature: "Investimento total",
     us: "R$ 490 fixo",
-    others: "R$ 2.000 - R$ 10.000+"
+    others: "R$ 2.000+"
   }
 ];
 
@@ -69,29 +49,29 @@ const Comparison = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-12 md:mb-16"
         >
           <h2 className="mb-6">
             Por que somos <span className="text-gradient">diferentes?</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Compare nosso serviço com agências tradicionais e veja a diferença.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Compare nosso serviço com agências tradicionais.
           </p>
         </motion.div>
 
-        {/* Comparison Table */}
+        {/* Comparison Cards - Mobile optimized */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="max-w-5xl mx-auto"
+          className="max-w-4xl mx-auto"
         >
-          {/* Table Header */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
+          {/* Desktop Table Header */}
+          <div className="hidden md:grid grid-cols-3 gap-4 mb-6">
             <div className="text-lg font-bold text-muted-foreground">Recurso</div>
             <div className="text-center">
               <div className="inline-flex flex-col items-center px-6 py-3 rounded-xl bg-gradient-primary">
-                <span className="text-lg font-bold text-primary-foreground">Nós</span>
+                <span className="text-lg font-bold text-primary-foreground">SitePro</span>
               </div>
             </div>
             <div className="text-center">
@@ -101,7 +81,17 @@ const Comparison = () => {
             </div>
           </div>
 
-          {/* Table Rows */}
+          {/* Mobile: Two column cards */}
+          <div className="md:hidden grid grid-cols-2 gap-4 mb-6">
+            <div className="p-4 rounded-2xl bg-gradient-primary text-center">
+              <span className="text-lg font-bold text-primary-foreground">SitePro</span>
+            </div>
+            <div className="p-4 rounded-2xl bg-card border border-border text-center">
+              <span className="text-lg font-bold text-muted-foreground">Agências</span>
+            </div>
+          </div>
+
+          {/* Comparison Rows */}
           <div className="space-y-3">
             {comparisonData.map((item, index) => (
               <motion.div
@@ -109,16 +99,36 @@ const Comparison = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
-                className="grid grid-cols-3 gap-4 p-4 rounded-xl bg-card/50 border border-border hover:border-primary/30 transition-colors"
+                className="rounded-xl bg-card/50 border border-border hover:border-primary/30 transition-colors overflow-hidden"
               >
-                <div className="flex items-center font-medium">{item.feature}</div>
-                <div className="flex items-center justify-center gap-2 text-center">
-                  <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                  <span className="text-foreground font-medium">{item.us}</span>
+                {/* Mobile Layout */}
+                <div className="md:hidden">
+                  <div className="px-4 py-3 bg-card/80 border-b border-border">
+                    <span className="font-semibold text-foreground">{item.feature}</span>
+                  </div>
+                  <div className="grid grid-cols-2 divide-x divide-border">
+                    <div className="p-4 flex items-center gap-2">
+                      <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                      <span className="text-sm text-foreground font-medium">{item.us}</span>
+                    </div>
+                    <div className="p-4 flex items-center gap-2">
+                      <X className="h-4 w-4 text-destructive/70 flex-shrink-0" />
+                      <span className="text-sm text-muted-foreground">{item.others}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex items-center justify-center gap-2 text-center">
-                  <X className="h-5 w-5 text-destructive/70 flex-shrink-0" />
-                  <span className="text-muted-foreground">{item.others}</span>
+
+                {/* Desktop Layout */}
+                <div className="hidden md:grid grid-cols-3 gap-4 p-4">
+                  <div className="flex items-center font-medium">{item.feature}</div>
+                  <div className="flex items-center justify-center gap-2 text-center">
+                    <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-foreground font-medium">{item.us}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-2 text-center">
+                    <X className="h-5 w-5 text-destructive/70 flex-shrink-0" />
+                    <span className="text-muted-foreground">{item.others}</span>
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -130,12 +140,9 @@ const Comparison = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center mt-16"
+          className="text-center mt-12 md:mt-16"
         >
-          <p className="text-xl text-muted-foreground mb-6">
-            Economize tempo e dinheiro com a escolha certa.
-          </p>
-          <WhatsAppButton />
+          <WhatsAppButton showResponseTime />
         </motion.div>
       </div>
     </section>

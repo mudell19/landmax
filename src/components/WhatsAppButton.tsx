@@ -16,9 +16,10 @@ interface WhatsAppButtonProps {
   floating?: boolean;
   className?: string;
   text?: string;
+  showResponseTime?: boolean;
 }
 
-const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SITE EM 2 DIAS" }: WhatsAppButtonProps) => {
+const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SITE EM 2 DIAS", showResponseTime = false }: WhatsAppButtonProps) => {
   const whatsappNumber = "5511999999999"; // Replace with actual number
   const message = encodeURIComponent("Olá! Tenho interesse em criar um site profissional. Podemos conversar?");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
@@ -36,7 +37,7 @@ const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SI
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="relative">
+        <div className="relative flex flex-col items-center">
           <div className="absolute inset-0 bg-whatsapp rounded-full animate-ping opacity-30" />
           <Button
             variant="whatsapp"
@@ -45,25 +46,31 @@ const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SI
           >
             <WhatsAppIcon className="h-7 w-7" />
           </Button>
+          <span className="mt-2 text-xs text-muted-foreground whitespace-nowrap">Resposta em até 5 min</span>
         </div>
       </motion.a>
     );
   }
 
   return (
-    <motion.a
-      href={whatsappUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={className}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-    >
-      <Button variant="whatsapp" size="xl" className="w-full sm:w-auto gap-3 font-black tracking-wide uppercase">
-        <WhatsAppIcon className="h-5 w-5" />
-        {text}
-      </Button>
-    </motion.a>
+    <div className="flex flex-col items-center gap-2">
+      <motion.a
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+      >
+        <Button variant="whatsapp" size="xl" className="w-full sm:w-auto gap-3 font-black tracking-wide uppercase">
+          <WhatsAppIcon className="h-5 w-5" />
+          {text}
+        </Button>
+      </motion.a>
+      {showResponseTime && (
+        <span className="text-sm text-muted-foreground">Resposta em até 5 minutos</span>
+      )}
+    </div>
   );
 };
 

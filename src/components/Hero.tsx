@@ -1,8 +1,38 @@
 import { motion } from "framer-motion";
-import { Check, Zap, Shield, Clock, CreditCard } from "lucide-react";
+import { Check, Zap, Shield, Clock } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
+import { useEffect, useState } from "react";
+
+// Animated counter hook
+const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!startCounting) return;
+    
+    let startTime: number;
+    let animationFrame: number;
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      setCount(Math.floor(progress * end));
+      
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrame);
+  }, [end, duration, startCounting]);
+
+  return count;
+};
 
 const Hero = () => {
+  const projectCount = useCounter(200, 2000);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding">
       {/* Background Gradient */}
@@ -19,16 +49,16 @@ const Hero = () => {
 
       <div className="container-premium relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          {/* Badge */}
+          {/* Badge with animated counter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-8"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-primary/30 mb-8 shadow-lg"
           >
             <Zap className="h-4 w-4 text-primary" />
-            <span className="text-sm text-muted-foreground">
-              +200 projetos entregues com sucesso
+            <span className="text-sm font-bold text-primary">
+              +{projectCount} projetos entregues com sucesso
             </span>
           </motion.div>
 
@@ -60,15 +90,15 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mb-8"
           >
-            <div className="inline-flex flex-col items-center gap-3 p-8 rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
+            <div className="inline-flex flex-col items-center gap-2 p-8 rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
               <span className="text-sm text-muted-foreground uppercase tracking-wider">Investimento único</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl md:text-7xl font-bold text-gradient">R$ 490</span>
                 <span className="text-2xl text-muted-foreground">,00</span>
               </div>
-              <div className="flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full bg-white">
-                <span className="text-primary font-bold text-sm">+ 1 ano de Domínio e Hospedagem Grátis</span>
-              </div>
+              <span className="text-base text-muted-foreground mt-1">
+                + 1 ano de Domínio e Hospedagem <span className="text-primary font-semibold">Grátis</span>
+              </span>
             </div>
           </motion.div>
 
@@ -79,28 +109,27 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="mb-12"
           >
-            <WhatsAppButton />
+            <WhatsAppButton showResponseTime />
           </motion.div>
 
-          {/* Trust Badges - Reordered */}
+          {/* Trust Elements - Simple text format like reference */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-4 md:gap-8"
+            className="flex flex-wrap items-center justify-center gap-6 md:gap-12"
           >
-            {/* Pague só na entrega - FIRST and highlighted */}
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border-2 border-primary shadow-lg">
-              <CreditCard className="h-5 w-5 text-primary" />
-              <span className="text-primary font-bold">Pague só na entrega</span>
+            <div className="flex items-center gap-2">
+              <Shield className="h-5 w-5 text-primary" />
+              <span className="text-muted-foreground">Pague só na entrega</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
+            <div className="flex items-center gap-2">
               <Check className="h-5 w-5 text-primary" />
-              <span className="text-foreground font-medium">Entrega em 2 dias</span>
+              <span className="text-muted-foreground">Entrega em 2 dias</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
+            <div className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-primary" />
-              <span className="text-foreground font-medium">30 dias de suporte</span>
+              <span className="text-muted-foreground">Suporte por 30 dias</span>
             </div>
           </motion.div>
         </div>

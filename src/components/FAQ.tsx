@@ -99,7 +99,7 @@ const FAQ = () => {
             className="text-center mt-12"
           >
             <p className="text-muted-foreground mb-6">Ainda tem dúvidas? Fale conosco!</p>
-            <WhatsAppButton />
+            <WhatsAppButton showResponseTime />
           </motion.div>
         </div>
       </div>

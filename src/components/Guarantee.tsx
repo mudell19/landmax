@@ -90,12 +90,8 @@ const Guarantee = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-              <WhatsAppButton />
+              <WhatsAppButton showResponseTime />
             </div>
-
-            <p className="text-muted-foreground">
-              💬 Resposta em até 2 horas · Atendimento humanizado
-            </p>
           </motion.div>
         </div>
       </div>

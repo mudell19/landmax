@@ -261,6 +261,15 @@
 }
 
 @layer utilities {
+  /* Hide scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* Selection */
   ::selection {
     background: hsl(265, 89%, 62%, 0.3);

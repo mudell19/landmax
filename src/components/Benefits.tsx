@@ -244,6 +244,8 @@ const Benefits = () => {
   useEffect(() => {
     if (!isLocked) return;
 
+    const container = scrollContainerRef.current;
+
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       e.stopPropagation();
@@ -273,16 +275,32 @@ const Benefits = () => {
       }
     };
 
+    // Block direct scroll on the container element
+    const preventContainerScroll = (e: Event) => {
+      e.preventDefault();
+    };
+
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
-    return () => window.removeEventListener('wheel', handleWheel, { capture: true });
+    container?.addEventListener('wheel', preventContainerScroll, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel, { capture: true });
+      container?.removeEventListener('wheel', preventContainerScroll);
+    };
   }, [isLocked, navigate]);
 
   // Handle touch events for mobile
   useEffect(() => {
     if (!isLocked) return;
 
+    const container = scrollContainerRef.current;
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -294,11 +312,17 @@ const Benefits = () => {
     };
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
     window.addEventListener('touchend', handleTouchEnd, { passive: true, capture: true });
     
+    // Block direct scroll on container
+    container?.addEventListener('touchmove', handleTouchMove, { passive: false });
+
     return () => {
       window.removeEventListener('touchstart', handleTouchStart, { capture: true });
+      window.removeEventListener('touchmove', handleTouchMove, { capture: true });
       window.removeEventListener('touchend', handleTouchEnd, { capture: true });
+      container?.removeEventListener('touchmove', handleTouchMove);
     };
   }, [isLocked, navigate]);
 
@@ -359,7 +383,7 @@ const Benefits = () => {
         {/* CAMADA 3: CONTEÚDO (única camada que rola) */}
         <div 
           ref={scrollContainerRef}
-          className="absolute inset-0 z-10 w-full h-full overflow-hidden no-scrollbar"
+          className="absolute inset-0 z-10 w-full h-full overflow-y-auto no-scrollbar"
         >
           {benefits.map((benefit) => (
             <div

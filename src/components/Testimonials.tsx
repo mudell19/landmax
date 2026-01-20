@@ -47,25 +47,25 @@ const Testimonials = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="section-padding bg-gradient-dark">
+    <section ref={ref} className="section-padding">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="mb-4">
+          <h2 className="mb-6">
             O que nossos <span className="text-gradient">clientes dizem</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Mais de 200 projetos entregues com avaliação média de 4.9 estrelas.
           </p>
         </motion.div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
@@ -75,24 +75,24 @@ const Testimonials = () => {
               className="p-8 rounded-2xl bg-card border border-border relative"
             >
               {/* Quote Icon */}
-              <Quote className="absolute top-6 right-6 h-8 w-8 text-primary/20" />
+              <Quote className="absolute top-6 right-6 h-10 w-10 text-primary/20" />
               
               {/* Stars */}
-              <div className="flex gap-1 mb-4">
+              <div className="flex gap-1 mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                  <Star key={i} className="h-5 w-5 fill-primary text-primary" />
                 ))}
               </div>
 
               {/* Content */}
-              <p className="text-foreground mb-6 leading-relaxed">
+              <p className="text-foreground text-lg mb-6 leading-relaxed">
                 "{testimonial.content}"
               </p>
 
               {/* Author */}
               <div>
-                <p className="font-semibold">{testimonial.name}</p>
-                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                <p className="font-bold text-lg">{testimonial.name}</p>
+                <p className="text-muted-foreground">{testimonial.role}</p>
               </div>
             </motion.div>
           ))}
@@ -103,7 +103,7 @@ const Testimonials = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8"
+          className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
             { value: "200+", label: "Projetos entregues" },
@@ -112,8 +112,8 @@ const Testimonials = () => {
             { value: "7 dias", label: "Tempo médio de entrega" }
           ].map((stat, index) => (
             <div key={stat.label} className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-gradient mb-2">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
+              <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-gradient mb-3">{stat.value}</p>
+              <p className="text-muted-foreground text-lg">{stat.label}</p>
             </div>
           ))}
         </motion.div>

@@ -48,20 +48,20 @@ const FAQ = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="section-padding bg-gradient-dark">
+    <section ref={ref} className="section-padding section-light">
       <div className="container-premium">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
-            <h2 className="mb-4">
+            <h2 className="mb-6">
               Perguntas <span className="text-gradient">frequentes</span>
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-xl text-muted-foreground">
               Tire suas dúvidas sobre nosso serviço de criação de sites.
             </p>
           </motion.div>
@@ -77,12 +77,12 @@ const FAQ = () => {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className="bg-card border border-border rounded-xl px-6 data-[state=open]:border-primary/50"
+                  className="bg-card border border-border rounded-xl px-8 data-[state=open]:border-primary/50 data-[state=open]:shadow-lg transition-all"
                 >
-                  <AccordionTrigger className="text-left hover:no-underline py-5">
-                    <span className="font-semibold">{faq.question}</span>
+                  <AccordionTrigger className="text-left hover:no-underline py-6">
+                    <span className="font-bold text-lg">{faq.question}</span>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-5">
+                  <AccordionContent className="text-muted-foreground text-lg pb-6">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>

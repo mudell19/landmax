@@ -2,12 +2,13 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Rocket, DollarSign, Headphones, Palette, Search, Smartphone } from "lucide-react";
+import WhatsAppButton from "./WhatsAppButton";
 
 const benefits = [
   {
     icon: Rocket,
-    title: "Entrega Expressa",
-    description: "Seu site pronto em até 7 dias úteis. Sem enrolação, sem atrasos."
+    title: "Entrega em 2 Dias",
+    description: "Seu site pronto em até 2 dias úteis. Velocidade incomparável no mercado."
   },
   {
     icon: DollarSign,
@@ -76,6 +77,16 @@ const Benefits = () => {
             </motion.div>
           ))}
         </div>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="text-center mt-16"
+        >
+          <WhatsAppButton />
+        </motion.div>
       </div>
     </section>
   );

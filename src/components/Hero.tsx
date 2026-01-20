@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Zap, Shield, Clock } from "lucide-react";
+import { ArrowRight, Check, Zap, Shield, Clock, CreditCard } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 
 const Hero = () => {
@@ -18,7 +18,7 @@ const Hero = () => {
       />
 
       <div className="container-premium relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -40,7 +40,7 @@ const Hero = () => {
             className="mb-6"
           >
             Seu site profissional
-            <span className="block text-gradient">pronto em 7 dias</span>
+            <span className="block text-gradient">pronto em 2 dias</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -48,11 +48,26 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
           >
-            Landing pages de alta conversão que transformam visitantes em clientes. 
-            <span className="text-foreground font-medium"> Pague somente após a entrega.</span>
+            Landing pages de alta conversão que transformam visitantes em clientes.
           </motion.p>
+
+          {/* Payment Highlight Box */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            className="mb-8"
+          >
+            <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary/20 to-primary/5 border-2 border-primary/50">
+              <CreditCard className="h-8 w-8 text-primary" />
+              <div className="text-left">
+                <p className="text-2xl md:text-3xl font-black text-foreground">PAGUE SOMENTE APÓS A ENTREGA</p>
+                <p className="text-muted-foreground">Risco zero para você. Satisfação garantida.</p>
+              </div>
+            </div>
+          </motion.div>
 
           {/* Price */}
           <motion.div
@@ -67,7 +82,7 @@ const Hero = () => {
                 <span className="text-5xl md:text-6xl font-bold text-gradient">R$ 490</span>
                 <span className="text-muted-foreground">,00</span>
               </div>
-              <span className="text-sm text-muted-foreground">Pagamento somente após aprovação</span>
+              <span className="text-sm text-muted-foreground">Inclui 1 ano de hospedagem grátis</span>
             </div>
           </motion.div>
 
@@ -90,7 +105,7 @@ const Hero = () => {
           >
             <div className="flex items-center gap-2">
               <Check className="h-4 w-4 text-primary" />
-              <span>Entrega garantida em 7 dias</span>
+              <span>Entrega expressa em 2 dias</span>
             </div>
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-primary" />

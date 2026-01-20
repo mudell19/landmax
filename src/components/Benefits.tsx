@@ -55,7 +55,7 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
-  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Generate random stars
@@ -73,56 +73,57 @@ const Benefits = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="benefits-section" className="relative w-full">
-      {/* Fixed background with stars - spans all cards */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none -mb-[600vh]">
-        <div className="absolute inset-0 bg-black">
-          {stars.map((star) => (
-            <Star key={star.id} style={star.style} />
-          ))}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20"
-            style={{
-              background: "radial-gradient(circle, hsl(270 80% 60% / 0.3) 0%, transparent 70%)",
-            }}
-          />
-        </div>
-
-        {/* Fixed header */}
-        <div className="absolute top-0 left-0 w-full z-20 pt-12 pb-12 text-center">
-          <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black via-black/80 to-transparent" />
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative"
-          >
-            <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
-              Por que escolher a<br />
-              <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-                nossa equipe?
-              </span>
-            </h2>
-            <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
-              Simplificamos todo o processo para que você<br className="hidden md:block" />
-              tenha um site profissional sem dor de cabeça.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* Fixed WhatsApp button */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
-          <WhatsAppButton />
-        </div>
+    <section id="benefits-section" className="relative w-full h-screen bg-black overflow-hidden">
+      {/* Starry background - absolute within section */}
+      <div className="absolute inset-0 z-0">
+        {stars.map((star) => (
+          <Star key={star.id} style={star.style} />
+        ))}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20"
+          style={{
+            background: "radial-gradient(circle, hsl(270 80% 60% / 0.3) 0%, transparent 70%)",
+          }}
+        />
       </div>
 
-      {/* Scrollable cards - native scroll, no hijacking */}
-      <div className="relative z-10">
+      {/* Fixed header */}
+      <div className="absolute top-0 left-0 right-0 z-20 pt-12 pb-12 text-center">
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black via-black/80 to-transparent" />
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative"
+        >
+          <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+            Por que escolher a<br />
+            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+              nossa equipe?
+            </span>
+          </h2>
+          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
+            Simplificamos todo o processo para que você<br className="hidden md:block" />
+            tenha um site profissional sem dor de cabeça.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Fixed WhatsApp button */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20">
+        <WhatsAppButton />
+      </div>
+
+      {/* Scrollable cards container with snap */}
+      <div 
+        ref={containerRef}
+        className="absolute inset-0 z-10 overflow-y-auto snap-y snap-mandatory no-scrollbar"
+      >
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
-            className="h-screen w-full flex flex-col justify-center items-center px-6"
+            className="h-screen w-full flex flex-col justify-center items-center px-6 snap-start"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}

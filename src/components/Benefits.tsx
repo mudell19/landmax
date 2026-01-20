@@ -62,7 +62,6 @@ const Benefits = () => {
   const isFirstCardActiveRef = useRef(false);
   const lastTouchYRef = useRef(0);
   const hasReleasedSnapRef = useRef(false);
-  const snapReleaseLockRef = useRef(false);
 
   useEffect(() => {
     // Generate random stars
@@ -90,14 +89,12 @@ const Benefits = () => {
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Only activate snap if NOT locked (lock prevents reactivation during exit gesture)
-          if (entry.intersectionRatio > 0.1 && !snapReleaseLockRef.current) {
+          if (entry.intersectionRatio > 0.1) {
             document.documentElement.classList.add('snap-benefits-active');
           } else if (entry.intersectionRatio < 0.05) {
             document.documentElement.classList.remove('snap-benefits-active');
             isLastCardActiveRef.current = false;
             isFirstCardActiveRef.current = false;
-            snapReleaseLockRef.current = false; // Reset lock when fully exited
           }
         });
       },
@@ -131,11 +128,9 @@ const Benefits = () => {
     // Release snap when user tries to scroll DOWN while on last card or UP while on first card
     const handleWheel = (e: WheelEvent) => {
       if (isLastCardActiveRef.current && e.deltaY > 0) {
-        snapReleaseLockRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
       if (isFirstCardActiveRef.current && e.deltaY < 0) {
-        snapReleaseLockRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
     };
@@ -154,12 +149,10 @@ const Benefits = () => {
       // Threshold ZERO para reação instantânea nas bordas
       if (isLastCardActiveRef.current && deltaY > 0) {
         hasReleasedSnapRef.current = true;
-        snapReleaseLockRef.current = true; // Lock prevents observer from reactivating snap
         document.documentElement.classList.remove('snap-benefits-active');
       }
       if (isFirstCardActiveRef.current && deltaY < 0) {
         hasReleasedSnapRef.current = true;
-        snapReleaseLockRef.current = true; // Lock prevents observer from reactivating snap
         document.documentElement.classList.remove('snap-benefits-active');
       }
     };

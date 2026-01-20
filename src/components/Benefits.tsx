@@ -138,10 +138,11 @@ const Benefits = () => {
       lastTouchYRef.current = e.touches[0].clientY;
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      const currentY = e.touches[0].clientY;
-      const isScrollingDown = currentY < lastTouchYRef.current - 10;
-      const isScrollingUp = currentY > lastTouchYRef.current + 10;
+    const handleTouchEnd = (e: TouchEvent) => {
+      const endY = e.changedTouches[0].clientY;
+      const deltaY = lastTouchYRef.current - endY;
+      const isScrollingDown = deltaY > 20; // Swipe up = scroll down
+      const isScrollingUp = deltaY < -20;  // Swipe down = scroll up
       
       if (isLastCardActiveRef.current && isScrollingDown) {
         document.documentElement.classList.remove('snap-benefits-active');
@@ -157,7 +158,7 @@ const Benefits = () => {
     
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       sectionObserver.disconnect();
@@ -165,7 +166,7 @@ const Benefits = () => {
       firstCardObserver.disconnect();
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
       document.documentElement.classList.remove('snap-benefits-active');
     };
   }, []);

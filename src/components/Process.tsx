@@ -36,7 +36,7 @@ const Process = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} id="como-funciona" className="section-padding section-light">
+    <section ref={ref} id="como-funciona" className="py-20 section-light">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div

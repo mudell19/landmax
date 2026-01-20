@@ -37,17 +37,13 @@ const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SI
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
-        <div className="relative flex flex-col items-center">
-          <div className="absolute inset-0 bg-whatsapp rounded-full animate-ping opacity-30" />
-          <Button
-            variant="whatsapp"
-            size="xl"
-            className="rounded-full h-16 w-16 p-0 shadow-2xl"
-          >
-            <WhatsAppIcon className="h-7 w-7" />
-          </Button>
-          <span className="mt-2 text-xs text-muted-foreground whitespace-nowrap">Resposta em até 5 min</span>
-        </div>
+        <Button
+          variant="whatsapp"
+          size="xl"
+          className="rounded-full h-16 w-16 p-0 shadow-2xl"
+        >
+          <WhatsAppIcon className="h-7 w-7" />
+        </Button>
       </motion.a>
     );
   }

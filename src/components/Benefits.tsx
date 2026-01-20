@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Rocket, DollarSign, Headphones, Palette, Search, Smartphone } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 
@@ -55,6 +55,12 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
+  const [isLocked, setIsLocked] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef(0);
+  const isScrolling = useRef(false);
 
   useEffect(() => {
     // Generate random stars
@@ -71,8 +77,130 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
+  // Scroll to specific card
+  const scrollToCard = useCallback((index: number) => {
+    if (isScrolling.current || !scrollContainerRef.current) return;
+    
+    isScrolling.current = true;
+    const container = scrollContainerRef.current;
+    const targetScroll = index * container.clientHeight;
+    
+    container.scrollTo({
+      top: targetScroll,
+      behavior: 'smooth'
+    });
+    
+    setTimeout(() => {
+      isScrolling.current = false;
+    }, 500);
+  }, []);
+
+  // Handle navigation between cards
+  const navigate = useCallback((direction: 'up' | 'down') => {
+    if (isScrolling.current) return;
+
+    if (direction === 'down') {
+      if (currentIndex < benefits.length - 1) {
+        const newIndex = currentIndex + 1;
+        setCurrentIndex(newIndex);
+        scrollToCard(newIndex);
+      } else {
+        // At last card, release and scroll to next section
+        setIsLocked(false);
+        document.body.style.overflow = '';
+        const nextSection = sectionRef.current?.nextElementSibling as HTMLElement;
+        if (nextSection) {
+          nextSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      if (currentIndex > 0) {
+        const newIndex = currentIndex - 1;
+        setCurrentIndex(newIndex);
+        scrollToCard(newIndex);
+      } else {
+        // At first card, release and scroll to previous section
+        setIsLocked(false);
+        document.body.style.overflow = '';
+        const prevSection = sectionRef.current?.previousElementSibling as HTMLElement;
+        if (prevSection) {
+          prevSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  }, [currentIndex, scrollToCard]);
+
+  // IntersectionObserver to detect when section is in view
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.7) {
+          setIsLocked(true);
+          document.body.style.overflow = 'hidden';
+          // Reset to first card when entering from top
+          if (currentIndex === 0) {
+            scrollToCard(0);
+          }
+        }
+      },
+      { threshold: 0.7 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [currentIndex, scrollToCard]);
+
+  // Handle wheel events when locked
+  useEffect(() => {
+    if (!isLocked) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (Math.abs(e.deltaY) < 30) return; // Ignore small movements
+      
+      navigate(e.deltaY > 0 ? 'down' : 'up');
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
+  }, [isLocked, navigate]);
+
+  // Handle touch events for mobile
+  useEffect(() => {
+    if (!isLocked) return;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      const deltaY = touchStartY.current - e.changedTouches[0].clientY;
+      if (Math.abs(deltaY) < 50) return; // Ignore small swipes
+      
+      navigate(deltaY > 0 ? 'down' : 'up');
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isLocked, navigate]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   return (
-    <section id="benefits-section" className="w-full">
+    <section ref={sectionRef} id="benefits-section" className="w-full">
       {/* PALCO FIXO: 3 CAMADAS (fundo + UI + conteúdo) */}
       <div className="relative w-full h-screen overflow-hidden">
         {/* CAMADA 1: FUNDO (fixo, nunca se mexe) */}
@@ -116,7 +244,10 @@ const Benefits = () => {
         </div>
 
         {/* CAMADA 3: CONTEÚDO (única camada que rola) */}
-        <div className="absolute inset-0 z-10 w-full h-full overflow-y-auto snap-y snap-mandatory no-scrollbar scroll-smooth overscroll-contain touch-pan-y">
+        <div 
+          ref={scrollContainerRef}
+          className="absolute inset-0 z-10 w-full h-full overflow-hidden no-scrollbar"
+        >
           {benefits.map((benefit) => (
             <div
               key={benefit.title}

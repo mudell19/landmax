@@ -95,8 +95,7 @@ const Benefits = () => {
         className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory z-0 pt-32 pb-48 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
-          msOverflowStyle: 'none',
-          overscrollBehaviorY: 'contain'
+          msOverflowStyle: 'none'
         }}
       >
         {benefits.map((benefit, index) => (

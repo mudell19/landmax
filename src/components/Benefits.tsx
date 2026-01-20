@@ -74,10 +74,10 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative w-full h-screen bg-black overflow-hidden"
+      className="relative w-full h-[100dvh] bg-black overflow-hidden"
     >
-      {/* Starfield Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      {/* CAMADA 1: BACKGROUND FIXO (z-0) */}
+      <div className="absolute inset-0 pointer-events-none z-0">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
@@ -89,14 +89,13 @@ const Benefits = () => {
         />
       </div>
 
-      {/* TÍTULO FIXO (Flutuante no topo) */}
-      <div className="absolute top-0 left-0 w-full z-30 pt-10 pb-20 bg-gradient-to-b from-black via-black/90 to-transparent pointer-events-none">
+      {/* CAMADA 2: UI FIXA - TÍTULO (z-20) */}
+      <div className="absolute top-0 w-full pt-12 pb-12 z-20 text-center pointer-events-none bg-gradient-to-b from-black via-black/80 to-transparent">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center px-4"
         >
           <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
             Por que escolher a<br />
@@ -104,19 +103,19 @@ const Benefits = () => {
               nossa equipe?
             </span>
           </h2>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
             Simplificamos todo o processo para que você<br className="hidden md:block" />
             tenha um site profissional sem dor de cabeça.
           </p>
         </motion.div>
       </div>
 
-      {/* SCROLL DOS CARDS */}
-      <div className="absolute inset-0 w-full h-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar">
+      {/* CAMADA 3: SCROLL DOS CARDS (z-10) */}
+      <div className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory scroll-smooth no-scrollbar z-10">
         {benefits.map((benefit, index) => (
           <div 
             key={benefit.title}
-            className="w-full h-full flex-shrink-0 snap-center flex flex-col justify-center items-center px-4 pt-20 pb-32"
+            className="w-full h-full flex flex-col justify-center items-center snap-center px-6 pt-24 pb-32"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -157,11 +156,8 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* DEGRADÊ DE PROTEÇÃO (Fundo do Botão) */}
-      <div className="absolute bottom-0 left-0 w-full h-64 bg-gradient-to-t from-black via-black/90 to-transparent pointer-events-none z-40" />
-
-      {/* BOTÃO WHATSAPP FIXO */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-50">
+      {/* CAMADA 4: UI FIXA - BOTÃO WHATSAPP (z-20) */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 pointer-events-auto">
         <WhatsAppButton />
       </div>
     </section>

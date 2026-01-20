@@ -56,18 +56,14 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
   const sectionRef = useRef<HTMLElement>(null);
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastCardRef = useRef<HTMLDivElement>(null);
+  const firstCardRef = useRef<HTMLDivElement>(null);
   const isLastCardActiveRef = useRef(false);
   const isFirstCardActiveRef = useRef(false);
   const lastTouchYRef = useRef(0);
-  const lastScrollDirectionRef = useRef<'up' | 'down'>('down');
-  const isTouchDeviceRef = useRef(false);
-  const isInsideSectionRef = useRef(false);
+  const hasReleasedSnapRef = useRef(false);
 
   useEffect(() => {
-    // Detect touch device
-    isTouchDeviceRef.current = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    
     // Generate random stars
     const generatedStars = Array.from({ length: 100 }, (_, i) => ({
       id: i,
@@ -85,20 +81,17 @@ const Benefits = () => {
   // Toggle scroll-snap on html when Benefits section is in view
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section) return;
+    const lastCard = lastCardRef.current;
+    const firstCard = firstCardRef.current;
+    if (!section || !lastCard || !firstCard) return;
 
-    // Observer for the section - enables snap when entering (only for non-touch)
+    // Observer for the section - enables snap when entering
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.intersectionRatio > 0.1) {
-            isInsideSectionRef.current = true;
-            // Only enable native snap for non-touch devices
-            if (!isTouchDeviceRef.current) {
-              document.documentElement.classList.add('snap-benefits-active');
-            }
+            document.documentElement.classList.add('snap-benefits-active');
           } else if (entry.intersectionRatio < 0.05) {
-            isInsideSectionRef.current = false;
             document.documentElement.classList.remove('snap-benefits-active');
             isLastCardActiveRef.current = false;
             isFirstCardActiveRef.current = false;
@@ -112,6 +105,7 @@ const Benefits = () => {
     const lastCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Threshold 0: ativa assim que qualquer pixel do card aparece
           isLastCardActiveRef.current = entry.isIntersecting;
         });
       },
@@ -122,13 +116,14 @@ const Benefits = () => {
     const firstCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          // Threshold 0: ativa assim que qualquer pixel do card aparece
           isFirstCardActiveRef.current = entry.isIntersecting;
         });
       },
       { threshold: 0 }
     );
 
-    // Desktop: Release snap when user tries to scroll out of bounds
+    // Release snap when user tries to scroll DOWN while on last card or UP while on first card
     const handleWheel = (e: WheelEvent) => {
       if (isLastCardActiveRef.current && e.deltaY > 0) {
         document.documentElement.classList.remove('snap-benefits-active');
@@ -138,77 +133,35 @@ const Benefits = () => {
       }
     };
 
-    // Touch: Track scroll direction
     const handleTouchStart = (e: TouchEvent) => {
       lastTouchYRef.current = e.touches[0].clientY;
+      hasReleasedSnapRef.current = false;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
+      if (hasReleasedSnapRef.current) return;
+      
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
-      lastScrollDirectionRef.current = deltaY > 0 ? 'down' : 'up';
-      lastTouchYRef.current = currentY;
-    };
-
-    // Touch: Manual snap on touch end - advances to next/prev card based on scroll direction
-    const handleTouchEnd = () => {
-      if (!isTouchDeviceRef.current || !isInsideSectionRef.current || !section) return;
       
-      // If on first card and scrolling up, let user exit freely
-      if (isFirstCardActiveRef.current && lastScrollDirectionRef.current === 'up') return;
-      
-      // If on last card and scrolling down, let user exit freely
-      if (isLastCardActiveRef.current && lastScrollDirectionRef.current === 'down') return;
-      
-      const viewportHeight = window.innerHeight;
-      const scrollY = window.scrollY;
-      
-      // Find current card (the one most visible)
-      let currentCard = 0;
-      let maxVisibility = 0;
-      
-      cardRefs.current.forEach((card, index) => {
-        if (!card) return;
-        const cardTop = card.offsetTop + section.offsetTop - viewportHeight;
-        const cardBottom = cardTop + viewportHeight;
-        const visibleTop = Math.max(scrollY, cardTop);
-        const visibleBottom = Math.min(scrollY + viewportHeight, cardBottom);
-        const visibility = Math.max(0, visibleBottom - visibleTop);
-        
-        if (visibility > maxVisibility) {
-          maxVisibility = visibility;
-          currentCard = index;
-        }
-      });
-      
-      // Determine target card based on scroll direction
-      let targetIndex = currentCard;
-      if (lastScrollDirectionRef.current === 'down' && currentCard < benefits.length - 1) {
-        targetIndex = currentCard + 1;
-      } else if (lastScrollDirectionRef.current === 'up' && currentCard > 0) {
-        targetIndex = currentCard - 1;
+      // Threshold ZERO para reação instantânea nas bordas
+      if (isLastCardActiveRef.current && deltaY > 0) {
+        hasReleasedSnapRef.current = true;
+        document.documentElement.classList.remove('snap-benefits-active');
       }
-      
-      // Smooth scroll to target card
-      const targetCard = cardRefs.current[targetIndex];
-      if (targetCard) {
-        const targetY = targetCard.offsetTop + section.offsetTop - viewportHeight;
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
+      if (isFirstCardActiveRef.current && deltaY < 0) {
+        hasReleasedSnapRef.current = true;
+        document.documentElement.classList.remove('snap-benefits-active');
       }
     };
 
     sectionObserver.observe(section);
-    
-    // Observe first and last cards
-    const firstCard = cardRefs.current[0];
-    const lastCard = cardRefs.current[benefits.length - 1];
-    if (firstCard) firstCardObserver.observe(firstCard);
-    if (lastCard) lastCardObserver.observe(lastCard);
+    lastCardObserver.observe(lastCard);
+    firstCardObserver.observe(firstCard);
     
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       sectionObserver.disconnect();
@@ -217,7 +170,6 @@ const Benefits = () => {
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
       document.documentElement.classList.remove('snap-benefits-active');
     };
   }, []);
@@ -273,7 +225,7 @@ const Benefits = () => {
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
-            ref={(el) => { cardRefs.current[index] = el; }}
+            ref={index === 0 ? firstCardRef : index === benefits.length - 1 ? lastCardRef : undefined}
             className="h-screen w-full flex flex-col justify-center items-center px-6 snap-start"
             style={{ marginTop: index === 0 ? '-100vh' : '0' }}
           >

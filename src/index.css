@@ -262,6 +262,11 @@
 }
 
 @layer utilities {
+  /* Scroll snap for Benefits section - only active when section is in view */
+  html.snap-benefits-active {
+    scroll-snap-type: y mandatory;
+  }
+
   /* Hide scrollbar utility */
   .no-scrollbar::-webkit-scrollbar {
     display: none;

@@ -74,11 +74,7 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative h-[85vh] overflow-y-auto snap-y snap-mandatory scroll-smooth bg-black scrollbar-hide"
-      style={{ 
-        scrollbarWidth: 'none', 
-        msOverflowStyle: 'none'
-      }}
+      className="h-screen w-full relative bg-black"
     >
       {/* Starfield Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -94,82 +90,88 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Header Sticky com Gradiente */}
-      <div className="sticky top-0 z-20 pointer-events-none py-10 px-4 text-center bg-gradient-to-b from-black via-black/80 to-transparent">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
-            Por que escolher a<br />
-            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-              nossa equipe?
-            </span>
-          </h2>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Simplificamos todo o processo para que você<br className="hidden md:block" />
-            tenha um site profissional sem dor de cabeça.
-          </p>
-        </motion.div>
+      {/* CAMADA 0: Área de Scroll Total - Captura 100% da interação */}
+      <div 
+        className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory z-0 pt-32 pb-48 scrollbar-hide"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none'
+        }}
+      >
+        {benefits.map((benefit, index) => (
+          <div 
+            key={benefit.title}
+            className="h-full snap-center flex items-center justify-center px-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+              className="text-center max-w-lg mx-auto"
+            >
+              {/* Glowing Icon */}
+              <div 
+                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                  boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
+                  border: '1px solid rgba(139, 92, 246, 0.4)',
+                }}
+              >
+                <benefit.icon 
+                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
+                  style={{ 
+                    color: '#a78bfa',
+                    filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
+                  }}
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
+                {benefit.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
+                {benefit.description}
+              </p>
+
+              {/* Benefit number indicator */}
+              <div className="mt-6 xs:mt-8 text-purple-500/50 text-sm font-medium">
+                {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
+              </div>
+            </motion.div>
+          </div>
+        ))}
       </div>
 
-      {/* Cards do Carrossel Vertical */}
-      {benefits.map((benefit, index) => (
-        <div 
-          key={benefit.title}
-          className="w-full h-full snap-center flex flex-col justify-center items-center px-4"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false, amount: 0.5 }}
-            transition={{ duration: 0.5 }}
-            className="text-center max-w-lg mx-auto"
-          >
-            {/* Glowing Icon */}
-            <div 
-              className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
-              style={{
-                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
-                boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
-                border: '1px solid rgba(139, 92, 246, 0.4)',
-              }}
-            >
-              <benefit.icon 
-                className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
-                style={{ 
-                  color: '#a78bfa',
-                  filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
-                }}
-              />
-            </div>
+      {/* CAMADA 1: Cabeçalho Fixo - pointer-events-none permite scroll atravessar */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="absolute top-0 left-0 w-full z-10 pointer-events-none py-10 px-4 text-center bg-gradient-to-b from-black via-black/80 to-transparent"
+      >
+        <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+          Por que escolher a<br />
+          <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+            nossa equipe?
+          </span>
+        </h2>
+        <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          Simplificamos todo o processo para que você<br className="hidden md:block" />
+          tenha um site profissional sem dor de cabeça.
+        </p>
+      </motion.div>
 
-            {/* Title */}
-            <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
-              {benefit.title}
-            </h3>
-
-            {/* Description */}
-            <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
-              {benefit.description}
-            </p>
-
-            {/* Benefit number indicator */}
-            <div className="mt-6 xs:mt-8 text-purple-500/50 text-sm font-medium">
-              {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
-            </div>
-          </motion.div>
+      {/* CAMADA 2: Rodapé com CTA - pointer-events-auto para clique no botão */}
+      <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-10">
+        <div className="flex justify-center pointer-events-auto">
+          <WhatsAppButton showResponseTime />
         </div>
-      ))}
-
-      {/* Overlay Degradê no Rodapé */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black via-black/90 to-transparent pointer-events-none z-40" />
-
-      {/* Botão WhatsApp Absoluto */}
-      <div className="absolute bottom-8 right-6 z-50">
-        <WhatsAppButton showResponseTime />
       </div>
 
       {/* Hide scrollbar styles */}

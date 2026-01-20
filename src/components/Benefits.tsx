@@ -112,7 +112,7 @@ const Benefits = () => {
 
       {/* ITEM 2: Scroll Area - flex-1 fills remaining space */}
       <div 
-        className="w-full flex-1 overflow-y-auto snap-y snap-mandatory relative z-0 scrollbar-hide"
+        className="w-full flex-1 overflow-y-auto overscroll-y-contain snap-y snap-mandatory relative z-0 scrollbar-hide"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {benefits.map((benefit, index) => (

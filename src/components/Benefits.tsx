@@ -76,12 +76,11 @@ const Benefits = () => {
       id="benefits-section"
       className="relative w-full h-[90vh] bg-black overflow-hidden"
     >
-      {/* Starfield Background */}
+      {/* CAMADA 0: Starfield Background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
-        {/* Subtle purple glow in center */}
         <div 
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20"
           style={{
@@ -90,7 +89,28 @@ const Benefits = () => {
         />
       </div>
 
-      {/* CAMADA DE SCROLL - Carrossel Vertical */}
+      {/* CAMADA 1: Header Fixo (Título + Subtítulo) */}
+      <div className="absolute top-0 left-0 w-full z-20 pt-12 sm:pt-16 px-4 text-center bg-gradient-to-b from-black via-black/90 to-transparent pb-16 pointer-events-none">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+            Por que escolher a<br />
+            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+              nossa equipe?
+            </span>
+          </h2>
+          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+            Simplificamos todo o processo para que você<br className="hidden md:block" />
+            tenha um site profissional sem dor de cabeça.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* CAMADA 2: Área de Scroll (Apenas os Cards) */}
       <div 
         className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory scroll-smooth scrollbar-hide"
         style={{ 
@@ -98,34 +118,10 @@ const Benefits = () => {
           msOverflowStyle: 'none'
         }}
       >
-        {/* Header - dentro do scroll para ocupar o primeiro "slot" visual */}
-        <div className="w-full h-full flex-shrink-0 snap-center flex flex-col justify-center items-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
-              Por que escolher a<br />
-              <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-                nossa equipe?
-              </span>
-            </h2>
-            <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-              Simplificamos todo o processo para que você<br className="hidden md:block" />
-              tenha um site profissional sem dor de cabeça.
-            </p>
-            <p className="text-purple-400/60 text-sm animate-pulse">↓ Role para ver os benefícios</p>
-          </motion.div>
-        </div>
-
-        {/* Cards de Benefícios */}
-        {benefits.map((benefit, index) => (
+        {benefits.map((benefit) => (
           <div 
             key={benefit.title}
-            className="w-full h-full flex-shrink-0 snap-center flex flex-col justify-center items-center px-4"
+            className="w-full h-full flex-shrink-0 snap-center flex flex-col justify-center items-center px-4 pt-32 pb-24"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -166,18 +162,11 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* CAMADA DE INTERFACE - Elementos Fixos */}
-      
-      {/* Gradiente inferior (blur/fade) */}
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-40" />
-      
-      {/* Paginação centralizada */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 text-white/50 text-sm font-medium pointer-events-none">
-        Role para navegar
-      </div>
-      
-      {/* Botão WhatsApp */}
-      <div className="absolute bottom-8 right-6 z-50">
+      {/* CAMADA 3: Gradiente Inferior */}
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-20" />
+
+      {/* CAMADA 4: Botão WhatsApp Centralizado */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
         <WhatsAppButton />
       </div>
 

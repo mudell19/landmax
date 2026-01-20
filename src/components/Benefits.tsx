@@ -73,9 +73,9 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative bg-black snap-y snap-mandatory"
+      className="relative bg-black overflow-hidden"
     >
-      {/* Fixed Starfield Background - Scoped to this section */}
+      {/* Starfield Background - Contained within section */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
@@ -88,7 +88,7 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Sticky Header - Immediately visible at section start */}
+      {/* Sticky Header - Contained by parent section, will scroll away when section ends */}
       <div 
         className="sticky top-0 z-20 pt-4 xs:pt-6 sm:pt-8 pb-4 px-4 xs:px-6 sm:px-8"
         style={{
@@ -115,12 +115,13 @@ const Benefits = () => {
         </motion.div>
       </div>
 
-      {/* Benefits Cards - Snappy scroll with reduced height per card */}
+      {/* Benefits Cards - Each card with scroll-snap-stop: always for magnetic snapping */}
       <div className="relative z-10">
         {benefits.map((benefit, index) => (
           <div 
             key={benefit.title}
-            className="h-[60vh] flex items-center justify-center px-4 xs:px-6 sm:px-8 snap-start snap-always"
+            className="h-[55vh] min-h-[400px] flex items-center justify-center px-4 xs:px-6 sm:px-8 snap-start"
+            style={{ scrollSnapStop: 'always' }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -166,7 +167,7 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* Fixed CTA at Bottom */}
+      {/* Fixed CTA at Bottom - Sticky to stay within section bounds */}
       <div 
         className="sticky bottom-0 z-30 pb-4 xs:pb-5 sm:pb-6 pt-6 px-4 xs:px-6 pointer-events-none"
         style={{

@@ -95,12 +95,12 @@ const Benefits = () => {
       { threshold: [0.05, 0.1, 0.5] }
     );
 
-    // Observer for the end sentinel - disables snap when reaching the end
+    // Observer for the last card - disables snap when it's fully visible
     const endObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-            // User reached the end, release the snap
+          if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
+            // User reached the last card, release the snap
             isAtEndRef.current = true;
             document.documentElement.classList.remove('snap-benefits-active');
           } else if (!entry.isIntersecting) {
@@ -108,7 +108,7 @@ const Benefits = () => {
           }
         });
       },
-      { threshold: [0.1, 0.3, 0.5], rootMargin: '0px 0px -10% 0px' }
+      { threshold: [0.5, 0.8, 0.95] }
     );
 
     sectionObserver.observe(section);
@@ -172,6 +172,7 @@ const Benefits = () => {
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
+            ref={index === benefits.length - 1 ? endSentinelRef : undefined}
             className="h-screen w-full flex flex-col justify-center items-center px-6 snap-start"
             style={{ marginTop: index === 0 ? '-100vh' : '0' }}
           >

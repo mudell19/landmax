@@ -128,11 +128,8 @@ const Portfolio = () => {
                   loading="lazy"
                 />
                 
-                {/* Dark gradient overlays for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/80" />
-                
-                {/* Subtle vignette effect */}
-                <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.4)]" />
+                {/* Bottom gradient for text readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                 
                 {/* Hover glow effect */}
                 <motion.div 
@@ -142,37 +139,11 @@ const Portfolio = () => {
                   transition={{ duration: 0.3 }}
                 />
 
-                {/* Top Left Content - Category & Client Name */}
-                <div className="absolute top-4 left-4 md:top-5 md:left-5">
-                  <motion.p 
-                    className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white/80 mb-1"
-                    initial={false}
-                    animate={{ 
-                      y: hoveredIndex === index ? 0 : -5,
-                      opacity: hoveredIndex === index ? 1 : 0.7
-                    }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {project.category}
-                  </motion.p>
-                  <motion.p 
-                    className="text-xs md:text-sm font-medium text-white"
-                    initial={false}
-                    animate={{ 
-                      y: hoveredIndex === index ? 0 : -3,
-                      opacity: hoveredIndex === index ? 1 : 0.9
-                    }}
-                    transition={{ duration: 0.3, delay: 0.05 }}
-                  >
-                    {project.clientName}
-                  </motion.p>
-                </div>
-
-                {/* Bottom Content - Pill Tag & Title */}
+                {/* Bottom Content - Category Pill Only */}
                 <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-5 md:right-5 text-center">
                   {/* Category Pill */}
                   <motion.span 
-                    className="inline-block px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-[9px] md:text-[10px] font-semibold tracking-wider mb-2 md:mb-3"
+                    className="inline-block px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-[10px] md:text-xs font-semibold tracking-wider"
                     initial={false}
                     animate={{ 
                       scale: hoveredIndex === index ? 1.05 : 1,
@@ -182,19 +153,6 @@ const Portfolio = () => {
                   >
                     {project.category}
                   </motion.span>
-                  
-                  {/* Serif Title */}
-                  <motion.h3 
-                    className="text-white font-serif text-base md:text-lg lg:text-xl font-medium leading-tight italic"
-                    style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
-                    initial={false}
-                    animate={{ 
-                      y: hoveredIndex === index ? -2 : 0
-                    }}
-                    transition={{ duration: 0.3, delay: 0.05 }}
-                  >
-                    {project.title}
-                  </motion.h3>
                 </div>
 
                 {/* Corner accent on hover */}

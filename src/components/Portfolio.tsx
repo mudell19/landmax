@@ -83,10 +83,12 @@ const Portfolio = () => {
           className="text-center mb-12 md:mb-20"
         >
           <h2 className="mb-6">
-            Projetos que <span className="text-gradient">geram resultados</span>
+            Projetos que<br />
+            <span className="text-gradient">geram resultados</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Conheça alguns dos sites que criamos para nossos clientes.
+            Conheça alguns dos sites que<br className="hidden md:block" />
+            criamos para nossos clientes.
           </p>
         </motion.div>
 

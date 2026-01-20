@@ -46,10 +46,12 @@ const Process = () => {
           className="text-center mb-16 md:mb-20"
         >
           <h2 className="mb-6">
-            Como <span className="text-gradient">funciona?</span>
+            Como<br />
+            <span className="text-gradient">funciona?</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Um processo simples e transparente do início ao fim.
+            Um processo simples e transparente<br className="hidden md:block" />
+            do início ao fim.
           </p>
         </motion.div>
 

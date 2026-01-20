@@ -57,10 +57,12 @@ const Testimonials = () => {
           className="text-center mb-20"
         >
           <h2 className="mb-6">
-            O que nossos <span className="text-gradient">clientes dizem</span>
+            O que nossos<br />
+            <span className="text-gradient">clientes dizem</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Mais de 200 projetos entregues com avaliação média de 4.9 estrelas.
+            Mais de 200 projetos entregues<br className="hidden md:block" />
+            com avaliação média de 4.9 estrelas.
           </p>
         </motion.div>
 

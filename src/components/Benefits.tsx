@@ -64,6 +64,8 @@ const Benefits = () => {
   const hasReleasedSnapRef = useRef(false);
   const previousSectionRef = useRef<Element | null>(null);
   const nextSectionRef = useRef<Element | null>(null);
+  const isExitingRef = useRef(false);
+  const boundaryScrollAtRef = useRef(0);
 
   useEffect(() => {
     // Generate random stars
@@ -89,6 +91,24 @@ const Benefits = () => {
     }
   }, []);
 
+  const triggerBoundaryScroll = (direction: "next" | "prev") => {
+    const now = performance.now();
+    // Avoid spamming scrollIntoView on trackpads / momentum scroll
+    if (now - boundaryScrollAtRef.current < 800) return;
+    boundaryScrollAtRef.current = now;
+
+    isExitingRef.current = true;
+    document.documentElement.classList.remove("snap-benefits-active");
+
+    const target = direction === "next" ? nextSectionRef.current : previousSectionRef.current;
+    if (!target) return;
+
+    // Next frame to let snap removal take effect before we scroll
+    requestAnimationFrame(() => {
+      (target as HTMLElement).scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   // Toggle scroll-snap on html when Benefits section is in view
   useEffect(() => {
     const section = sectionRef.current;
@@ -100,12 +120,13 @@ const Benefits = () => {
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0.1) {
+          if (!isExitingRef.current && entry.intersectionRatio > 0.1) {
             document.documentElement.classList.add('snap-benefits-active');
           } else if (entry.intersectionRatio < 0.05) {
             document.documentElement.classList.remove('snap-benefits-active');
             isLastCardActiveRef.current = false;
             isFirstCardActiveRef.current = false;
+            isExitingRef.current = false;
           }
         });
       },
@@ -134,13 +155,14 @@ const Benefits = () => {
 
     // JS-controlled scroll at boundaries - bypasses snap completely
     const handleWheel = (e: WheelEvent) => {
-      if (isLastCardActiveRef.current && e.deltaY > 0 && nextSectionRef.current) {
-        document.documentElement.classList.remove('snap-benefits-active');
-        nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+      // Only intercept when we're at an extremity; otherwise let snap do its job.
+      if (isLastCardActiveRef.current && e.deltaY > 0) {
+        e.preventDefault();
+        triggerBoundaryScroll("next");
       }
-      if (isFirstCardActiveRef.current && e.deltaY < 0 && previousSectionRef.current) {
-        document.documentElement.classList.remove('snap-benefits-active');
-        previousSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+      if (isFirstCardActiveRef.current && e.deltaY < 0) {
+        e.preventDefault();
+        triggerBoundaryScroll("prev");
       }
     };
 
@@ -157,16 +179,14 @@ const Benefits = () => {
       const deltaY = lastTouchYRef.current - currentY;
       
       // Last card + swipe down = smooth JS scroll to next section
-      if (isLastCardActiveRef.current && deltaY > 0 && nextSectionRef.current) {
+      if (isLastCardActiveRef.current && deltaY > 0) {
         hasReleasedSnapRef.current = true;
-        document.documentElement.classList.remove('snap-benefits-active');
-        nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        triggerBoundaryScroll("next");
       }
       // First card + swipe up = smooth JS scroll to previous section
-      if (isFirstCardActiveRef.current && deltaY < 0 && previousSectionRef.current) {
+      if (isFirstCardActiveRef.current && deltaY < 0) {
         hasReleasedSnapRef.current = true;
-        document.documentElement.classList.remove('snap-benefits-active');
-        previousSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        triggerBoundaryScroll("prev");
       }
     };
 
@@ -174,7 +194,7 @@ const Benefits = () => {
     lastCardObserver.observe(lastCard);
     firstCardObserver.observe(firstCard);
     
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
 

@@ -56,8 +56,10 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
   const sectionRef = useRef<HTMLElement>(null);
-  const endSentinelRef = useRef<HTMLDivElement>(null);
+  const lastCardRef = useRef<HTMLDivElement>(null);
   const isAtEndRef = useRef(false);
+  const isLastCardActiveRef = useRef(false);
+  const lastTouchYRef = useRef(0);
 
   useEffect(() => {
     // Generate random stars
@@ -77,8 +79,8 @@ const Benefits = () => {
   // Toggle scroll-snap on html when Benefits section is in view
   useEffect(() => {
     const section = sectionRef.current;
-    const endSentinel = endSentinelRef.current;
-    if (!section || !endSentinel) return;
+    const lastCard = lastCardRef.current;
+    if (!section || !lastCard) return;
 
     // Observer for the section - enables snap when entering
     const sectionObserver = new IntersectionObserver(
@@ -89,34 +91,62 @@ const Benefits = () => {
           } else if (entry.intersectionRatio < 0.05) {
             document.documentElement.classList.remove('snap-benefits-active');
             isAtEndRef.current = false;
+            isLastCardActiveRef.current = false;
           }
         });
       },
       { threshold: [0.05, 0.1, 0.5] }
     );
 
-    // Observer for the last card - disables snap when it's fully visible
-    const endObserver = new IntersectionObserver(
+    // Observer for the last card - tracks when it's active (visible enough)
+    const lastCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
-            // User reached the last card, release the snap
-            isAtEndRef.current = true;
-            document.documentElement.classList.remove('snap-benefits-active');
-          } else if (!entry.isIntersecting) {
-            isAtEndRef.current = false;
+          if (entry.isIntersecting && entry.intersectionRatio > 0.55) {
+            isLastCardActiveRef.current = true;
+          } else {
+            isLastCardActiveRef.current = false;
           }
         });
       },
-      { threshold: [0.5, 0.8, 0.95] }
+      { threshold: [0.2, 0.4, 0.55, 0.7] }
     );
 
+    // Release snap when user tries to scroll DOWN while on last card
+    const handleWheel = (e: WheelEvent) => {
+      if (isLastCardActiveRef.current && e.deltaY > 0) {
+        isAtEndRef.current = true;
+        document.documentElement.classList.remove('snap-benefits-active');
+      }
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      lastTouchYRef.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      const isScrollingDown = currentY < lastTouchYRef.current - 10; // 10px threshold for noise
+      
+      if (isLastCardActiveRef.current && isScrollingDown) {
+        isAtEndRef.current = true;
+        document.documentElement.classList.remove('snap-benefits-active');
+      }
+    };
+
     sectionObserver.observe(section);
-    endObserver.observe(endSentinel);
+    lastCardObserver.observe(lastCard);
+    
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     return () => {
       sectionObserver.disconnect();
-      endObserver.disconnect();
+      lastCardObserver.disconnect();
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
       document.documentElement.classList.remove('snap-benefits-active');
     };
   }, []);
@@ -172,7 +202,7 @@ const Benefits = () => {
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
-            ref={index === benefits.length - 1 ? endSentinelRef : undefined}
+            ref={index === benefits.length - 1 ? lastCardRef : undefined}
             className="h-screen w-full flex flex-col justify-center items-center px-6 snap-start"
             style={{ marginTop: index === 0 ? '-100vh' : '0' }}
           >
@@ -215,8 +245,6 @@ const Benefits = () => {
             </motion.div>
           </div>
         ))}
-        {/* End sentinel - triggers snap release when user reaches the last card */}
-        <div ref={endSentinelRef} aria-hidden="true" className="h-[50vh] w-full" />
       </div>
     </section>
   );

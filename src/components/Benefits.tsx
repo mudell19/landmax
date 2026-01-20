@@ -60,7 +60,10 @@ const Benefits = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
-  const isScrolling = useRef(false);
+  const lastScrollTime = useRef(0);
+  const isAnimating = useRef(false);
+  
+  const SCROLL_COOLDOWN = 500; // ms between navigations
 
   useEffect(() => {
     // Generate random stars
@@ -77,11 +80,24 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
-  // Scroll to specific card
+  // Scroll to specific card - instant positioning
   const scrollToCard = useCallback((index: number) => {
-    if (isScrolling.current || !scrollContainerRef.current) return;
+    if (!scrollContainerRef.current) return;
     
-    isScrolling.current = true;
+    const container = scrollContainerRef.current;
+    const targetScroll = index * container.clientHeight;
+    
+    container.scrollTo({
+      top: targetScroll,
+      behavior: 'auto' // Instant, no animation
+    });
+  }, []);
+
+  // Animate to specific card
+  const animateToCard = useCallback((index: number) => {
+    if (isAnimating.current || !scrollContainerRef.current) return;
+    
+    isAnimating.current = true;
     const container = scrollContainerRef.current;
     const targetScroll = index * container.clientHeight;
     
@@ -91,19 +107,24 @@ const Benefits = () => {
     });
     
     setTimeout(() => {
-      isScrolling.current = false;
-    }, 350);
+      isAnimating.current = false;
+    }, 400);
   }, []);
 
   // Handle navigation between cards
   const navigate = useCallback((direction: 'up' | 'down') => {
-    if (isScrolling.current) return;
+    // Check cooldown using timestamp
+    const now = Date.now();
+    if (now - lastScrollTime.current < SCROLL_COOLDOWN) return;
+    if (isAnimating.current) return;
+    
+    lastScrollTime.current = now;
 
     if (direction === 'down') {
       if (currentIndex < benefits.length - 1) {
         const newIndex = currentIndex + 1;
         setCurrentIndex(newIndex);
-        scrollToCard(newIndex);
+        animateToCard(newIndex);
       } else {
         // At last card, release and scroll to next section
         setIsLocked(false);
@@ -117,7 +138,7 @@ const Benefits = () => {
       if (currentIndex > 0) {
         const newIndex = currentIndex - 1;
         setCurrentIndex(newIndex);
-        scrollToCard(newIndex);
+        animateToCard(newIndex);
       } else {
         // At first card, release and scroll to previous section
         setIsLocked(false);
@@ -128,7 +149,7 @@ const Benefits = () => {
         }
       }
     }
-  }, [currentIndex, scrollToCard]);
+  }, [currentIndex, animateToCard]);
 
   // IntersectionObserver to detect when section is in view
   useEffect(() => {
@@ -137,26 +158,22 @@ const Benefits = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5 && !isLocked) {
-          // First: smoothly center the section
-          sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          
-          // Then: wait for scroll to complete before locking
-          setTimeout(() => {
+        // Only lock when 95% visible and not already locked
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.95) {
+          if (!isLocked) {
             setIsLocked(true);
             document.body.style.overflow = 'hidden';
-            if (currentIndex === 0) {
-              scrollToCard(0);
-            }
-          }, 300);
+            // Position at current card (maintains position on re-entry)
+            scrollToCard(currentIndex);
+          }
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.95 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, [currentIndex, scrollToCard]);
+  }, [currentIndex, scrollToCard, isLocked]);
 
   // Handle wheel events when locked
   useEffect(() => {
@@ -164,13 +181,16 @@ const Benefits = () => {
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (Math.abs(e.deltaY) < 5) return; // Much more sensitive
+      e.stopPropagation();
+      
+      // Ignore small movements (noise)
+      if (Math.abs(e.deltaY) < 15) return;
       
       navigate(e.deltaY > 0 ? 'down' : 'up');
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
+    return () => window.removeEventListener('wheel', handleWheel, { capture: true });
   }, [isLocked, navigate]);
 
   // Handle touch events for mobile
@@ -183,17 +203,18 @@ const Benefits = () => {
 
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
-      if (Math.abs(deltaY) < 20) return; // More sensitive swipes
+      // Require meaningful swipe
+      if (Math.abs(deltaY) < 40) return;
       
       navigate(deltaY > 0 ? 'down' : 'up');
     };
 
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true, capture: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true, capture: true });
     
     return () => {
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchstart', handleTouchStart, { capture: true });
+      window.removeEventListener('touchend', handleTouchEnd, { capture: true });
     };
   }, [isLocked, navigate]);
 

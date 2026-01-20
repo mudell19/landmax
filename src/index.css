@@ -269,6 +269,7 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch; /* Better momentum on iOS */
   }
 
   /* Selection */

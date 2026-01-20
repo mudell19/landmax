@@ -87,8 +87,8 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Fixed header */}
-      <div className="absolute top-0 left-0 right-0 z-20 pt-12 pb-12 text-center">
+      {/* Fixed header - pointer-events-none allows touch to pass through to scroll container */}
+      <div className="absolute top-0 left-0 right-0 z-20 pt-12 pb-12 text-center pointer-events-none">
         <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black via-black/80 to-transparent" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}

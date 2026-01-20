@@ -92,7 +92,7 @@ const Benefits = () => {
 
       {/* CAMADA 0: Área de Scroll Total - Captura 100% da interação */}
       <div 
-        className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-proximity z-0 pt-32 pb-80 scrollbar-hide"
+        className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory z-0 pt-32 pb-48 scrollbar-hide"
         style={{ 
           scrollbarWidth: 'none', 
           msOverflowStyle: 'none'
@@ -167,12 +167,10 @@ const Benefits = () => {
         </p>
       </motion.div>
 
-      {/* CAMADA 2: Rodapé com CTA - pointer-events-none no container, auto só no botão */}
+      {/* CAMADA 2: Rodapé com CTA - pointer-events-auto para clique no botão */}
       <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-10">
-        <div className="flex justify-center">
-          <div className="pointer-events-auto">
-            <WhatsAppButton showResponseTime />
-          </div>
+        <div className="flex justify-center pointer-events-auto">
+          <WhatsAppButton showResponseTime />
         </div>
       </div>
 

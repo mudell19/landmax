@@ -6,34 +6,40 @@ import WhatsAppButton from "./WhatsAppButton";
 
 const benefits = [
   {
-    icon: Rocket,
-    title: "Entrega em 2 Dias",
-    description: "Seu site pronto em até 2 dias úteis. Velocidade incomparável no mercado."
-  },
-  {
     icon: DollarSign,
     title: "Pagamento Após Entrega",
-    description: "Você só paga quando aprovar o projeto. Risco zero para você."
+    description: "Você só paga quando aprovar o projeto. Risco zero para você.",
+    highlighted: true
+  },
+  {
+    icon: Rocket,
+    title: "Entrega em 2 Dias",
+    description: "Seu site pronto em até 2 dias úteis. Velocidade incomparável no mercado.",
+    highlighted: false
   },
   {
     icon: Headphones,
     title: "Suporte Dedicado",
-    description: "30 dias de suporte gratuito para ajustes e dúvidas após a entrega."
+    description: "30 dias de suporte gratuito para ajustes e dúvidas após a entrega.",
+    highlighted: false
   },
   {
     icon: Palette,
     title: "Design Exclusivo",
-    description: "Cada projeto é único, criado especialmente para o seu negócio."
+    description: "Cada projeto é único, criado especialmente para o seu negócio.",
+    highlighted: false
   },
   {
     icon: Search,
     title: "Otimizado para SEO",
-    description: "Estrutura otimizada para aparecer nas buscas do Google."
+    description: "Estrutura otimizada para aparecer nas buscas do Google.",
+    highlighted: false
   },
   {
     icon: Smartphone,
     title: "100% Responsivo",
-    description: "Perfeito em qualquer dispositivo: celular, tablet ou desktop."
+    description: "Perfeito em qualquer dispositivo: celular, tablet ou desktop.",
+    highlighted: false
   }
 ];
 
@@ -67,13 +73,29 @@ const Benefits = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group p-8 rounded-2xl bg-card border border-border card-hover"
+              className={`group p-8 rounded-2xl border card-hover ${
+                benefit.highlighted 
+                  ? 'bg-white border-2 border-primary shadow-2xl shadow-primary/20' 
+                  : 'bg-card border-border'
+              }`}
             >
-              <div className="w-16 h-16 rounded-xl bg-gradient-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+              <div className={`w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 ${
+                benefit.highlighted 
+                  ? 'bg-gradient-primary' 
+                  : 'bg-gradient-primary'
+              }`}>
                 <benefit.icon className="h-8 w-8 text-primary-foreground" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">{benefit.title}</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">{benefit.description}</p>
+              <h3 className={`text-2xl font-bold mb-3 ${
+                benefit.highlighted ? 'text-primary' : 'text-foreground'
+              }`}>
+                {benefit.title}
+              </h3>
+              <p className={`text-lg leading-relaxed ${
+                benefit.highlighted ? 'text-gray-600' : 'text-muted-foreground'
+              }`}>
+                {benefit.description}
+              </p>
             </motion.div>
           ))}
         </div>

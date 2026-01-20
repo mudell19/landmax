@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, Zap, Shield, Clock } from "lucide-react";
+import { Check, Zap, Shield, Clock, CreditCard } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 
 const Hero = () => {
@@ -66,8 +66,8 @@ const Hero = () => {
                 <span className="text-5xl md:text-7xl font-bold text-gradient">R$ 490</span>
                 <span className="text-2xl text-muted-foreground">,00</span>
               </div>
-              <div className="flex items-center gap-2 mt-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30">
-                <span className="text-primary font-semibold">+ 1 ano de Domínio e Hospedagem Grátis</span>
+              <div className="flex items-center gap-2 mt-2 px-5 py-2.5 rounded-full bg-white">
+                <span className="text-primary font-bold text-sm">+ 1 ano de Domínio e Hospedagem Grátis</span>
               </div>
             </div>
           </motion.div>
@@ -82,20 +82,21 @@ const Hero = () => {
             <WhatsAppButton />
           </motion.div>
 
-          {/* Trust Badges */}
+          {/* Trust Badges - Reordered */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
             className="flex flex-wrap items-center justify-center gap-4 md:gap-8"
           >
+            {/* Pague só na entrega - FIRST and highlighted */}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border-2 border-primary shadow-lg">
+              <CreditCard className="h-5 w-5 text-primary" />
+              <span className="text-primary font-bold">Pague só na entrega</span>
+            </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
               <Check className="h-5 w-5 text-primary" />
               <span className="text-foreground font-medium">Entrega em 2 dias</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
-              <Shield className="h-5 w-5 text-primary" />
-              <span className="text-foreground font-medium">Pague só após aprovar</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
               <Clock className="h-5 w-5 text-primary" />

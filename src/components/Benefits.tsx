@@ -107,7 +107,7 @@ const Benefits = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center mt-16"
         >
-          <WhatsAppButton />
+          <WhatsAppButton showResponseTime />
         </motion.div>
       </div>
     </section>

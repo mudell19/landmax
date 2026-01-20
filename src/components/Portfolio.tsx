@@ -80,49 +80,56 @@ const Portfolio = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
           <h2 className="mb-6">
             Projetos que <span className="text-gradient">geram resultados</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Conheça alguns dos sites e landing pages que criamos para nossos clientes em diversos segmentos.
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Conheça alguns dos sites que criamos para nossos clientes.
           </p>
         </motion.div>
 
-        {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Portfolio Grid - Apple Fitness+ inspired cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.name}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
-              className="group relative rounded-2xl overflow-hidden shadow-2xl"
+              transition={{ duration: 0.5, delay: index * 0.06 }}
+              className="group"
             >
-              {/* Image */}
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                
-                {/* Badge */}
-                <div className="absolute top-4 left-4">
-                  <div className="px-4 py-2 rounded-full bg-primary/90 backdrop-blur-sm border border-primary-foreground/20">
-                    <span className="text-xs font-bold text-primary-foreground uppercase tracking-wider">
-                      {project.niche}
-                    </span>
+              {/* Mobile Device Mockup Card */}
+              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-card to-card/80 p-4 md:p-5 shadow-2xl border border-border/50">
+                {/* Phone Frame */}
+                <div className="relative mx-auto" style={{ maxWidth: '280px' }}>
+                  {/* Phone Bezel */}
+                  <div className="relative rounded-[2rem] overflow-hidden bg-black p-2 shadow-inner">
+                    {/* Dynamic Island / Notch */}
+                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full z-20" />
+                    
+                    {/* Screen */}
+                    <div className="relative rounded-[1.5rem] overflow-hidden aspect-[9/19]">
+                      <img
+                        src={project.image}
+                        alt={project.name}
+                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      
+                      {/* Gradient Overlay at bottom */}
+                      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                    </div>
                   </div>
                 </div>
-                
-                {/* Company Name */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl font-bold text-white">{project.name}</h3>
+
+                {/* Project Info - Below the phone */}
+                <div className="mt-5 text-center">
+                  <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-2">
+                    {project.niche}
+                  </span>
+                  <h3 className="text-lg font-bold text-foreground">{project.name}</h3>
                 </div>
               </div>
             </motion.div>
@@ -134,12 +141,12 @@ const Portfolio = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center mt-16"
+          className="text-center mt-12 md:mt-16"
         >
-          <p className="text-xl text-muted-foreground mb-6">
+          <p className="text-lg md:text-xl text-muted-foreground mb-6">
             Quer um site como esses para o seu negócio?
           </p>
-          <WhatsAppButton />
+          <WhatsAppButton showResponseTime />
         </motion.div>
       </div>
     </section>

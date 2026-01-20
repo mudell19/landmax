@@ -57,7 +57,6 @@ const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
 
   useEffect(() => {
-    // Generate random stars
     const generatedStars = Array.from({ length: 150 }, (_, i) => ({
       id: i,
       style: {
@@ -71,24 +70,16 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
-  // Total height = header (100vh) + cards (6 * 100vh) = 700vh
-  const totalCards = benefits.length;
-
   return (
     <section 
       id="benefits-section"
-      className="relative" 
-      style={{ 
-        backgroundColor: '#000000',
-        height: `${(totalCards + 1) * 100}vh`, // 700vh total
-      }}
+      className="relative bg-black snap-y snap-mandatory"
     >
-      {/* Continuous Starfield Background - Fixed within section */}
-      <div className="sticky top-0 h-screen overflow-hidden pointer-events-none">
+      {/* Fixed Starfield Background - Scoped to this section */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
-        {/* Subtle purple glow in center */}
         <div 
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-20"
           style={{
@@ -97,59 +88,50 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Sticky Header - Stays fixed at top while scrolling through cards */}
+      {/* Sticky Header - Immediately visible at section start */}
       <div 
-        className="sticky top-0 z-20 pt-8 xs:pt-10 sm:pt-12 md:pt-16 pb-4 px-4 xs:px-6 sm:px-8"
+        className="sticky top-0 z-20 pt-4 xs:pt-6 sm:pt-8 pb-4 px-4 xs:px-6 sm:px-8"
         style={{
           background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 70%, transparent 100%)',
         }}
       >
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+          <h2 className="text-white mb-2 xs:mb-3 sm:mb-4">
             Por que escolher a<br />
             <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
               nossa equipe?
             </span>
           </h2>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm xs:text-base sm:text-lg text-gray-400 max-w-2xl mx-auto">
             Simplificamos todo o processo para que você<br className="hidden md:block" />
             tenha um site profissional sem dor de cabeça.
           </p>
         </motion.div>
       </div>
 
-      {/* Benefits Cards Container - Each 100vh with scroll snap */}
-      <div className="absolute inset-0 snap-y snap-mandatory overflow-y-auto h-full scrollbar-thin"
-        style={{
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(139, 92, 246, 0.5) transparent',
-        }}
-      >
-        {/* Spacer for header */}
-        <div className="h-screen snap-start snap-always" />
-
-        {/* Benefits - Each as Full Screen Snap Item */}
+      {/* Benefits Cards - Snappy scroll with reduced height per card */}
+      <div className="relative z-10">
         {benefits.map((benefit, index) => (
           <div 
             key={benefit.title}
-            className="h-screen snap-start snap-always flex items-center justify-center px-4 xs:px-6 sm:px-8"
+            className="h-[60vh] flex items-center justify-center px-4 xs:px-6 sm:px-8 snap-start snap-always"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.4 }}
               className="text-center max-w-lg mx-auto"
             >
               {/* Glowing Icon */}
               <div 
-                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8 sm:mb-10"
+                className="w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-4 xs:mb-6 sm:mb-8"
                 style={{
                   background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
                   boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
@@ -157,7 +139,7 @@ const Benefits = () => {
                 }}
               >
                 <benefit.icon 
-                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
+                  className="h-8 w-8 xs:h-10 xs:w-10 sm:h-12 sm:w-12"
                   style={{ 
                     color: '#a78bfa',
                     filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
@@ -166,17 +148,17 @@ const Benefits = () => {
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 xs:mb-5 sm:mb-6">
+              <h3 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 xs:mb-4 sm:mb-5">
                 {benefit.title}
               </h3>
 
               {/* Description */}
-              <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-gray-400 leading-relaxed max-w-md mx-auto">
+              <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
                 {benefit.description}
               </p>
 
               {/* Benefit number indicator */}
-              <div className="mt-8 xs:mt-10 sm:mt-12 text-purple-500/50 text-sm font-medium">
+              <div className="mt-6 xs:mt-8 sm:mt-10 text-purple-500/50 text-sm font-medium">
                 {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
               </div>
             </motion.div>
@@ -185,32 +167,16 @@ const Benefits = () => {
       </div>
 
       {/* Fixed CTA at Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 pb-5 xs:pb-6 sm:pb-8 pt-8 px-4 xs:px-6 pointer-events-none"
+      <div 
+        className="sticky bottom-0 z-30 pb-4 xs:pb-5 sm:pb-6 pt-6 px-4 xs:px-6 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 50%, transparent 100%)',
         }}
       >
         <div className="pointer-events-auto flex justify-center">
           <WhatsAppButton showResponseTime />
         </div>
       </div>
-
-      {/* Custom Scrollbar Styles */}
-      <style>{`
-        .scrollbar-thin::-webkit-scrollbar {
-          width: 4px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-          background: rgba(139, 92, 246, 0.5);
-          border-radius: 10px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-          background: rgba(139, 92, 246, 0.8);
-        }
-      `}</style>
     </section>
   );
 };

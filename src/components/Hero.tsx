@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Zap, Shield, Clock, CreditCard } from "lucide-react";
+import { Check, Zap, Shield, Clock } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 
 const Hero = () => {
@@ -53,36 +53,22 @@ const Hero = () => {
             Landing pages de alta conversão que transformam visitantes em clientes.
           </motion.p>
 
-          {/* Payment Highlight Box */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center gap-4 px-8 py-4 rounded-2xl bg-gradient-to-r from-primary/20 to-primary/5 border-2 border-primary/50">
-              <CreditCard className="h-8 w-8 text-primary" />
-              <div className="text-left">
-                <p className="text-2xl md:text-3xl font-black text-foreground">PAGUE SOMENTE APÓS A ENTREGA</p>
-                <p className="text-muted-foreground">Risco zero para você. Satisfação garantida.</p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Price */}
+          {/* Price Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mb-8"
           >
-            <div className="inline-flex flex-col items-center gap-2 p-6 rounded-2xl bg-card/50 border border-border backdrop-blur-sm">
+            <div className="inline-flex flex-col items-center gap-3 p-8 rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
               <span className="text-sm text-muted-foreground uppercase tracking-wider">Investimento único</span>
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl md:text-6xl font-bold text-gradient">R$ 490</span>
-                <span className="text-muted-foreground">,00</span>
+                <span className="text-5xl md:text-7xl font-bold text-gradient">R$ 490</span>
+                <span className="text-2xl text-muted-foreground">,00</span>
               </div>
-              <span className="text-sm text-muted-foreground">Inclui 1 ano de hospedagem grátis</span>
+              <div className="flex items-center gap-2 mt-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30">
+                <span className="text-primary font-semibold">+ 1 ano de Domínio e Hospedagem Grátis</span>
+              </div>
             </div>
           </motion.div>
 
@@ -101,19 +87,19 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground"
+            className="flex flex-wrap items-center justify-center gap-4 md:gap-8"
           >
-            <div className="flex items-center gap-2">
-              <Check className="h-4 w-4 text-primary" />
-              <span>Entrega expressa em 2 dias</span>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
+              <Check className="h-5 w-5 text-primary" />
+              <span className="text-foreground font-medium">Entrega em 2 dias</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Shield className="h-4 w-4 text-primary" />
-              <span>Zero risco para você</span>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
+              <Shield className="h-5 w-5 text-primary" />
+              <span className="text-foreground font-medium">Pague só após aprovar</span>
             </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-primary" />
-              <span>Suporte por 30 dias</span>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card/50 border border-border">
+              <Clock className="h-5 w-5 text-primary" />
+              <span className="text-foreground font-medium">30 dias de suporte</span>
             </div>
           </motion.div>
         </div>

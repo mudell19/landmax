@@ -59,11 +59,28 @@ const Benefits = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  
+  // Touch tracking
   const touchStartY = useRef(0);
-  const lastScrollTime = useRef(0);
+  
+  // Animation state
   const isAnimating = useRef(false);
   
-  const SCROLL_COOLDOWN = 500; // ms between navigations
+  // Wheel gesture tracking (1 card per gesture)
+  const wheelAccumRef = useRef(0);
+  const wheelGestureActiveRef = useRef(false);
+  const wheelEndTimerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Lock gate (prevent immediate re-lock after exit)
+  const lockEnabledRef = useRef(true);
+  const relockCooldownTimerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Scrollbar width for preventing horizontal jitter
+  const scrollbarWidthRef = useRef(0);
+
+  const WHEEL_THRESHOLD = 50; // Accumulated deltaY needed to trigger navigation
+  const WHEEL_IDLE_TIMEOUT = 150; // ms of no wheel events = gesture ended
+  const RELOCK_COOLDOWN = 600; // ms before allowing re-lock after exit
 
   useEffect(() => {
     // Generate random stars
@@ -78,6 +95,64 @@ const Benefits = () => {
       },
     }));
     setStars(generatedStars);
+    
+    // Calculate scrollbar width once
+    scrollbarWidthRef.current = window.innerWidth - document.documentElement.clientWidth;
+  }, []);
+
+  // Centralized lock function
+  const lock = useCallback(() => {
+    if (isLocked) return;
+    
+    setIsLocked(true);
+    
+    // Prevent horizontal jitter by compensating for scrollbar
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+    
+    // Reset wheel state to prevent inherited momentum
+    wheelAccumRef.current = 0;
+    wheelGestureActiveRef.current = false;
+    if (wheelEndTimerRef.current) {
+      clearTimeout(wheelEndTimerRef.current);
+      wheelEndTimerRef.current = null;
+    }
+    
+    // Position at current card instantly
+    if (scrollContainerRef.current) {
+      const targetScroll = currentIndex * scrollContainerRef.current.clientHeight;
+      scrollContainerRef.current.scrollTo({
+        top: targetScroll,
+        behavior: 'auto'
+      });
+    }
+  }, [isLocked, currentIndex]);
+
+  // Centralized unlock function with nudge
+  const unlockAndNudge = useCallback((direction: 'up' | 'down') => {
+    setIsLocked(false);
+    
+    // Restore body styles
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+    
+    // Disable re-lock temporarily
+    lockEnabledRef.current = false;
+    if (relockCooldownTimerRef.current) {
+      clearTimeout(relockCooldownTimerRef.current);
+    }
+    relockCooldownTimerRef.current = setTimeout(() => {
+      lockEnabledRef.current = true;
+    }, RELOCK_COOLDOWN);
+    
+    // Small nudge to continue natural scroll (no teleporting)
+    requestAnimationFrame(() => {
+      window.scrollBy({
+        top: direction === 'down' ? 60 : -60,
+        behavior: 'smooth'
+      });
+    });
   }, []);
 
   // Scroll to specific card - instant positioning
@@ -89,7 +164,7 @@ const Benefits = () => {
     
     container.scrollTo({
       top: targetScroll,
-      behavior: 'auto' // Instant, no animation
+      behavior: 'auto'
     });
   }, []);
 
@@ -113,12 +188,7 @@ const Benefits = () => {
 
   // Handle navigation between cards
   const navigate = useCallback((direction: 'up' | 'down') => {
-    // Check cooldown using timestamp
-    const now = Date.now();
-    if (now - lastScrollTime.current < SCROLL_COOLDOWN) return;
     if (isAnimating.current) return;
-    
-    lastScrollTime.current = now;
 
     if (direction === 'down') {
       if (currentIndex < benefits.length - 1) {
@@ -126,13 +196,8 @@ const Benefits = () => {
         setCurrentIndex(newIndex);
         animateToCard(newIndex);
       } else {
-        // At last card, release and scroll to next section
-        setIsLocked(false);
-        document.body.style.overflow = '';
-        const nextSection = sectionRef.current?.nextElementSibling as HTMLElement;
-        if (nextSection) {
-          nextSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        // At last card, release smoothly
+        unlockAndNudge('down');
       }
     } else {
       if (currentIndex > 0) {
@@ -140,16 +205,11 @@ const Benefits = () => {
         setCurrentIndex(newIndex);
         animateToCard(newIndex);
       } else {
-        // At first card, release and scroll to previous section
-        setIsLocked(false);
-        document.body.style.overflow = '';
-        const prevSection = sectionRef.current?.previousElementSibling as HTMLElement;
-        if (prevSection) {
-          prevSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        // At first card, release smoothly
+        unlockAndNudge('up');
       }
     }
-  }, [currentIndex, animateToCard]);
+  }, [currentIndex, animateToCard, unlockAndNudge]);
 
   // IntersectionObserver to detect when section is in view
   useEffect(() => {
@@ -158,24 +218,29 @@ const Benefits = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Only lock when 95% visible and not already locked
+        // Lock when 95% visible AND lock is enabled (not in cooldown)
         if (entry.isIntersecting && entry.intersectionRatio >= 0.95) {
-          if (!isLocked) {
-            setIsLocked(true);
-            document.body.style.overflow = 'hidden';
-            // Position at current card (maintains position on re-entry)
-            scrollToCard(currentIndex);
+          if (!isLocked && lockEnabledRef.current) {
+            lock();
+          }
+        }
+        
+        // Re-enable lock when section is mostly out of view
+        if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
+          // Allow re-lock next time we enter
+          if (!lockEnabledRef.current && relockCooldownTimerRef.current === null) {
+            lockEnabledRef.current = true;
           }
         }
       },
-      { threshold: 0.95 }
+      { threshold: [0.2, 0.95] }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, [currentIndex, scrollToCard, isLocked]);
+  }, [lock, isLocked]);
 
-  // Handle wheel events when locked
+  // Handle wheel events when locked - 1 card per gesture
   useEffect(() => {
     if (!isLocked) return;
 
@@ -183,10 +248,29 @@ const Benefits = () => {
       e.preventDefault();
       e.stopPropagation();
       
-      // Ignore small movements (noise)
-      if (Math.abs(e.deltaY) < 15) return;
+      // Accumulate delta
+      wheelAccumRef.current += e.deltaY;
       
-      navigate(e.deltaY > 0 ? 'down' : 'up');
+      // Clear previous idle timer
+      if (wheelEndTimerRef.current) {
+        clearTimeout(wheelEndTimerRef.current);
+      }
+      
+      // Set new idle timer (gesture end detection)
+      wheelEndTimerRef.current = setTimeout(() => {
+        wheelAccumRef.current = 0;
+        wheelGestureActiveRef.current = false;
+      }, WHEEL_IDLE_TIMEOUT);
+      
+      // If gesture already triggered navigation, ignore until gesture ends
+      if (wheelGestureActiveRef.current) return;
+      
+      // Check if accumulated enough to trigger navigation
+      if (Math.abs(wheelAccumRef.current) >= WHEEL_THRESHOLD) {
+        wheelGestureActiveRef.current = true;
+        navigate(wheelAccumRef.current > 0 ? 'down' : 'up');
+        wheelAccumRef.current = 0;
+      }
     };
 
     window.addEventListener('wheel', handleWheel, { passive: false, capture: true });
@@ -204,7 +288,7 @@ const Benefits = () => {
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
       // Require meaningful swipe
-      if (Math.abs(deltaY) < 40) return;
+      if (Math.abs(deltaY) < 50) return;
       
       navigate(deltaY > 0 ? 'down' : 'up');
     };
@@ -222,6 +306,9 @@ const Benefits = () => {
   useEffect(() => {
     return () => {
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+      if (wheelEndTimerRef.current) clearTimeout(wheelEndTimerRef.current);
+      if (relockCooldownTimerRef.current) clearTimeout(relockCooldownTimerRef.current);
     };
   }, []);
 

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { useInView } from "framer-motion";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Rocket, DollarSign, Headphones, Palette, Search, Smartphone } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 
@@ -55,13 +54,13 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 );
 
 const Benefits = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Generate random stars
-    const generatedStars = Array.from({ length: 100 }, (_, i) => ({
+    const generatedStars = Array.from({ length: 150 }, (_, i) => ({
       id: i,
       style: {
         left: `${Math.random() * 100}%`,
@@ -74,14 +73,26 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
+  // Track scroll position to update active index
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      const scrollTop = container.scrollTop;
+      const itemHeight = container.clientHeight;
+      const newIndex = Math.round(scrollTop / itemHeight);
+      setActiveIndex(Math.min(newIndex, benefits.length - 1));
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <section 
-      ref={ref} 
-      className="relative py-16 xs:py-20 sm:py-24 md:py-32 overflow-hidden"
-      style={{ backgroundColor: '#000000' }}
-    >
-      {/* Animated Starfield Background */}
-      <div className="absolute inset-0 overflow-hidden">
+    <section className="relative h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
+      {/* Continuous Starfield Background - Fixed */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
@@ -94,99 +105,149 @@ const Benefits = () => {
         />
       </div>
 
-      <div className="container-premium relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12 xs:mb-14 sm:mb-16 md:mb-20"
-        >
-          <h2 className="text-white mb-4 xs:mb-5 sm:mb-6">
-            Por que escolher a<br />
-            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-              nossa equipe?
-            </span>
-          </h2>
-          <p className="text-base xs:text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto">
-            Simplificamos todo o processo para que você<br className="hidden md:block" />
-            tenha um site profissional sem dor de cabeça.
-          </p>
-        </motion.div>
-
-        {/* Benefits Feed - Vertical Column */}
-        <div className="max-w-xl mx-auto space-y-4 xs:space-y-5 sm:space-y-6">
-          {benefits.map((benefit, index) => (
+      {/* Scrollable Container with Snap */}
+      <div 
+        ref={containerRef}
+        className="h-full overflow-y-auto snap-y snap-mandatory scrollbar-thin relative z-10"
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'rgba(139, 92, 246, 0.5) transparent',
+        }}
+      >
+        {/* Header Section - First Snap Item */}
+        <div className="h-screen snap-start snap-always flex items-center justify-center px-4 xs:px-6 sm:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <h2 className="text-white mb-4 xs:mb-5 sm:mb-6">
+              Por que escolher a<br />
+              <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+                nossa equipe?
+              </span>
+            </h2>
+            <p className="text-base xs:text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-8">
+              Simplificamos todo o processo para que você<br className="hidden md:block" />
+              tenha um site profissional sem dor de cabeça.
+            </p>
+            
+            {/* Scroll indicator */}
             <motion.div
-              key={benefit.title}
-              initial={{ opacity: 0, y: 40, scale: 0.95 }}
-              animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative"
+              animate={{ y: [0, 10, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="flex flex-col items-center gap-2 text-purple-400"
             >
-              {/* Glassmorphism Card */}
-              <div 
-                className="relative p-6 xs:p-7 sm:p-8 rounded-2xl xs:rounded-3xl backdrop-blur-xl border transition-all duration-500 group-hover:scale-[1.02]"
-                style={{
-                  backgroundColor: 'rgba(0, 0, 0, 0.6)',
-                  borderColor: 'rgba(139, 92, 246, 0.3)',
-                  boxShadow: '0 0 30px rgba(139, 92, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
-                }}
-              >
-                {/* Glowing border effect on hover */}
-                <div 
-                  className="absolute inset-0 rounded-2xl xs:rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, transparent 50%, rgba(139, 92, 246, 0.2) 100%)',
-                    boxShadow: '0 0 40px rgba(139, 92, 246, 0.3)',
-                  }}
-                />
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center">
-                  {/* Glowing Icon */}
-                  <div 
-                    className="w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-xl xs:rounded-2xl flex items-center justify-center mb-4 xs:mb-5 sm:mb-6 group-hover:scale-110 transition-transform duration-300"
-                    style={{
-                      background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
-                      boxShadow: '0 0 30px rgba(139, 92, 246, 0.4), 0 0 60px rgba(139, 92, 246, 0.2)',
-                      border: '1px solid rgba(139, 92, 246, 0.4)',
-                    }}
-                  >
-                    <benefit.icon 
-                      className="h-7 w-7 xs:h-8 xs:w-8 sm:h-10 sm:w-10"
-                      style={{ 
-                        color: '#a78bfa',
-                        filter: 'drop-shadow(0 0 10px rgba(167, 139, 250, 0.8))',
-                      }}
-                    />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white mb-2 xs:mb-3">
-                    {benefit.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-sm xs:text-base sm:text-lg text-gray-400 leading-relaxed">
-                    {benefit.description}
-                  </p>
-                </div>
-              </div>
+              <span className="text-sm">Role para baixo</span>
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
             </motion.div>
-          ))}
+          </motion.div>
         </div>
 
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="text-center mt-12 xs:mt-14 sm:mt-16 md:mt-20"
-        >
-          <WhatsAppButton showResponseTime />
-        </motion.div>
+        {/* Benefits - Each as Full Screen Snap Item */}
+        {benefits.map((benefit, index) => (
+          <div 
+            key={benefit.title}
+            className="h-screen snap-start snap-always flex items-center justify-center px-4 xs:px-6 sm:px-8"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+              className="text-center max-w-lg mx-auto"
+            >
+              {/* Glowing Icon */}
+              <div 
+                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8 sm:mb-10"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                  boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
+                  border: '1px solid rgba(139, 92, 246, 0.4)',
+                }}
+              >
+                <benefit.icon 
+                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
+                  style={{ 
+                    color: '#a78bfa',
+                    filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
+                  }}
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 xs:mb-5 sm:mb-6">
+                {benefit.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-gray-400 leading-relaxed max-w-md mx-auto">
+                {benefit.description}
+              </p>
+
+              {/* Benefit number indicator */}
+              <div className="mt-8 xs:mt-10 sm:mt-12 text-purple-500/50 text-sm font-medium">
+                {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
+              </div>
+            </motion.div>
+          </div>
+        ))}
       </div>
+
+      {/* Progress Dots - Fixed on Right */}
+      <div className="fixed right-4 xs:right-6 sm:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
+        {[...Array(benefits.length + 1)].map((_, index) => (
+          <button
+            key={index}
+            onClick={() => {
+              const container = containerRef.current;
+              if (container) {
+                container.scrollTo({
+                  top: index * container.clientHeight,
+                  behavior: 'smooth'
+                });
+              }
+            }}
+            className={`w-2 h-2 xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${
+              activeIndex === index 
+                ? 'bg-purple-400 scale-125 shadow-lg shadow-purple-500/50' 
+                : 'bg-white/20 hover:bg-white/40'
+            }`}
+            aria-label={`Go to ${index === 0 ? 'header' : `benefit ${index}`}`}
+          />
+        ))}
+      </div>
+
+      {/* Fixed CTA at Bottom */}
+      <div className="fixed bottom-0 left-0 right-0 z-20 pb-5 xs:pb-6 sm:pb-8 pt-8 px-4 xs:px-6 pointer-events-none"
+        style={{
+          background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%)',
+        }}
+      >
+        <div className="pointer-events-auto flex justify-center">
+          <WhatsAppButton showResponseTime />
+        </div>
+      </div>
+
+      {/* Custom Scrollbar Styles */}
+      <style>{`
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 4px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: rgba(139, 92, 246, 0.5);
+          border-radius: 10px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background: rgba(139, 92, 246, 0.8);
+        }
+      `}</style>
     </section>
   );
 };

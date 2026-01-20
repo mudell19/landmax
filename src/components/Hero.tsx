@@ -34,7 +34,7 @@ const Hero = () => {
   const projectCount = useCounter(200, 2000);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent" />
       

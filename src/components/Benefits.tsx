@@ -74,7 +74,7 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative py-20 px-4 xs:px-6 sm:px-8 overflow-hidden" 
+      className="relative py-20 px-4 xs:px-6 sm:px-8 overflow-hidden min-h-screen" 
       style={{ backgroundColor: '#000000' }}
     >
       {/* Starfield Background */}
@@ -116,7 +116,7 @@ const Benefits = () => {
         {/* Scrollable Cards Area with Snap */}
         <div 
           className="snap-y snap-mandatory overflow-y-auto h-[500px] scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', overscrollBehaviorY: 'contain' }}
         >
           {benefits.map((benefit, index) => (
             <div 

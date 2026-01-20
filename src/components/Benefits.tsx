@@ -80,7 +80,7 @@ const Benefits = () => {
 
   const WHEEL_THRESHOLD = 50; // Accumulated deltaY needed to trigger navigation
   const WHEEL_IDLE_TIMEOUT = 150; // ms of no wheel events = gesture ended
-  const RELOCK_COOLDOWN = 600; // ms before allowing re-lock after exit
+  const RELOCK_COOLDOWN = 800; // ms before allowing re-lock after exit
 
   useEffect(() => {
     // Generate random stars
@@ -146,11 +146,11 @@ const Benefits = () => {
       lockEnabledRef.current = true;
     }, RELOCK_COOLDOWN);
     
-    // Small nudge to continue natural scroll (no teleporting)
+    // Small instant nudge to continue natural scroll (no teleporting)
     requestAnimationFrame(() => {
       window.scrollBy({
-        top: direction === 'down' ? 60 : -60,
-        behavior: 'smooth'
+        top: direction === 'down' ? 30 : -30,
+        behavior: 'auto'
       });
     });
   }, []);
@@ -227,10 +227,12 @@ const Benefits = () => {
         
         // Re-enable lock when section is mostly out of view
         if (!entry.isIntersecting || entry.intersectionRatio < 0.2) {
-          // Allow re-lock next time we enter
-          if (!lockEnabledRef.current && relockCooldownTimerRef.current === null) {
-            lockEnabledRef.current = true;
+          // Clear cooldown timer and force re-enable when out of view
+          if (relockCooldownTimerRef.current) {
+            clearTimeout(relockCooldownTimerRef.current);
+            relockCooldownTimerRef.current = null;
           }
+          lockEnabledRef.current = true;
         }
       },
       { threshold: [0.2, 0.95] }

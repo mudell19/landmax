@@ -74,10 +74,10 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative w-full h-[90vh] bg-black overflow-hidden"
+      className="relative w-full bg-black"
     >
-      {/* CAMADA 0: Starfield Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      {/* Starfield Background - Fixed behind everything */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
@@ -89,8 +89,8 @@ const Benefits = () => {
         />
       </div>
 
-      {/* CAMADA 1: Header Fixo (Título + Subtítulo) */}
-      <div className="absolute top-0 left-0 w-full z-20 pt-12 sm:pt-16 px-4 text-center bg-gradient-to-b from-black via-black/90 to-transparent pb-16 pointer-events-none">
+      {/* HEADER FIXO (Sticky no topo) */}
+      <div className="sticky top-0 z-40 w-full pt-12 sm:pt-16 pb-8 sm:pb-12 text-center bg-gradient-to-b from-black via-black/95 to-transparent pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,83 +103,73 @@ const Benefits = () => {
               nossa equipe?
             </span>
           </h2>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
             Simplificamos todo o processo para que você<br className="hidden md:block" />
             tenha um site profissional sem dor de cabeça.
           </p>
         </motion.div>
       </div>
 
-      {/* CAMADA 2: Área de Scroll (Apenas os Cards) */}
-      <div 
-        className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory scroll-smooth scrollbar-hide"
-        style={{ 
-          scrollbarWidth: 'none', 
-          msOverflowStyle: 'none'
-        }}
-      >
-        {benefits.map((benefit) => (
+      {/* CARDS COM EFEITO DE EMPILHAMENTO */}
+      {benefits.map((benefit, index) => (
+        <div 
+          key={benefit.title}
+          className="sticky top-24 sm:top-28 min-h-[70vh] sm:min-h-[75vh] w-full flex flex-col justify-center items-center px-4 bg-black"
+          style={{
+            zIndex: 10 + index,
+            boxShadow: '0 -20px 40px rgba(0,0,0,0.8)',
+          }}
+        >
+          {/* Subtle top border glow */}
           <div 
-            key={benefit.title}
-            className="w-full h-full flex-shrink-0 snap-center flex flex-col justify-center items-center px-4 pt-32 pb-24"
+            className="absolute top-0 left-0 w-full h-px"
+            style={{
+              background: 'linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.3), transparent)',
+            }}
+          />
+          
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: false, amount: 0.5 }}
+            transition={{ duration: 0.5 }}
+            className="text-center max-w-lg mx-auto"
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-lg mx-auto"
+            {/* Glowing Icon */}
+            <div 
+              className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
+              style={{
+                background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
+                border: '1px solid rgba(139, 92, 246, 0.4)',
+              }}
             >
-              {/* Glowing Icon */}
-              <div 
-                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
-                  boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
-                  border: '1px solid rgba(139, 92, 246, 0.4)',
+              <benefit.icon 
+                className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
+                style={{ 
+                  color: '#a78bfa',
+                  filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
                 }}
-              >
-                <benefit.icon 
-                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
-                  style={{ 
-                    color: '#a78bfa',
-                    filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
-                  }}
-                />
-              </div>
+              />
+            </div>
 
-              {/* Title */}
-              <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
-                {benefit.title}
-              </h3>
+            {/* Title */}
+            <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
+              {benefit.title}
+            </h3>
 
-              {/* Description */}
-              <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
-                {benefit.description}
-              </p>
-            </motion.div>
-          </div>
-        ))}
-      </div>
+            {/* Description */}
+            <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
+              {benefit.description}
+            </p>
+          </motion.div>
+        </div>
+      ))}
 
-      {/* CAMADA 3: Gradiente Inferior */}
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none z-20" />
-
-      {/* CAMADA 4: Botão WhatsApp Centralizado */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30">
+      {/* BOTÃO WHATSAPP (Sticky no rodapé da seção) */}
+      <div className="sticky bottom-8 z-50 w-fit mx-auto pb-8">
         <WhatsAppButton />
       </div>
-
-      {/* Hide scrollbar styles */}
-      <style>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-        .scrollbar-hide {
-          -ms-overflow-style: none;
-          scrollbar-width: none;
-        }
-      `}</style>
     </section>
   );
 };

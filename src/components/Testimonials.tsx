@@ -54,7 +54,7 @@ const Testimonials = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-16 xs:py-20 sm:py-24 md:py-28 bg-[#F9FAFB]">
+    <section ref={ref} className="section-padding section-divider">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div
@@ -63,11 +63,11 @@ const Testimonials = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12 xs:mb-14 sm:mb-16 md:mb-20"
         >
-          <h2 className="mb-4 xs:mb-5 sm:mb-6 text-gray-900">
+          <h2 className="mb-4 xs:mb-5 sm:mb-6">
             Avaliações de<br />
-            <span className="bg-gradient-to-r from-purple-600 via-violet-600 to-purple-700 bg-clip-text text-transparent">quem contratou</span>
+            <span className="text-gradient">quem contratou</span>
           </h2>
-          <p className="text-base xs:text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base xs:text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             Feedback real de profissionais que confiaram em nosso trabalho.
           </p>
         </motion.div>
@@ -80,12 +80,12 @@ const Testimonials = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="p-6 xs:p-7 sm:p-8 rounded-xl xs:rounded-2xl bg-white border border-gray-200 shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="p-6 xs:p-7 sm:p-8 rounded-xl xs:rounded-2xl bg-[hsl(var(--review-bg))] border border-[hsl(var(--review-border))] shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               {/* Header: Google Icon + Date */}
               <div className="flex items-center justify-between mb-4">
                 <GoogleIcon />
-                <span className="text-xs text-gray-500">{testimonial.date}</span>
+                <span className="text-xs text-[hsl(var(--review-text-muted))]">{testimonial.date}</span>
               </div>
               
               {/* Stars */}
@@ -96,14 +96,14 @@ const Testimonials = () => {
               </div>
 
               {/* Content */}
-              <p className="text-gray-700 text-sm xs:text-base leading-relaxed mb-5">
+              <p className="text-[hsl(var(--review-text))] text-sm xs:text-base leading-relaxed mb-5">
                 "{testimonial.content}"
               </p>
 
               {/* Author */}
-              <div className="pt-4 border-t border-gray-100">
-                <p className="font-semibold text-gray-900 text-sm xs:text-base">{testimonial.name}</p>
-                <p className="text-gray-500 text-xs xs:text-sm">{testimonial.role}</p>
+              <div className="pt-4 border-t border-[hsl(var(--review-border))]">
+                <p className="font-semibold text-[hsl(var(--review-text))] text-sm xs:text-base">{testimonial.name}</p>
+                <p className="text-[hsl(var(--review-text-muted))] text-xs xs:text-sm">{testimonial.role}</p>
               </div>
             </motion.div>
           ))}
@@ -121,7 +121,7 @@ const Testimonials = () => {
               <Star key={i} className="h-4 w-4 fill-[hsl(var(--review-star))] text-[hsl(var(--review-star))]" />
             ))}
           </div>
-          <span className="text-sm text-gray-600">
+          <span className="text-sm text-muted-foreground">
             4.9 de média • 200+ avaliações
           </span>
         </motion.div>

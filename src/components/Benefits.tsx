@@ -166,11 +166,11 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* Fixed CTA at Bottom - with extra padding to avoid WhatsApp button overlap */}
+      {/* Fixed CTA at Bottom */}
       <div 
-        className="sticky bottom-0 z-30 pb-28 xs:pb-32 sm:pb-36 md:pb-40 pt-6 px-4 xs:px-6 pointer-events-none"
+        className="sticky bottom-0 z-30 pb-4 xs:pb-5 sm:pb-6 pt-6 px-4 xs:px-6 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.9) 60%, transparent 100%)',
+          background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 50%, transparent 100%)',
         }}
       >
         <div className="pointer-events-auto flex justify-center">

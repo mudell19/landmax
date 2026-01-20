@@ -61,6 +61,7 @@ const Benefits = () => {
   const isLastCardActiveRef = useRef(false);
   const isFirstCardActiveRef = useRef(false);
   const lastTouchYRef = useRef(0);
+  const hasReleasedSnapRef = useRef(false);
 
   useEffect(() => {
     // Generate random stars
@@ -136,17 +137,22 @@ const Benefits = () => {
 
     const handleTouchStart = (e: TouchEvent) => {
       lastTouchYRef.current = e.touches[0].clientY;
+      hasReleasedSnapRef.current = false;
     };
 
     const handleTouchMove = (e: TouchEvent) => {
+      if (hasReleasedSnapRef.current) return;
+      
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
       
-      // Threshold ultra-baixo para reagir antes do snap mandatory
-      if (isLastCardActiveRef.current && deltaY > 5) {
+      // Threshold de 20px para movimento intencional
+      if (isLastCardActiveRef.current && deltaY > 20) {
+        hasReleasedSnapRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
-      if (isFirstCardActiveRef.current && deltaY < -5) {
+      if (isFirstCardActiveRef.current && deltaY < -20) {
+        hasReleasedSnapRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
     };

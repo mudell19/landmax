@@ -150,7 +150,7 @@ const Benefits = () => {
       lastTouchYRef.current = currentY;
     };
 
-    // Touch: Manual snap on touch end
+    // Touch: Manual snap on touch end - advances to next/prev card based on scroll direction
     const handleTouchEnd = () => {
       if (!isTouchDeviceRef.current || !isInsideSectionRef.current || !section) return;
       
@@ -163,26 +163,34 @@ const Benefits = () => {
       const viewportHeight = window.innerHeight;
       const scrollY = window.scrollY;
       
-      // Find the card closest to viewport center
-      let closestCard = 0;
-      let closestDistance = Infinity;
+      // Find current card (the one most visible)
+      let currentCard = 0;
+      let maxVisibility = 0;
       
       cardRefs.current.forEach((card, index) => {
         if (!card) return;
-        // Card position accounting for the -100vh margin on first card
         const cardTop = card.offsetTop + section.offsetTop - viewportHeight;
-        const cardCenter = cardTop + viewportHeight / 2;
-        const viewportCenter = scrollY + viewportHeight / 2;
-        const distance = Math.abs(cardCenter - viewportCenter);
+        const cardBottom = cardTop + viewportHeight;
+        const visibleTop = Math.max(scrollY, cardTop);
+        const visibleBottom = Math.min(scrollY + viewportHeight, cardBottom);
+        const visibility = Math.max(0, visibleBottom - visibleTop);
         
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestCard = index;
+        if (visibility > maxVisibility) {
+          maxVisibility = visibility;
+          currentCard = index;
         }
       });
       
-      // Smooth scroll to closest card
-      const targetCard = cardRefs.current[closestCard];
+      // Determine target card based on scroll direction
+      let targetIndex = currentCard;
+      if (lastScrollDirectionRef.current === 'down' && currentCard < benefits.length - 1) {
+        targetIndex = currentCard + 1;
+      } else if (lastScrollDirectionRef.current === 'up' && currentCard > 0) {
+        targetIndex = currentCard - 1;
+      }
+      
+      // Smooth scroll to target card
+      const targetCard = cardRefs.current[targetIndex];
       if (targetCard) {
         const targetY = targetCard.offsetTop + section.offsetTop - viewportHeight;
         window.scrollTo({ top: targetY, behavior: 'smooth' });

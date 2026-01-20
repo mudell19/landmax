@@ -42,7 +42,7 @@ const Comparison = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="section-padding">
+    <section ref={ref} className="section-padding bg-card/30">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div
@@ -55,80 +55,52 @@ const Comparison = () => {
             Por que somos <span className="text-gradient">diferentes?</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Compare nosso serviço com agências tradicionais.
+            Veja como nos comparamos com agências tradicionais
           </p>
         </motion.div>
 
-        {/* Comparison Cards - Mobile optimized */}
+        {/* Comparison Table */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          {/* Desktop Table Header */}
-          <div className="hidden md:grid grid-cols-3 gap-4 mb-6">
-            <div className="text-lg font-bold text-muted-foreground">Recurso</div>
+          {/* Table Header */}
+          <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4">
+            <div></div>
             <div className="text-center">
-              <div className="inline-flex flex-col items-center px-6 py-3 rounded-xl bg-gradient-primary">
-                <span className="text-lg font-bold text-primary-foreground">SitePro</span>
+              <div className="inline-block px-4 py-2 md:px-6 md:py-3 rounded-xl bg-gradient-primary">
+                <span className="text-sm md:text-lg font-bold text-primary-foreground">SitePro</span>
               </div>
             </div>
             <div className="text-center">
-              <div className="inline-flex flex-col items-center px-6 py-3 rounded-xl bg-card border border-border">
-                <span className="text-lg font-bold text-muted-foreground">Agências</span>
+              <div className="inline-block px-4 py-2 md:px-6 md:py-3 rounded-xl bg-muted/50 border border-border">
+                <span className="text-sm md:text-lg font-bold text-muted-foreground">Agências</span>
               </div>
-            </div>
-          </div>
-
-          {/* Mobile: Two column cards */}
-          <div className="md:hidden grid grid-cols-2 gap-4 mb-6">
-            <div className="p-4 rounded-2xl bg-gradient-primary text-center">
-              <span className="text-lg font-bold text-primary-foreground">SitePro</span>
-            </div>
-            <div className="p-4 rounded-2xl bg-card border border-border text-center">
-              <span className="text-lg font-bold text-muted-foreground">Agências</span>
             </div>
           </div>
 
           {/* Comparison Rows */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             {comparisonData.map((item, index) => (
               <motion.div
                 key={item.feature}
                 initial={{ opacity: 0, x: -20 }}
                 animate={isInView ? { opacity: 1, x: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.3 + index * 0.05 }}
-                className="rounded-xl bg-card/50 border border-border hover:border-primary/30 transition-colors overflow-hidden"
+                className="grid grid-cols-3 gap-2 md:gap-4 items-center p-3 md:p-4 rounded-xl bg-card border border-border hover:border-primary/30 transition-colors"
               >
-                {/* Mobile Layout */}
-                <div className="md:hidden">
-                  <div className="px-4 py-3 bg-card/80 border-b border-border">
-                    <span className="font-semibold text-foreground">{item.feature}</span>
-                  </div>
-                  <div className="grid grid-cols-2 divide-x divide-border">
-                    <div className="p-4 flex items-center gap-2">
-                      <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                      <span className="text-sm text-foreground font-medium">{item.us}</span>
-                    </div>
-                    <div className="p-4 flex items-center gap-2">
-                      <X className="h-4 w-4 text-destructive/70 flex-shrink-0" />
-                      <span className="text-sm text-muted-foreground">{item.others}</span>
-                    </div>
-                  </div>
+                <div className="text-sm md:text-base font-medium text-foreground">
+                  {item.feature}
                 </div>
-
-                {/* Desktop Layout */}
-                <div className="hidden md:grid grid-cols-3 gap-4 p-4">
-                  <div className="flex items-center font-medium">{item.feature}</div>
-                  <div className="flex items-center justify-center gap-2 text-center">
-                    <Check className="h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground font-medium">{item.us}</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2 text-center">
-                    <X className="h-5 w-5 text-destructive/70 flex-shrink-0" />
-                    <span className="text-muted-foreground">{item.others}</span>
-                  </div>
+                <div className="flex items-center justify-center gap-1 md:gap-2 text-center">
+                  <Check className="h-4 w-4 md:h-5 md:w-5 text-primary flex-shrink-0" />
+                  <span className="text-xs md:text-sm text-foreground font-medium">{item.us}</span>
+                </div>
+                <div className="flex items-center justify-center gap-1 md:gap-2 text-center">
+                  <X className="h-4 w-4 md:h-5 md:w-5 text-destructive/60 flex-shrink-0" />
+                  <span className="text-xs md:text-sm text-muted-foreground">{item.others}</span>
                 </div>
               </motion.div>
             ))}

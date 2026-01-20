@@ -8,7 +8,7 @@ const benefits = [
   {
     icon: DollarSign,
     title: "Pagamento Após Entrega",
-    description: "Você só paga quando aprovar o projeto. Risco zero para você.",
+    description: "Você só paga quando receber o site. Risco zero para você.",
     highlighted: true
   },
   {

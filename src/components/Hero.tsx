@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Check, Zap, Shield, Clock } from "lucide-react";
+import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState } from "react";
 
@@ -54,7 +54,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white border border-primary/30 mb-8 shadow-lg"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/30 mb-8"
           >
             <Zap className="h-4 w-4 text-primary" />
             <span className="text-sm font-bold text-primary">
@@ -80,7 +80,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
           >
-            Landing pages de alta conversão que transformam visitantes em clientes.
+            Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-foreground font-semibold">Pague somente na entrega.</span>
           </motion.p>
 
           {/* Price Card */}
@@ -112,26 +112,6 @@ const Hero = () => {
             <WhatsAppButton showResponseTime />
           </motion.div>
 
-          {/* Trust Elements - Simple text format like reference */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-wrap items-center justify-center gap-6 md:gap-12"
-          >
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-primary" />
-              <span className="text-muted-foreground">Pague só na entrega</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span className="text-muted-foreground">Entrega em 2 dias</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-primary" />
-              <span className="text-muted-foreground">Suporte por 30 dias</span>
-            </div>
-          </motion.div>
         </div>
       </div>
 

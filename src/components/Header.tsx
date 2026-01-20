@@ -27,10 +27,7 @@ const Header = () => {
             <WhatsAppButton text="Falar no WhatsApp" />
           </nav>
 
-          {/* Mobile - Only CTA button, no menu */}
-          <div className="md:hidden">
-            <WhatsAppButton text="WhatsApp" />
-          </div>
+          {/* Mobile - Logo only, clean header */}
         </div>
       </div>
     </motion.header>

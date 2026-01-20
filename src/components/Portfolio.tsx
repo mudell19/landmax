@@ -103,65 +103,61 @@ const Portfolio = () => {
           </p>
         </motion.div>
 
-        {/* Portfolio Grid - Bento style */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        {/* Portfolio Grid - Mobile Screenshots */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
-              className={`group relative aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden cursor-pointer ${
-                index === 0 || index === 5 ? 'md:col-span-2 md:row-span-2' : ''
-              }`}
+              className="group relative"
             >
-              {/* Background Image */}
-              <img
-                src={project.image}
-                alt={`${project.name} - ${project.niche}`}
-                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-110"
-                loading="lazy"
-              />
-              
-              {/* Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300`} />
-              
-              {/* Colored accent overlay on hover */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              {/* Content */}
-              <div className="absolute inset-0 p-4 md:p-6 flex flex-col justify-end">
-                {/* Niche Badge */}
-                <motion.span 
-                  className="inline-block self-start px-3 py-1 md:px-4 md:py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] md:text-xs font-semibold uppercase tracking-wider mb-2 md:mb-3"
-                  initial={false}
-                  animate={{ 
-                    y: hoveredIndex === index ? 0 : 5,
-                    opacity: hoveredIndex === index ? 1 : 0.8
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  {project.niche}
-                </motion.span>
+              {/* Mobile Screenshot Container */}
+              <div className="relative aspect-[9/16] rounded-xl md:rounded-2xl overflow-hidden bg-neutral-900 shadow-xl group-hover:shadow-2xl transition-shadow duration-300">
+                {/* Screenshot Image */}
+                <img
+                  src={project.image}
+                  alt={`${project.name} - ${project.niche}`}
+                  className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
                 
-                {/* Name */}
-                <motion.h3 
-                  className="text-white font-bold text-sm md:text-lg lg:text-xl leading-tight"
-                  initial={false}
-                  animate={{ 
-                    y: hoveredIndex === index ? 0 : 5
-                  }}
-                  transition={{ duration: 0.3, delay: 0.05 }}
-                >
-                  {project.name}
-                </motion.h3>
-              </div>
-
-              {/* Shine effect on hover */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                {/* Bottom Gradient for text readability */}
+                <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+                
+                {/* Colored accent overlay on hover */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                
+                {/* Content */}
+                <div className="absolute inset-x-0 bottom-0 p-3 md:p-4">
+                  {/* Niche Badge */}
+                  <motion.span 
+                    className="inline-block px-2 py-0.5 md:px-3 md:py-1 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-white text-[9px] md:text-[10px] font-semibold uppercase tracking-wider mb-1.5 md:mb-2"
+                    initial={false}
+                    animate={{ 
+                      y: hoveredIndex === index ? 0 : 3,
+                      opacity: hoveredIndex === index ? 1 : 0.9
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {project.niche}
+                  </motion.span>
+                  
+                  {/* Name */}
+                  <motion.h3 
+                    className="text-white font-semibold text-xs md:text-sm leading-tight"
+                    initial={false}
+                    animate={{ 
+                      y: hoveredIndex === index ? 0 : 3
+                    }}
+                    transition={{ duration: 0.3, delay: 0.05 }}
+                  >
+                    {project.name}
+                  </motion.h3>
+                </div>
               </div>
             </motion.div>
           ))}

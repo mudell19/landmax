@@ -74,7 +74,7 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative py-20 px-4 xs:px-6 sm:px-8 overflow-hidden min-h-screen" 
+      className="relative py-20 px-4 xs:px-6 sm:px-8 overflow-hidden h-screen sticky top-0" 
       style={{ backgroundColor: '#000000' }}
     >
       {/* Starfield Background */}

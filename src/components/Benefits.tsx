@@ -61,6 +61,8 @@ const Benefits = () => {
   const isLastCardActiveRef = useRef(false);
   const isFirstCardActiveRef = useRef(false);
   const lastTouchYRef = useRef(0);
+  const isExitingRef = useRef(false);
+  const exitCooldownRef = useRef<number | null>(null);
 
   useEffect(() => {
     // Generate random stars
@@ -84,10 +86,34 @@ const Benefits = () => {
     const firstCard = firstCardRef.current;
     if (!section || !lastCard || !firstCard) return;
 
+    const startExitCooldown = () => {
+      if (exitCooldownRef.current) window.clearTimeout(exitCooldownRef.current);
+      exitCooldownRef.current = window.setTimeout(() => {
+        isExitingRef.current = false;
+      }, 900);
+    };
+
+    const exitBenefits = (direction: "next" | "prev") => {
+      if (isExitingRef.current) return;
+      isExitingRef.current = true;
+      document.documentElement.classList.remove('snap-benefits-active');
+
+      const target =
+        direction === "next"
+          ? (section.nextElementSibling as HTMLElement | null)
+          : (section.previousElementSibling as HTMLElement | null);
+
+      // Smoothly hand control back to normal page scroll by jumping to the neighbor section.
+      // This avoids iOS "re-snapping" + momentum fights that cause the stutter at the edges.
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+      startExitCooldown();
+    };
+
     // Observer for the section - enables snap when entering
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
+          if (isExitingRef.current) return;
           if (entry.intersectionRatio > 0.1) {
             document.documentElement.classList.add('snap-benefits-active');
           } else if (entry.intersectionRatio < 0.05) {
@@ -127,9 +153,14 @@ const Benefits = () => {
     // Release snap when user tries to scroll DOWN while on last card or UP while on first card
     const handleWheel = (e: WheelEvent) => {
       if (isLastCardActiveRef.current && e.deltaY > 0) {
+        // We need to cancel the native wheel momentum to avoid snap "fighting" the scroll.
+        e.preventDefault();
+        exitBenefits("next");
         document.documentElement.classList.remove('snap-benefits-active');
       }
       if (isFirstCardActiveRef.current && e.deltaY < 0) {
+        e.preventDefault();
+        exitBenefits("prev");
         document.documentElement.classList.remove('snap-benefits-active');
       }
     };
@@ -138,17 +169,22 @@ const Benefits = () => {
       lastTouchYRef.current = e.touches[0].clientY;
     };
 
-    const handleTouchEnd = (e: TouchEvent) => {
-      const endY = e.changedTouches[0].clientY;
-      const deltaY = lastTouchYRef.current - endY;
-      const isScrollingDown = deltaY > 20; // Swipe up = scroll down
-      const isScrollingUp = deltaY < -20;  // Swipe down = scroll up
-      
+    const handleTouchMove = (e: TouchEvent) => {
+      // Use touchmove (non-passive) so we can cancel native momentum at the edges on iOS.
+      if (e.touches.length === 0) return;
+
+      const currentY = e.touches[0].clientY;
+      const deltaY = lastTouchYRef.current - currentY;
+      const isScrollingDown = deltaY > 28; // Swipe up = scroll down
+      const isScrollingUp = deltaY < -28;  // Swipe down = scroll up
+
       if (isLastCardActiveRef.current && isScrollingDown) {
-        document.documentElement.classList.remove('snap-benefits-active');
+        e.preventDefault();
+        exitBenefits("next");
       }
       if (isFirstCardActiveRef.current && isScrollingUp) {
-        document.documentElement.classList.remove('snap-benefits-active');
+        e.preventDefault();
+        exitBenefits("prev");
       }
     };
 
@@ -156,18 +192,19 @@ const Benefits = () => {
     lastCardObserver.observe(lastCard);
     firstCardObserver.observe(firstCard);
     
-    window.addEventListener('wheel', handleWheel, { passive: true });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    section.addEventListener('touchstart', handleTouchStart, { passive: true });
+    section.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
       sectionObserver.disconnect();
       lastCardObserver.disconnect();
       firstCardObserver.disconnect();
       window.removeEventListener('wheel', handleWheel);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
+      section.removeEventListener('touchstart', handleTouchStart);
+      section.removeEventListener('touchmove', handleTouchMove);
       document.documentElement.classList.remove('snap-benefits-active');
+      if (exitCooldownRef.current) window.clearTimeout(exitCooldownRef.current);
     };
   }, []);
 

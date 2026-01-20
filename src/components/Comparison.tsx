@@ -42,7 +42,7 @@ const Comparison = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 bg-card/30">
+    <section ref={ref} className="section-padding bg-card/30">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div

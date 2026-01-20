@@ -1,54 +1,44 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { Star } from "lucide-react";
-
-// Google "G" logo component
-const GoogleIcon = () => (
-  <svg viewBox="0 0 24 24" className="w-5 h-5 xs:w-6 xs:h-6">
-    <path
-      fill="#4285F4"
-      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-    />
-    <path
-      fill="#34A853"
-      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-    />
-    <path
-      fill="#FBBC05"
-      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-    />
-    <path
-      fill="#EA4335"
-      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-    />
-  </svg>
-);
+import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Pedro Henrique",
-    role: "Dono de E-commerce",
-    content: "Sinceramente? Eu duvidei que entregariam em 2 dias. Mas cumpriram. Eu precisava do site urgente pra rodar tráfego pago e não podia esperar 30 dias com agência tradicional. O site tá voando de rápido e a conversão dos anúncios melhorou na hora. Recomendo pra quem quer resultado e não enrolação.",
-    rating: 5,
-    date: "há 2 dias",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+    name: "Dr. Ricardo Mendes",
+    role: "Advogado Trabalhista",
+    content: "Incrível! Em menos de uma semana eu já tinha meu site funcionando e captando clientes. O investimento se pagou no primeiro mês.",
+    rating: 5
   },
   {
-    name: "Dra. Fernanda S.",
-    role: "Harmonização Facial",
-    content: "Meu Instagram era lindo, mas meu site antigo era uma vergonha. Eu perdia clientes high-ticket por isso. A equipe reformulou tudo. Ficou clean, chique e muito fácil de usar no celular. Hoje quando mando o link no WhatsApp, o cliente já sente firmeza. O investimento se pagou na primeira semana.",
-    rating: 5,
-    date: "há 5 dias",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+    name: "Dra. Camila Santos",
+    role: "Ortodontista",
+    content: "Atendimento impecável e resultado além das expectativas. Meus agendamentos triplicaram depois do novo site.",
+    rating: 5
   },
   {
-    name: "Carlos Eduardo",
-    role: "Engenharia e Reformas",
-    content: "Eu não entendo nada de programação e nem quero entender. Só queria um portfólio pra mostrar minhas obras. O pessoal da SitePro resolveu tudo: domínio, hospedagem, e-mail. Eu só mandei as fotos pelo Zap e aprovei. Serviço de primeira, sem tecniquês.",
-    rating: 5,
-    date: "há 1 semana",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+    name: "Fernando Costa",
+    role: "CEO - Imobiliária Costa",
+    content: "Profissionalismo do início ao fim. Entregaram antes do prazo e o suporte é excelente. Super recomendo!",
+    rating: 5
+  },
+  {
+    name: "Juliana Oliveira",
+    role: "Personal Trainer",
+    content: "Minha página de vendas converteu 3x mais que a anterior. Valeu cada centavo investido!",
+    rating: 5
+  },
+  {
+    name: "Marcos Almeida",
+    role: "Arquiteto",
+    content: "Finalmente um portfólio que mostra meu trabalho do jeito que eu sempre quis. Design impecável.",
+    rating: 5
+  },
+  {
+    name: "Patricia Lima",
+    role: "Esteticista",
+    content: "O site ficou lindo e super fácil de usar. Minhas clientes adoraram a praticidade de ver os procedimentos.",
+    rating: 5
   }
 ];
 
@@ -57,11 +47,7 @@ const Testimonials = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section 
-      ref={ref} 
-      className="py-20"
-      style={{ backgroundColor: '#F9FAFB' }}
-    >
+    <section ref={ref} className="section-padding">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div
@@ -70,17 +56,17 @@ const Testimonials = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-10 xs:mb-12 sm:mb-16 md:mb-20"
         >
-          <h2 className="mb-4 xs:mb-5 sm:mb-6 text-gray-900">
-            Avaliações de quem<br />
-            <span className="text-gradient">contratou</span>
+          <h2 className="mb-4 xs:mb-5 sm:mb-6">
+            O que nossos<br />
+            <span className="text-gradient">clientes dizem</span>
           </h2>
-          <p className="text-base xs:text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-            Veja o que nossos clientes dizem<br className="hidden md:block" />
-            sobre a experiência com a SitePro.
+          <p className="text-base xs:text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            Mais de 200 projetos entregues<br className="hidden md:block" />
+            com avaliação média de 4.9 estrelas.
           </p>
         </motion.div>
 
-        {/* Testimonials Grid - Google Style */}
+        {/* Testimonials Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-6 sm:gap-8">
           {testimonials.map((testimonial, index) => (
             <motion.div
@@ -88,37 +74,27 @@ const Testimonials = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="p-5 xs:p-6 sm:p-8 rounded-xl xs:rounded-2xl bg-white shadow-md relative"
+              className="p-5 xs:p-6 sm:p-8 rounded-xl xs:rounded-2xl bg-card border border-border relative"
             >
-              {/* Header: Google Icon + Date */}
-              <div className="flex items-start justify-between mb-3 xs:mb-4">
-                <GoogleIcon />
-                <span className="text-xs xs:text-sm text-gray-400">{testimonial.date}</span>
-              </div>
+              {/* Quote Icon */}
+              <Quote className="absolute top-4 right-4 xs:top-6 xs:right-6 h-8 w-8 xs:h-10 xs:w-10 text-primary/20" />
               
               {/* Stars */}
-              <div className="flex gap-0.5 xs:gap-1 mb-4 xs:mb-5">
+              <div className="flex gap-0.5 xs:gap-1 mb-4 xs:mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="h-4 w-4 xs:h-5 xs:w-5 fill-amber-400 text-amber-400" />
+                  <Star key={i} className="h-4 w-4 xs:h-5 xs:w-5 fill-primary text-primary" />
                 ))}
               </div>
 
               {/* Content */}
-              <p className="text-gray-700 text-sm xs:text-base leading-relaxed mb-5 xs:mb-6">
+              <p className="text-foreground text-sm xs:text-base sm:text-lg mb-4 xs:mb-6 leading-relaxed">
                 "{testimonial.content}"
               </p>
 
-              {/* Author with Avatar */}
-              <div className="flex items-center gap-3">
-                <img 
-                  src={testimonial.avatar} 
-                  alt={testimonial.name}
-                  className="w-10 h-10 xs:w-12 xs:h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-bold text-sm xs:text-base text-gray-900">{testimonial.name}</p>
-                  <p className="text-gray-500 text-xs xs:text-sm">{testimonial.role}</p>
-                </div>
+              {/* Author */}
+              <div>
+                <p className="font-bold text-base xs:text-lg">{testimonial.name}</p>
+                <p className="text-muted-foreground text-sm xs:text-base">{testimonial.role}</p>
               </div>
             </motion.div>
           ))}

@@ -84,7 +84,7 @@ const Portfolio = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section ref={ref} id="portfolio" className="py-20 bg-black">
+    <section ref={ref} id="portfolio" className="section-padding bg-black">
       <div className="container-premium">
         {/* Section Header */}
         <motion.div

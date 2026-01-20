@@ -49,7 +49,7 @@ const FAQ = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section ref={ref} className="py-20 section-light">
+    <section ref={ref} className="section-padding section-light">
       <div className="container-premium">
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}

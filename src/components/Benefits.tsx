@@ -88,9 +88,9 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Sticky Header - Immediately visible at section start with margin barrier */}
+      {/* Sticky Header - Immediately visible at section start */}
       <div 
-        className="sticky top-0 z-20 pt-4 xs:pt-6 sm:pt-8 pb-4 px-4 xs:px-6 sm:px-8 mb-16 md:mb-24"
+        className="sticky top-0 z-20 pt-4 xs:pt-6 sm:pt-8 pb-4 px-4 xs:px-6 sm:px-8"
         style={{
           background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 70%, transparent 100%)',
         }}
@@ -166,9 +166,9 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* Fixed CTA at Bottom with Safe Area for WhatsApp floating button */}
+      {/* Fixed CTA at Bottom */}
       <div 
-        className="sticky bottom-0 z-30 pb-40 pt-6 px-4 xs:px-6 pointer-events-none"
+        className="sticky bottom-0 z-30 pb-4 xs:pb-5 sm:pb-6 pt-6 px-4 xs:px-6 pointer-events-none"
         style={{
           background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.8) 50%, transparent 100%)',
         }}

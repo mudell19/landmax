@@ -90,47 +90,50 @@ const Portfolio = () => {
           </p>
         </motion.div>
 
-        {/* Portfolio Grid - Apple Fitness+ inspired cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+        {/* Portfolio Grid - Clean iPhone mockup style */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
           {projects.map((project, index) => (
             <motion.div
               key={project.name}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.06 }}
-              className="group"
+              className="group flex flex-col items-center"
             >
-              {/* Mobile Device Mockup Card */}
-              <div className="relative rounded-3xl overflow-hidden bg-gradient-to-b from-card to-card/80 p-4 md:p-5 shadow-2xl border border-border/50">
+              {/* iPhone Mockup - Clean floating design */}
+              <div className="relative w-full max-w-[260px] mx-auto">
+                {/* Phone Shadow */}
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-[80%] h-8 bg-black/20 rounded-full blur-xl" />
+                
                 {/* Phone Frame */}
-                <div className="relative mx-auto" style={{ maxWidth: '280px' }}>
-                  {/* Phone Bezel */}
-                  <div className="relative rounded-[2rem] overflow-hidden bg-black p-2 shadow-inner">
-                    {/* Dynamic Island / Notch */}
-                    <div className="absolute top-4 left-1/2 -translate-x-1/2 w-20 h-5 bg-black rounded-full z-20" />
-                    
-                    {/* Screen */}
-                    <div className="relative rounded-[1.5rem] overflow-hidden aspect-[9/19]">
+                <div className="relative bg-[#1a1a1a] rounded-[2.5rem] p-[10px] shadow-2xl">
+                  {/* Dynamic Island */}
+                  <div className="absolute top-5 left-1/2 -translate-x-1/2 w-24 h-7 bg-black rounded-full z-20" />
+                  
+                  {/* Screen Container */}
+                  <div className="relative rounded-[2rem] overflow-hidden bg-black">
+                    {/* Screen Content - Mobile aspect ratio */}
+                    <div className="relative aspect-[9/19.5]">
                       <img
                         src={project.image}
-                        alt={project.name}
-                        className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                        alt={`${project.name} - ${project.niche}`}
+                        className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                         loading="lazy"
                       />
-                      
-                      {/* Gradient Overlay at bottom */}
-                      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     </div>
                   </div>
+                  
+                  {/* Home Indicator */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-28 h-1 bg-white/30 rounded-full" />
                 </div>
+              </div>
 
-                {/* Project Info - Below the phone */}
-                <div className="mt-5 text-center">
-                  <span className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-2">
-                    {project.niche}
-                  </span>
-                  <h3 className="text-lg font-bold text-foreground">{project.name}</h3>
-                </div>
+              {/* Project Info - Clean minimal style below phone */}
+              <div className="mt-6 text-center">
+                <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider mb-2">
+                  {project.niche}
+                </span>
+                <h3 className="text-lg font-bold text-foreground">{project.name}</h3>
               </div>
             </motion.div>
           ))}

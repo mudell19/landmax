@@ -74,7 +74,7 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative py-20 px-4 xs:px-6 sm:px-8 overflow-hidden h-screen sticky top-0" 
+      className="relative h-screen overflow-hidden" 
       style={{ backgroundColor: '#000000' }}
     >
       {/* Starfield Background */}
@@ -91,13 +91,13 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Header */}
+      {/* Header - Absolute positioned */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center mb-10 xs:mb-12 sm:mb-16 relative z-10"
+        className="absolute top-16 left-0 right-0 text-center z-10 px-4"
       >
         <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
           Por que escolher a<br />
@@ -111,69 +111,21 @@ const Benefits = () => {
         </p>
       </motion.div>
 
-      {/* Scroll Snap Container - Relative wrapper */}
-      <div className="relative max-w-4xl mx-auto">
-        {/* Scrollable Cards Area with Snap */}
-        <div 
-          className="snap-y snap-mandatory overflow-y-auto h-[500px] scrollbar-hide"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', overscrollBehaviorY: 'contain' }}
-        >
-          {benefits.map((benefit, index) => (
-            <div 
-              key={benefit.title}
-              className="h-[500px] snap-center flex items-center justify-center px-4"
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: false, amount: 0.5 }}
-                transition={{ duration: 0.5 }}
-                className="text-center max-w-lg mx-auto pb-24"
-              >
-                {/* Glowing Icon */}
-                <div 
-                  className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
-                    boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
-                    border: '1px solid rgba(139, 92, 246, 0.4)',
-                  }}
-                >
-                  <benefit.icon 
-                    className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
-                    style={{ 
-                      color: '#a78bfa',
-                      filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
-                    }}
-                  />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
-                  {benefit.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
-                  {benefit.description}
-                </p>
-
-                {/* Benefit number indicator */}
-                <div className="mt-6 xs:mt-8 text-purple-500/50 text-sm font-medium">
-                  {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
-                </div>
-              </motion.div>
-            </div>
-          ))}
+      {/* Scrollable Cards Area - Absolute inset with snap */}
+      <div 
+        className="absolute inset-0 pt-48 pb-32 overflow-y-auto snap-y snap-mandatory scrollbar-hide"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      >
+        <div className="max-w-4xl mx-auto">
         </div>
+      </div>
 
-        {/* Fixed CTA with Fade Mask - Positioned at bottom of scroll container */}
-        <div 
-          className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/80 to-transparent pt-16 pb-6 pointer-events-none"
-        >
-          <div className="pointer-events-auto flex justify-center">
-            <WhatsAppButton showResponseTime />
-          </div>
+      {/* Fixed CTA with Fade Mask - Absolute at bottom, above scroll */}
+      <div 
+        className="absolute bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-black via-black/80 to-transparent pt-16 pb-6 pointer-events-none"
+      >
+        <div className="pointer-events-auto flex justify-center">
+          <WhatsAppButton showResponseTime />
         </div>
       </div>
 

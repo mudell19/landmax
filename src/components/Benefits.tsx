@@ -58,7 +58,6 @@ const Benefits = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const lastCardRef = useRef<HTMLDivElement>(null);
   const firstCardRef = useRef<HTMLDivElement>(null);
-  const isAtEndRef = useRef(false);
   const isLastCardActiveRef = useRef(false);
   const isFirstCardActiveRef = useRef(false);
   const lastTouchYRef = useRef(0);
@@ -89,11 +88,10 @@ const Benefits = () => {
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0.1 && !isAtEndRef.current) {
+          if (entry.intersectionRatio > 0.1) {
             document.documentElement.classList.add('snap-benefits-active');
           } else if (entry.intersectionRatio < 0.05) {
             document.documentElement.classList.remove('snap-benefits-active');
-            isAtEndRef.current = false;
             isLastCardActiveRef.current = false;
             isFirstCardActiveRef.current = false;
           }
@@ -129,7 +127,6 @@ const Benefits = () => {
     // Release snap when user tries to scroll DOWN while on last card or UP while on first card
     const handleWheel = (e: WheelEvent) => {
       if (isLastCardActiveRef.current && e.deltaY > 0) {
-        isAtEndRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
       if (isFirstCardActiveRef.current && e.deltaY < 0) {
@@ -147,7 +144,6 @@ const Benefits = () => {
       const isScrollingUp = currentY > lastTouchYRef.current + 10;
       
       if (isLastCardActiveRef.current && isScrollingDown) {
-        isAtEndRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
       if (isFirstCardActiveRef.current && isScrollingUp) {

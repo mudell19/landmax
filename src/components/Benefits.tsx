@@ -58,7 +58,7 @@ const Benefits = () => {
 
   useEffect(() => {
     // Generate random stars
-    const generatedStars = Array.from({ length: 150 }, (_, i) => ({
+    const generatedStars = Array.from({ length: 100 }, (_, i) => ({
       id: i,
       style: {
         left: `${Math.random() * 100}%`,
@@ -71,144 +71,120 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
-  // Total height = header (100vh) + cards (6 * 100vh) = 700vh
-  const totalCards = benefits.length;
-
   return (
     <section 
       id="benefits-section"
-      className="relative" 
-      style={{ 
-        backgroundColor: '#000000',
-        height: `${(totalCards + 1) * 100}vh`, // 700vh total
-      }}
+      className="relative py-20 px-4 xs:px-6 sm:px-8 overflow-hidden" 
+      style={{ backgroundColor: '#000000' }}
     >
-      {/* Continuous Starfield Background - Fixed within section */}
-      <div className="sticky top-0 h-screen overflow-hidden pointer-events-none">
+      {/* Starfield Background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
         {/* Subtle purple glow in center */}
         <div 
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-20"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20"
           style={{
             background: 'radial-gradient(circle, hsl(270 80% 60% / 0.3) 0%, transparent 70%)',
           }}
         />
       </div>
 
-      {/* Sticky Header - Stays fixed at top while scrolling through cards */}
-      <div 
-        className="sticky top-0 z-20 pt-8 xs:pt-10 sm:pt-12 md:pt-16 pb-4 px-4 xs:px-6 sm:px-8"
-        style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 70%, transparent 100%)',
-        }}
+      {/* Header */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="text-center mb-10 xs:mb-12 sm:mb-16 relative z-10"
       >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
+        <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+          Por que escolher a<br />
+          <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+            nossa equipe?
+          </span>
+        </h2>
+        <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          Simplificamos todo o processo para que você<br className="hidden md:block" />
+          tenha um site profissional sem dor de cabeça.
+        </p>
+      </motion.div>
+
+      {/* Scroll Snap Container - Relative wrapper */}
+      <div className="relative max-w-4xl mx-auto">
+        {/* Scrollable Cards Area with Snap */}
+        <div 
+          className="snap-y snap-mandatory overflow-y-auto h-[500px] scrollbar-hide"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
-            Por que escolher a<br />
-            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-              nossa equipe?
-            </span>
-          </h2>
-          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-            Simplificamos todo o processo para que você<br className="hidden md:block" />
-            tenha um site profissional sem dor de cabeça.
-          </p>
-        </motion.div>
-      </div>
-
-      {/* Benefits Cards Container - Each 100vh with scroll snap */}
-      <div className="absolute inset-0 snap-y snap-mandatory overflow-y-auto h-full scrollbar-thin"
-        style={{
-          scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(139, 92, 246, 0.5) transparent',
-        }}
-      >
-        {/* Spacer for header */}
-        <div className="h-screen snap-start snap-always" />
-
-        {/* Benefits - Each as Full Screen Snap Item */}
-        {benefits.map((benefit, index) => (
-          <div 
-            key={benefit.title}
-            className="h-screen snap-start snap-always flex items-center justify-center px-4 xs:px-6 sm:px-8"
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
-              transition={{ duration: 0.5 }}
-              className="text-center max-w-lg mx-auto"
+          {benefits.map((benefit, index) => (
+            <div 
+              key={benefit.title}
+              className="h-[500px] snap-center flex items-center justify-center px-4"
             >
-              {/* Glowing Icon */}
-              <div 
-                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8 sm:mb-10"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
-                  boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
-                  border: '1px solid rgba(139, 92, 246, 0.4)',
-                }}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false, amount: 0.5 }}
+                transition={{ duration: 0.5 }}
+                className="text-center max-w-lg mx-auto pb-24"
               >
-                <benefit.icon 
-                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
-                  style={{ 
-                    color: '#a78bfa',
-                    filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
+                {/* Glowing Icon */}
+                <div 
+                  className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                    boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
+                    border: '1px solid rgba(139, 92, 246, 0.4)',
                   }}
-                />
-              </div>
+                >
+                  <benefit.icon 
+                    className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
+                    style={{ 
+                      color: '#a78bfa',
+                      filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
+                    }}
+                  />
+                </div>
 
-              {/* Title */}
-              <h3 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 xs:mb-5 sm:mb-6">
-                {benefit.title}
-              </h3>
+                {/* Title */}
+                <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
+                  {benefit.title}
+                </h3>
 
-              {/* Description */}
-              <p className="text-base xs:text-lg sm:text-xl md:text-2xl text-gray-400 leading-relaxed max-w-md mx-auto">
-                {benefit.description}
-              </p>
+                {/* Description */}
+                <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
+                  {benefit.description}
+                </p>
 
-              {/* Benefit number indicator */}
-              <div className="mt-8 xs:mt-10 sm:mt-12 text-purple-500/50 text-sm font-medium">
-                {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
-              </div>
-            </motion.div>
+                {/* Benefit number indicator */}
+                <div className="mt-6 xs:mt-8 text-purple-500/50 text-sm font-medium">
+                  {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
+                </div>
+              </motion.div>
+            </div>
+          ))}
+        </div>
+
+        {/* Fixed CTA with Fade Mask - Positioned at bottom of scroll container */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/80 to-transparent pt-16 pb-6 pointer-events-none"
+        >
+          <div className="pointer-events-auto flex justify-center">
+            <WhatsAppButton showResponseTime />
           </div>
-        ))}
-      </div>
-
-      {/* Fixed CTA at Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 pb-5 xs:pb-6 sm:pb-8 pt-8 px-4 xs:px-6 pointer-events-none"
-        style={{
-          background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%)',
-        }}
-      >
-        <div className="pointer-events-auto flex justify-center">
-          <WhatsAppButton showResponseTime />
         </div>
       </div>
 
-      {/* Custom Scrollbar Styles */}
+      {/* Hide scrollbar styles */}
       <style>{`
-        .scrollbar-thin::-webkit-scrollbar {
-          width: 4px;
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
         }
-        .scrollbar-thin::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb {
-          background: rgba(139, 92, 246, 0.5);
-          border-radius: 10px;
-        }
-        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-          background: rgba(139, 92, 246, 0.8);
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </section>

@@ -58,13 +58,13 @@ const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SI
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        <Button variant="whatsapp" size="xl" className="w-full sm:w-auto gap-3 font-black tracking-wide uppercase">
-          <WhatsAppIcon className="h-5 w-5" />
+        <Button variant="whatsapp" size="xl" className="w-full sm:w-auto gap-2 xs:gap-3 font-black tracking-wide uppercase text-xs xs:text-sm px-4 xs:px-6 sm:px-8">
+          <WhatsAppIcon className="h-4 w-4 xs:h-5 xs:w-5" />
           {text}
         </Button>
       </motion.a>
       {showResponseTime && (
-        <span className="text-sm text-muted-foreground">Resposta em até 5 minutos</span>
+        <span className="text-xs xs:text-sm text-muted-foreground">Resposta em até 5 minutos</span>
       )}
     </div>
   );

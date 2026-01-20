@@ -91,23 +91,23 @@ const Portfolio = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 md:mb-20"
+          className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-20"
         >
-          <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
+          <p className="text-primary font-medium tracking-widest uppercase text-xs xs:text-sm mb-3 xs:mb-4">
             Nosso Portfólio
           </p>
-          <h2 className="text-white mb-6">
+          <h2 className="text-white mb-4 xs:mb-5 sm:mb-6">
             Projetos que<br />
             <span className="text-gradient">geram resultados</span>
           </h2>
-          <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto">
+          <p className="text-base xs:text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto">
             Landing pages profissionais para<br className="hidden md:block" />
             diversos segmentos de mercado.
           </p>
         </motion.div>
 
         {/* Portfolio Grid - Premium Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 xs:gap-3 sm:gap-4 md:gap-6">
           {projects.map((project, index) => (
             <motion.div
               key={project.clientName}
@@ -119,7 +119,7 @@ const Portfolio = () => {
               className="group relative cursor-pointer"
             >
               {/* Card Container - Full Bleed Image */}
-              <div className="relative aspect-[9/16] md:aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden">
+              <div className="relative aspect-[9/16] md:aspect-[3/4] rounded-xl xs:rounded-2xl md:rounded-3xl overflow-hidden">
                 {/* Full Bleed Background Image */}
                 <img
                   src={project.image}
@@ -140,10 +140,10 @@ const Portfolio = () => {
                 />
 
                 {/* Bottom Content - Category Pill Only */}
-                <div className="absolute bottom-4 left-4 right-4 md:bottom-6 md:left-5 md:right-5 text-center">
+                <div className="absolute bottom-3 left-3 right-3 xs:bottom-4 xs:left-4 xs:right-4 md:bottom-6 md:left-5 md:right-5 text-center">
                   {/* Category Pill */}
                   <motion.span 
-                    className="inline-block px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-[10px] md:text-xs font-semibold tracking-wider"
+                    className="inline-block px-2 py-1 xs:px-3 xs:py-1.5 md:px-4 md:py-2 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white text-[9px] xs:text-[10px] md:text-xs font-semibold tracking-wider"
                     initial={false}
                     animate={{ 
                       scale: hoveredIndex === index ? 1.05 : 1,
@@ -174,19 +174,19 @@ const Portfolio = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-8 md:gap-16 mt-16 md:mt-20 py-8 border-y border-white/10"
+          className="flex flex-wrap items-center justify-center gap-6 xs:gap-8 md:gap-16 mt-10 xs:mt-12 sm:mt-16 md:mt-20 py-6 xs:py-8 border-y border-white/10"
         >
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-gradient">200+</p>
-            <p className="text-sm text-neutral-500 mt-1">Projetos entregues</p>
+            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">200+</p>
+            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Projetos entregues</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-gradient">50+</p>
-            <p className="text-sm text-neutral-500 mt-1">Segmentos atendidos</p>
+            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">50+</p>
+            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Segmentos atendidos</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-gradient">98%</p>
-            <p className="text-sm text-neutral-500 mt-1">Clientes satisfeitos</p>
+            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">98%</p>
+            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Clientes satisfeitos</p>
           </div>
         </motion.div>
 
@@ -195,9 +195,9 @@ const Portfolio = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.7 }}
-          className="text-center mt-12 md:mt-16"
+          className="text-center mt-8 xs:mt-10 sm:mt-12 md:mt-16"
         >
-          <p className="text-lg md:text-xl text-neutral-400 mb-6">
+          <p className="text-base xs:text-lg md:text-xl text-neutral-400 mb-4 xs:mb-5 sm:mb-6">
             Quer um site como esses<br className="md:hidden" /> para o seu negócio?
           </p>
           <WhatsAppButton showResponseTime />

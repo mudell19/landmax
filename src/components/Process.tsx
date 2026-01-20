@@ -43,13 +43,13 @@ const Process = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-10 xs:mb-12 sm:mb-16 md:mb-20"
         >
-          <h2 className="mb-6">
+          <h2 className="mb-4 xs:mb-5 sm:mb-6">
             Como<br />
             <span className="text-gradient">funciona?</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base xs:text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             Um processo simples e transparente<br className="hidden md:block" />
             do início ao fim.
           </p>
@@ -97,27 +97,27 @@ const Process = () => {
           {/* Mobile: Vertical layout with connecting line */}
           <div className="md:hidden relative">
             {/* Vertical Connection Line */}
-            <div className="absolute left-8 top-12 bottom-12 w-0.5 bg-gradient-to-b from-primary via-primary/60 to-primary" />
+            <div className="absolute left-6 xs:left-8 top-10 xs:top-12 bottom-10 xs:bottom-12 w-0.5 bg-gradient-to-b from-primary via-primary/60 to-primary" />
 
-            <div className="space-y-8">
+            <div className="space-y-6 xs:space-y-8">
               {steps.map((step, index) => (
                 <motion.div
                   key={step.title}
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.15 }}
-                  className="relative flex gap-6"
+                  className="relative flex gap-4 xs:gap-6"
                 >
                   {/* Step Icon */}
-                  <div className="relative z-10 w-16 h-16 rounded-xl bg-gradient-primary flex items-center justify-center shadow-lg flex-shrink-0">
-                    <step.icon className="h-7 w-7 text-primary-foreground" />
+                  <div className="relative z-10 w-12 h-12 xs:w-16 xs:h-16 rounded-lg xs:rounded-xl bg-gradient-primary flex items-center justify-center shadow-lg flex-shrink-0">
+                    <step.icon className="h-5 w-5 xs:h-7 xs:w-7 text-primary-foreground" />
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1 pt-1">
-                    <span className="text-xs font-bold text-primary mb-1 block uppercase tracking-wider">{step.step}</span>
-                    <h3 className="text-xl font-bold mb-2">{step.title}</h3>
-                    <p className="text-muted-foreground text-sm">{step.description}</p>
+                  <div className="flex-1 pt-0.5 xs:pt-1">
+                    <span className="text-[10px] xs:text-xs font-bold text-primary mb-0.5 xs:mb-1 block uppercase tracking-wider">{step.step}</span>
+                    <h3 className="text-lg xs:text-xl font-bold mb-1.5 xs:mb-2">{step.title}</h3>
+                    <p className="text-muted-foreground text-xs xs:text-sm">{step.description}</p>
                   </div>
                 </motion.div>
               ))}
@@ -130,7 +130,7 @@ const Process = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-12 md:mt-16"
+          className="text-center mt-8 xs:mt-10 sm:mt-12 md:mt-16"
         >
           <WhatsAppButton showResponseTime />
         </motion.div>

@@ -34,7 +34,7 @@ const Hero = () => {
   const projectCount = useCounter(200, 2000);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24">
       {/* Background Gradient */}
       <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent" />
       
@@ -54,10 +54,10 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-muted/50 border border-border mb-8"
+            className="inline-flex items-center gap-1.5 xs:gap-2 px-3 xs:px-4 sm:px-5 py-2 xs:py-2.5 rounded-full bg-muted/50 border border-border mb-6 xs:mb-8"
           >
-            <Zap className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm font-medium text-muted-foreground">
+            <Zap className="h-3.5 w-3.5 xs:h-4 xs:w-4 text-muted-foreground" />
+            <span className="text-xs xs:text-sm font-medium text-muted-foreground">
               +{projectCount} projetos entregues com sucesso
             </span>
           </motion.div>
@@ -67,7 +67,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-6"
+            className="mb-4 xs:mb-5 sm:mb-6"
           >
             Seu site profissional<br />
             <span className="text-gradient">pronto em 2 dias</span>
@@ -78,7 +78,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
+            className="text-base xs:text-lg sm:text-xl md:text-2xl text-muted-foreground mb-6 xs:mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed"
           >
             Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-foreground font-semibold">Pague somente na entrega.</span>
           </motion.p>
@@ -88,15 +88,15 @@ const Hero = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-8"
+            className="mb-6 xs:mb-8"
           >
-            <div className="inline-flex flex-col items-center gap-3 p-8 rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
-              <span className="text-sm text-muted-foreground uppercase tracking-wider">Investimento único</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-5xl md:text-7xl font-bold text-gradient">R$ 490</span>
-                <span className="text-2xl text-muted-foreground">,00</span>
+            <div className="inline-flex flex-col items-center gap-2 xs:gap-3 p-5 xs:p-6 sm:p-8 rounded-2xl xs:rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
+              <span className="text-xs xs:text-sm text-muted-foreground uppercase tracking-wider">Investimento único</span>
+              <div className="flex items-baseline gap-0.5 xs:gap-1">
+                <span className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-bold text-gradient">R$ 490</span>
+                <span className="text-lg xs:text-xl sm:text-2xl text-muted-foreground">,00</span>
               </div>
-              <div className="text-base text-muted-foreground mt-1 text-center leading-relaxed">
+              <div className="text-sm xs:text-base text-muted-foreground mt-1 text-center leading-relaxed">
                 + 1 ano de Domínio e Hospedagem<br />
                 <span className="text-primary font-semibold">Grátis</span>
               </div>
@@ -108,7 +108,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-12"
+            className="mb-8 xs:mb-10 sm:mb-12"
           >
             <WhatsAppButton showResponseTime />
           </motion.div>

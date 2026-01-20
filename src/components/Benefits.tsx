@@ -146,12 +146,12 @@ const Benefits = () => {
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
       
-      // Threshold de 20px para movimento intencional
-      if (isLastCardActiveRef.current && deltaY > 20) {
+      // Threshold de 5px para movimento intencional
+      if (isLastCardActiveRef.current && deltaY > 5) {
         hasReleasedSnapRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }
-      if (isFirstCardActiveRef.current && deltaY < -20) {
+      if (isFirstCardActiveRef.current && deltaY < -5) {
         hasReleasedSnapRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
       }

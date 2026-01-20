@@ -62,6 +62,8 @@ const Benefits = () => {
   const isFirstCardActiveRef = useRef(false);
   const lastTouchYRef = useRef(0);
   const hasReleasedSnapRef = useRef(false);
+  const previousSectionRef = useRef<Element | null>(null);
+  const nextSectionRef = useRef<Element | null>(null);
 
   useEffect(() => {
     // Generate random stars
@@ -76,6 +78,15 @@ const Benefits = () => {
       },
     }));
     setStars(generatedStars);
+  }, []);
+
+  // Find neighboring sections
+  useEffect(() => {
+    const benefitsSection = sectionRef.current;
+    if (benefitsSection) {
+      previousSectionRef.current = benefitsSection.previousElementSibling;
+      nextSectionRef.current = benefitsSection.nextElementSibling;
+    }
   }, []);
 
   // Toggle scroll-snap on html when Benefits section is in view
@@ -105,7 +116,6 @@ const Benefits = () => {
     const lastCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Threshold 0: ativa assim que qualquer pixel do card aparece
           isLastCardActiveRef.current = entry.isIntersecting;
         });
       },
@@ -116,20 +126,21 @@ const Benefits = () => {
     const firstCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Threshold 0: ativa assim que qualquer pixel do card aparece
           isFirstCardActiveRef.current = entry.isIntersecting;
         });
       },
       { threshold: 0 }
     );
 
-    // Release snap when user tries to scroll DOWN while on last card or UP while on first card
+    // JS-controlled scroll at boundaries - bypasses snap completely
     const handleWheel = (e: WheelEvent) => {
-      if (isLastCardActiveRef.current && e.deltaY > 0) {
+      if (isLastCardActiveRef.current && e.deltaY > 0 && nextSectionRef.current) {
         document.documentElement.classList.remove('snap-benefits-active');
+        nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
       }
-      if (isFirstCardActiveRef.current && e.deltaY < 0) {
+      if (isFirstCardActiveRef.current && e.deltaY < 0 && previousSectionRef.current) {
         document.documentElement.classList.remove('snap-benefits-active');
+        previousSectionRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     };
 
@@ -138,20 +149,24 @@ const Benefits = () => {
       hasReleasedSnapRef.current = false;
     };
 
+    // JS-controlled scroll at boundaries for touch - bypasses snap completely
     const handleTouchMove = (e: TouchEvent) => {
       if (hasReleasedSnapRef.current) return;
       
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
       
-      // Threshold ZERO para reação instantânea nas bordas
-      if (isLastCardActiveRef.current && deltaY > 0) {
+      // Last card + swipe down = smooth JS scroll to next section
+      if (isLastCardActiveRef.current && deltaY > 0 && nextSectionRef.current) {
         hasReleasedSnapRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
+        nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
       }
-      if (isFirstCardActiveRef.current && deltaY < 0) {
+      // First card + swipe up = smooth JS scroll to previous section
+      if (isFirstCardActiveRef.current && deltaY < 0 && previousSectionRef.current) {
         hasReleasedSnapRef.current = true;
         document.documentElement.classList.remove('snap-benefits-active');
+        previousSectionRef.current.scrollIntoView({ behavior: 'smooth' });
       }
     };
 

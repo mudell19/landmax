@@ -7,11 +7,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import WhatsAppButton from "./WhatsAppButton";
 
 const faqs = [
   {
     question: "Como funciona o processo de criação?",
-    answer: "É simples: você entra em contato pelo WhatsApp, conversamos sobre seu negócio e objetivos, desenvolvemos seu site em até 7 dias e você só paga após aprovar o resultado final."
+    answer: "É simples: você entra em contato pelo WhatsApp, conversamos sobre seu negócio e objetivos, desenvolvemos seu site em até 2 dias e você só paga após aprovar o resultado final."
   },
   {
     question: "Por que o preço é tão acessível?",
@@ -19,7 +20,7 @@ const faqs = [
   },
   {
     question: "O que está incluso no valor de R$ 490?",
-    answer: "Design exclusivo e responsivo, até 5 páginas, otimização SEO básica, integração com WhatsApp, formulário de contato, hospedagem do primeiro ano gratuita e 30 dias de suporte."
+    answer: "Design exclusivo e responsivo, até 5 páginas, otimização SEO básica, integração com WhatsApp, formulário de contato, 1 ano de domínio e hospedagem gratuitos e 30 dias de suporte."
   },
   {
     question: "E se eu não gostar do resultado?",
@@ -39,7 +40,7 @@ const faqs = [
   },
   {
     question: "O site é meu ou preciso pagar mensalidade?",
-    answer: "O site é 100% seu! Após a entrega, você tem propriedade total. A única mensalidade é a hospedagem (a partir de R$ 29/mês após o primeiro ano gratuito)."
+    answer: "O site é 100% seu! Após a entrega, você tem propriedade total. O primeiro ano de hospedagem e domínio é grátis. Após isso, a mensalidade é a partir de R$ 29/mês."
   }
 ];
 
@@ -88,6 +89,17 @@ const FAQ = () => {
                 </AccordionItem>
               ))}
             </Accordion>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mt-12"
+          >
+            <p className="text-muted-foreground mb-6">Ainda tem dúvidas? Fale conosco!</p>
+            <WhatsAppButton />
           </motion.div>
         </div>
       </div>

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { MessageCircle, Palette, Rocket, CheckCircle } from "lucide-react";
+import WhatsAppButton from "./WhatsAppButton";
 
 const steps = [
   {
@@ -14,7 +15,7 @@ const steps = [
     icon: Palette,
     step: "02",
     title: "Criação",
-    description: "Nossa equipe desenvolve seu site com design exclusivo em até 5 dias."
+    description: "Nossa equipe desenvolve seu site exclusivo em até 2 dias."
   },
   {
     icon: CheckCircle,
@@ -80,6 +81,16 @@ const Process = () => {
             ))}
           </div>
         </div>
+
+        {/* CTA Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="text-center mt-16"
+        >
+          <WhatsAppButton />
+        </motion.div>
       </div>
     </section>
   );

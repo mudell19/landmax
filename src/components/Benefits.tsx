@@ -92,7 +92,7 @@ const Benefits = () => {
     
     setTimeout(() => {
       isScrolling.current = false;
-    }, 500);
+    }, 350);
   }, []);
 
   // Handle navigation between cards
@@ -137,16 +137,21 @@ const Benefits = () => {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.7) {
-          setIsLocked(true);
-          document.body.style.overflow = 'hidden';
-          // Reset to first card when entering from top
-          if (currentIndex === 0) {
-            scrollToCard(0);
-          }
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5 && !isLocked) {
+          // First: smoothly center the section
+          sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // Then: wait for scroll to complete before locking
+          setTimeout(() => {
+            setIsLocked(true);
+            document.body.style.overflow = 'hidden';
+            if (currentIndex === 0) {
+              scrollToCard(0);
+            }
+          }, 300);
         }
       },
-      { threshold: 0.7 }
+      { threshold: 0.5 }
     );
 
     observer.observe(section);
@@ -159,7 +164,7 @@ const Benefits = () => {
 
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (Math.abs(e.deltaY) < 30) return; // Ignore small movements
+      if (Math.abs(e.deltaY) < 5) return; // Much more sensitive
       
       navigate(e.deltaY > 0 ? 'down' : 'up');
     };
@@ -178,7 +183,7 @@ const Benefits = () => {
 
     const handleTouchEnd = (e: TouchEvent) => {
       const deltaY = touchStartY.current - e.changedTouches[0].clientY;
-      if (Math.abs(deltaY) < 50) return; // Ignore small swipes
+      if (Math.abs(deltaY) < 20) return; // More sensitive swipes
       
       navigate(deltaY > 0 ? 'down' : 'up');
     };
@@ -258,7 +263,7 @@ const Benefits = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: false, amount: 0.5 }}
                 transition={{ duration: 0.5 }}
-                className="w-full max-w-lg mx-auto text-center pt-48 pb-20"
+                className="w-full max-w-2xl mx-auto text-center pt-48 pb-20"
               >
                 {/* Glowing Icon */}
                 <div

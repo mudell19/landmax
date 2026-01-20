@@ -119,7 +119,7 @@ const Portfolio = () => {
               className="group relative cursor-pointer"
             >
               {/* Card Container - Full Bleed Image */}
-              <div className="relative aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden">
+              <div className="relative aspect-[2/3] md:aspect-[3/4] rounded-2xl md:rounded-3xl overflow-hidden">
                 {/* Full Bleed Background Image */}
                 <img
                   src={project.image}

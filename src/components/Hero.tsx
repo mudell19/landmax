@@ -69,8 +69,8 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-6"
           >
-            Seu site profissional
-            <span className="block text-gradient">pronto em 2 dias</span>
+            Seu site profissional<br />
+            <span className="text-gradient">pronto em 2 dias</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -90,15 +90,16 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mb-8"
           >
-            <div className="inline-flex flex-col items-center gap-2 p-8 rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
+            <div className="inline-flex flex-col items-center gap-3 p-8 rounded-3xl bg-card/50 border border-border backdrop-blur-sm">
               <span className="text-sm text-muted-foreground uppercase tracking-wider">Investimento único</span>
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-1">
                 <span className="text-5xl md:text-7xl font-bold text-gradient">R$ 490</span>
                 <span className="text-2xl text-muted-foreground">,00</span>
               </div>
-              <span className="text-base text-muted-foreground mt-1">
-                + 1 ano de Domínio e Hospedagem <span className="text-primary font-semibold">Grátis</span>
-              </span>
+              <div className="text-base text-muted-foreground mt-1 text-center leading-relaxed">
+                + 1 ano de Domínio e Hospedagem<br />
+                <span className="text-primary font-semibold">Grátis</span>
+              </div>
             </div>
           </motion.div>
 

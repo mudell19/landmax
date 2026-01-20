@@ -52,10 +52,12 @@ const Comparison = () => {
           className="text-center mb-12 md:mb-16"
         >
           <h2 className="mb-6">
-            Por que somos <span className="text-gradient">diferentes?</span>
+            Por que somos<br />
+            <span className="text-gradient">diferentes?</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Veja como nos comparamos com agências tradicionais
+            Veja como nos comparamos<br className="hidden md:block" />
+            com agências tradicionais
           </p>
         </motion.div>
 

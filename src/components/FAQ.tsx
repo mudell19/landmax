@@ -60,10 +60,12 @@ const FAQ = () => {
             className="text-center mb-16"
           >
             <h2 className="mb-6">
-              Perguntas <span className="text-gradient">frequentes</span>
+              Perguntas<br />
+              <span className="text-gradient">frequentes</span>
             </h2>
             <p className="text-xl text-muted-foreground">
-              Tire suas dúvidas sobre nosso serviço de criação de sites.
+              Tire suas dúvidas sobre nosso<br className="hidden md:block" />
+              serviço de criação de sites.
             </p>
           </motion.div>
 

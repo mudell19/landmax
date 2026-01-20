@@ -46,10 +46,12 @@ const Guarantee = () => {
             className="text-center mb-20"
           >
             <h2 className="mb-6">
-              Sua satisfação <span className="text-gradient">100% garantida</span>
+              Sua satisfação<br />
+              <span className="text-gradient">100% garantida</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Trabalhamos com transparência total. Você tem controle absoluto do processo.
+              Trabalhamos com transparência total.<br className="hidden md:block" />
+              Você tem controle absoluto do processo.
             </p>
           </motion.div>
 
@@ -74,23 +76,30 @@ const Guarantee = () => {
             ))}
           </div>
 
-          {/* CTA Card */}
+          {/* CTA Card - Improved styling */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="relative p-10 md:p-14 rounded-3xl gradient-border text-center"
+            className="relative p-8 md:p-14 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-card border border-primary/20 text-center shadow-2xl shadow-primary/10"
           >
-            <h3 className="text-3xl md:text-4xl font-bold mb-6">
-              Pronto para ter seu site profissional?
-            </h3>
-            <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-              Clique no botão abaixo, fale diretamente conosco no WhatsApp e 
-              em 2 dias seu site estará no ar.
-            </p>
+            {/* Subtle glow effect */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-radial from-primary/5 via-transparent to-transparent opacity-50" />
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-              <WhatsAppButton showResponseTime />
+            <div className="relative z-10">
+              <h3 className="text-2xl md:text-4xl font-bold mb-6">
+                Pronto para ter seu<br />
+                <span className="text-gradient">site profissional?</span>
+              </h3>
+              <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg mx-auto leading-relaxed">
+                Clique no botão abaixo e fale<br className="hidden md:block" />
+                diretamente conosco no WhatsApp.<br />
+                <span className="text-foreground font-medium">Em 2 dias seu site estará no ar.</span>
+              </p>
+              
+              <div className="flex justify-center">
+                <WhatsAppButton showResponseTime />
+              </div>
             </div>
           </motion.div>
         </div>

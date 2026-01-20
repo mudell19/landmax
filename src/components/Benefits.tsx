@@ -58,10 +58,12 @@ const Benefits = () => {
           className="text-center mb-20"
         >
           <h2 className="mb-6">
-            Por que escolher a <span className="text-gradient">nossa equipe?</span>
+            Por que escolher a<br />
+            <span className="text-gradient">nossa equipe?</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Simplificamos todo o processo para que você tenha um site profissional sem dor de cabeça.
+            Simplificamos todo o processo para que você<br className="hidden md:block" />
+            tenha um site profissional sem dor de cabeça.
           </p>
         </motion.div>
 

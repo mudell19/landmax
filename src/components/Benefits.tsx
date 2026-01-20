@@ -74,10 +74,10 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="h-screen w-full flex flex-col relative bg-black"
+      className="h-screen w-full relative bg-black"
     >
       {/* Starfield Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
@@ -90,30 +90,14 @@ const Benefits = () => {
         />
       </div>
 
-      {/* ITEM 1: Header - shrink-0 prevents squishing */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
-        className="w-full py-10 px-4 z-10 shrink-0 text-center"
-      >
-        <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
-          Por que escolher a<br />
-          <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-            nossa equipe?
-          </span>
-        </h2>
-        <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
-          Simplificamos todo o processo para que você<br className="hidden md:block" />
-          tenha um site profissional sem dor de cabeça.
-        </p>
-      </motion.div>
-
-      {/* ITEM 2: Scroll Area - flex-1 fills remaining space */}
+      {/* CAMADA 0: Área de Scroll Total - Captura 100% da interação */}
       <div 
-        className="w-full flex-1 overflow-y-auto overscroll-y-contain snap-y snap-mandatory relative z-0 scrollbar-hide"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="absolute inset-0 w-full h-full overflow-y-auto snap-y snap-mandatory z-0 pt-32 pb-48 scrollbar-hide"
+        style={{ 
+          scrollbarWidth: 'none', 
+          msOverflowStyle: 'none',
+          overscrollBehaviorY: 'contain'
+        }}
       >
         {benefits.map((benefit, index) => (
           <div 
@@ -164,9 +148,29 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* ITEM 3: Footer CTA - shrink-0 prevents squishing */}
-      <div className="w-full py-8 z-20 bg-gradient-to-t from-black via-black to-transparent shrink-0">
-        <div className="flex justify-center">
+      {/* CAMADA 1: Cabeçalho Fixo - pointer-events-none permite scroll atravessar */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="absolute top-0 left-0 w-full z-10 pointer-events-none py-10 px-4 text-center bg-gradient-to-b from-black via-black/80 to-transparent"
+      >
+        <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+          Por que escolher a<br />
+          <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+            nossa equipe?
+          </span>
+        </h2>
+        <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+          Simplificamos todo o processo para que você<br className="hidden md:block" />
+          tenha um site profissional sem dor de cabeça.
+        </p>
+      </motion.div>
+
+      {/* CAMADA 2: Rodapé com CTA - pointer-events-auto para clique no botão */}
+      <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none bg-gradient-to-t from-black via-black/90 to-transparent pt-20 pb-10">
+        <div className="flex justify-center pointer-events-auto">
           <WhatsAppButton showResponseTime />
         </div>
       </div>

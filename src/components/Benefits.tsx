@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Rocket, DollarSign, Headphones, Palette, Search, Smartphone } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 
@@ -55,8 +55,6 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Generate random stars
@@ -73,26 +71,20 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
-  // Track scroll position to update active index
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      const scrollTop = container.scrollTop;
-      const itemHeight = container.clientHeight;
-      const newIndex = Math.round(scrollTop / itemHeight);
-      setActiveIndex(Math.min(newIndex, benefits.length - 1));
-    };
-
-    container.addEventListener('scroll', handleScroll);
-    return () => container.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Total height = header (100vh) + cards (6 * 100vh) = 700vh
+  const totalCards = benefits.length;
 
   return (
-    <section className="relative h-screen overflow-hidden" style={{ backgroundColor: '#000000' }}>
-      {/* Continuous Starfield Background - Fixed */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <section 
+      id="benefits-section"
+      className="relative" 
+      style={{ 
+        backgroundColor: '#000000',
+        height: `${(totalCards + 1) * 100}vh`, // 700vh total
+      }}
+    >
+      {/* Continuous Starfield Background - Fixed within section */}
+      <div className="sticky top-0 h-screen overflow-hidden pointer-events-none">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
@@ -105,47 +97,42 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Scrollable Container with Snap */}
+      {/* Sticky Header - Stays fixed at top while scrolling through cards */}
       <div 
-        ref={containerRef}
-        className="h-full overflow-y-auto snap-y snap-mandatory scrollbar-thin relative z-10"
+        className="sticky top-0 z-20 pt-8 xs:pt-10 sm:pt-12 md:pt-16 pb-4 px-4 xs:px-6 sm:px-8"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 70%, transparent 100%)',
+        }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center"
+        >
+          <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
+            Por que escolher a<br />
+            <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
+              nossa equipe?
+            </span>
+          </h2>
+          <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto">
+            Simplificamos todo o processo para que você<br className="hidden md:block" />
+            tenha um site profissional sem dor de cabeça.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Benefits Cards Container - Each 100vh with scroll snap */}
+      <div className="absolute inset-0 snap-y snap-mandatory overflow-y-auto h-full scrollbar-thin"
         style={{
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(139, 92, 246, 0.5) transparent',
         }}
       >
-        {/* Header Section - First Snap Item */}
-        <div className="h-screen snap-start snap-always flex items-center justify-center px-4 xs:px-6 sm:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center"
-          >
-            <h2 className="text-white mb-4 xs:mb-5 sm:mb-6">
-              Por que escolher a<br />
-              <span className="bg-gradient-to-r from-purple-400 via-violet-400 to-purple-500 bg-clip-text text-transparent">
-                nossa equipe?
-              </span>
-            </h2>
-            <p className="text-base xs:text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-              Simplificamos todo o processo para que você<br className="hidden md:block" />
-              tenha um site profissional sem dor de cabeça.
-            </p>
-            
-            {/* Scroll indicator */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="flex flex-col items-center gap-2 text-purple-400"
-            >
-              <span className="text-sm">Role para baixo</span>
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </motion.div>
-          </motion.div>
-        </div>
+        {/* Spacer for header */}
+        <div className="h-screen snap-start snap-always" />
 
         {/* Benefits - Each as Full Screen Snap Item */}
         {benefits.map((benefit, index) => (
@@ -197,32 +184,8 @@ const Benefits = () => {
         ))}
       </div>
 
-      {/* Progress Dots - Fixed on Right */}
-      <div className="fixed right-4 xs:right-6 sm:right-8 top-1/2 -translate-y-1/2 flex flex-col gap-2 z-20">
-        {[...Array(benefits.length + 1)].map((_, index) => (
-          <button
-            key={index}
-            onClick={() => {
-              const container = containerRef.current;
-              if (container) {
-                container.scrollTo({
-                  top: index * container.clientHeight,
-                  behavior: 'smooth'
-                });
-              }
-            }}
-            className={`w-2 h-2 xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${
-              activeIndex === index 
-                ? 'bg-purple-400 scale-125 shadow-lg shadow-purple-500/50' 
-                : 'bg-white/20 hover:bg-white/40'
-            }`}
-            aria-label={`Go to ${index === 0 ? 'header' : `benefit ${index}`}`}
-          />
-        ))}
-      </div>
-
       {/* Fixed CTA at Bottom */}
-      <div className="fixed bottom-0 left-0 right-0 z-20 pb-5 xs:pb-6 sm:pb-8 pt-8 px-4 xs:px-6 pointer-events-none"
+      <div className="fixed bottom-0 left-0 right-0 z-30 pb-5 xs:pb-6 sm:pb-8 pt-8 px-4 xs:px-6 pointer-events-none"
         style={{
           background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, transparent 100%)',
         }}

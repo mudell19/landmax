@@ -142,11 +142,11 @@ const Benefits = () => {
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
       
-      // Threshold menor para reagir rápido e liberar antes do snap "puxar"
-      if (isLastCardActiveRef.current && deltaY > 15) {
+      // Threshold ultra-baixo para reagir antes do snap mandatory
+      if (isLastCardActiveRef.current && deltaY > 5) {
         document.documentElement.classList.remove('snap-benefits-active');
       }
-      if (isFirstCardActiveRef.current && deltaY < -15) {
+      if (isFirstCardActiveRef.current && deltaY < -5) {
         document.documentElement.classList.remove('snap-benefits-active');
       }
     };

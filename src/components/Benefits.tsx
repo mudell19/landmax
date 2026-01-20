@@ -127,7 +127,7 @@ const Benefits = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: false, amount: 0.5 }}
                 transition={{ duration: 0.5 }}
-                className="w-full max-w-lg mx-auto text-center pt-16 pb-20"
+                className="w-full max-w-lg mx-auto text-center pt-32 pb-20"
               >
                 {/* Glowing Icon */}
                 <div

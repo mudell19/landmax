@@ -74,11 +74,10 @@ const Benefits = () => {
   return (
     <section 
       id="benefits-section"
-      className="relative h-screen overflow-hidden" 
-      style={{ backgroundColor: '#000000' }}
+      className="h-screen w-full flex flex-col relative bg-black"
     >
       {/* Starfield Background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         {stars.map((star) => (
           <Star key={star.id} style={star.style} />
         ))}
@@ -91,13 +90,13 @@ const Benefits = () => {
         />
       </div>
 
-      {/* Header - Absolute positioned */}
+      {/* ITEM 1: Header - shrink-0 prevents squishing */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="absolute top-16 left-0 right-0 text-center z-10 px-4"
+        className="w-full py-10 px-4 z-10 shrink-0 text-center"
       >
         <h2 className="text-white mb-3 xs:mb-4 sm:mb-5">
           Por que escolher a<br />
@@ -111,20 +110,63 @@ const Benefits = () => {
         </p>
       </motion.div>
 
-      {/* Scrollable Cards Area - Absolute inset with snap */}
+      {/* ITEM 2: Scroll Area - flex-1 fills remaining space */}
       <div 
-        className="absolute inset-0 pt-48 pb-32 overflow-y-auto snap-y snap-mandatory scrollbar-hide"
+        className="w-full flex-1 overflow-y-auto snap-y snap-mandatory relative z-0 scrollbar-hide"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        <div className="max-w-4xl mx-auto">
-        </div>
+        {benefits.map((benefit, index) => (
+          <div 
+            key={benefit.title}
+            className="h-full snap-center flex items-center justify-center px-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 0.5 }}
+              className="text-center max-w-lg mx-auto"
+            >
+              {/* Glowing Icon */}
+              <div 
+                className="w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 rounded-2xl xs:rounded-3xl flex items-center justify-center mx-auto mb-6 xs:mb-8"
+                style={{
+                  background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%)',
+                  boxShadow: '0 0 40px rgba(139, 92, 246, 0.5), 0 0 80px rgba(139, 92, 246, 0.3), 0 0 120px rgba(139, 92, 246, 0.1)',
+                  border: '1px solid rgba(139, 92, 246, 0.4)',
+                }}
+              >
+                <benefit.icon 
+                  className="h-10 w-10 xs:h-12 xs:w-12 sm:h-14 sm:w-14"
+                  style={{ 
+                    color: '#a78bfa',
+                    filter: 'drop-shadow(0 0 15px rgba(167, 139, 250, 0.9))',
+                  }}
+                />
+              </div>
+
+              {/* Title */}
+              <h3 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-white mb-4 xs:mb-5">
+                {benefit.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-base xs:text-lg sm:text-xl text-gray-400 leading-relaxed max-w-md mx-auto">
+                {benefit.description}
+              </p>
+
+              {/* Benefit number indicator */}
+              <div className="mt-6 xs:mt-8 text-purple-500/50 text-sm font-medium">
+                {String(index + 1).padStart(2, '0')} / {String(benefits.length).padStart(2, '0')}
+              </div>
+            </motion.div>
+          </div>
+        ))}
       </div>
 
-      {/* Fixed CTA with Fade Mask - Absolute at bottom, above scroll */}
-      <div 
-        className="absolute bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-black via-black/80 to-transparent pt-16 pb-6 pointer-events-none"
-      >
-        <div className="pointer-events-auto flex justify-center">
+      {/* ITEM 3: Footer CTA - shrink-0 prevents squishing */}
+      <div className="w-full py-8 z-20 bg-gradient-to-t from-black via-black to-transparent shrink-0">
+        <div className="flex justify-center">
           <WhatsAppButton showResponseTime />
         </div>
       </div>

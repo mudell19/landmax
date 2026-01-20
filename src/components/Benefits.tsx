@@ -59,9 +59,10 @@ const Benefits = () => {
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const isLastCardActiveRef = useRef(false);
   const isFirstCardActiveRef = useRef(false);
-  const lastTouchYRef = useRef(0);
-  const lastScrollDirectionRef = useRef<'up' | 'down'>('down');
+  const touchStartYRef = useRef(0);
+  const touchDeltaYRef = useRef(0);
   const isTouchDeviceRef = useRef(false);
+  const currentCardIndexRef = useRef(0);
   const isInsideSectionRef = useRef(false);
 
   useEffect(() => {
@@ -138,37 +139,18 @@ const Benefits = () => {
       }
     };
 
-    // Touch: Track scroll direction
+    // Touch: Track touch start position
     const handleTouchStart = (e: TouchEvent) => {
-      lastTouchYRef.current = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      const currentY = e.touches[0].clientY;
-      const deltaY = lastTouchYRef.current - currentY;
-      lastScrollDirectionRef.current = deltaY > 0 ? 'down' : 'up';
-      lastTouchYRef.current = currentY;
-    };
-
-    // Touch: Manual snap on touch end - advances to next/prev card based on scroll direction
-    const handleTouchEnd = () => {
-      if (!isTouchDeviceRef.current || !isInsideSectionRef.current || !section) return;
+      touchStartYRef.current = e.touches[0].clientY;
+      touchDeltaYRef.current = 0;
       
-      // If on first card and scrolling up, let user exit freely
-      if (isFirstCardActiveRef.current && lastScrollDirectionRef.current === 'up') return;
-      
-      // If on last card and scrolling down, let user exit freely
-      if (isLastCardActiveRef.current && lastScrollDirectionRef.current === 'down') return;
-      
+      // Find current card index at touch start
       const viewportHeight = window.innerHeight;
       const scrollY = window.scrollY;
-      
-      // Find current card (the one most visible)
-      let currentCard = 0;
       let maxVisibility = 0;
       
       cardRefs.current.forEach((card, index) => {
-        if (!card) return;
+        if (!card || !section) return;
         const cardTop = card.offsetTop + section.offsetTop - viewportHeight;
         const cardBottom = cardTop + viewportHeight;
         const visibleTop = Math.max(scrollY, cardTop);
@@ -177,19 +159,44 @@ const Benefits = () => {
         
         if (visibility > maxVisibility) {
           maxVisibility = visibility;
-          currentCard = index;
+          currentCardIndexRef.current = index;
         }
       });
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const currentY = e.touches[0].clientY;
+      touchDeltaYRef.current = touchStartYRef.current - currentY;
+    };
+
+    // Touch: Manual snap on touch end - advances to next/prev card based on swipe
+    const handleTouchEnd = () => {
+      if (!isTouchDeviceRef.current || !isInsideSectionRef.current || !section) return;
       
-      // Determine target card based on scroll direction
-      let targetIndex = currentCard;
-      if (lastScrollDirectionRef.current === 'down' && currentCard < benefits.length - 1) {
-        targetIndex = currentCard + 1;
-      } else if (lastScrollDirectionRef.current === 'up' && currentCard > 0) {
-        targetIndex = currentCard - 1;
+      const swipeThreshold = 50; // Minimum swipe distance to trigger card change
+      const delta = touchDeltaYRef.current;
+      const direction = delta > 0 ? 'down' : 'up';
+      const hasSignificantSwipe = Math.abs(delta) > swipeThreshold;
+      
+      // If on first card and swiping up, let user exit freely
+      if (isFirstCardActiveRef.current && direction === 'up') return;
+      
+      // If on last card and swiping down, let user exit freely
+      if (isLastCardActiveRef.current && direction === 'down') return;
+      
+      // Determine target card based on swipe direction and magnitude
+      let targetIndex = currentCardIndexRef.current;
+      
+      if (hasSignificantSwipe) {
+        if (direction === 'down' && targetIndex < benefits.length - 1) {
+          targetIndex = currentCardIndexRef.current + 1;
+        } else if (direction === 'up' && targetIndex > 0) {
+          targetIndex = currentCardIndexRef.current - 1;
+        }
       }
       
-      // Smooth scroll to target card
+      // Smooth scroll to target card (snap back or advance)
+      const viewportHeight = window.innerHeight;
       const targetCard = cardRefs.current[targetIndex];
       if (targetCard) {
         const targetY = targetCard.offsetTop + section.offsetTop - viewportHeight;

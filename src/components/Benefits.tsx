@@ -101,30 +101,26 @@ const Benefits = () => {
       { threshold: [0.05, 0.1, 0.5] }
     );
 
-    // Observer for the last card - tracks when it's active (visible enough)
+    // Observer for the last card - tracks when it's active
     const lastCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Ativar mais cedo (10%) para capturar gestos de saída antes do snap travar
-          if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
-            isLastCardActiveRef.current = true;
-          } else {
-            isLastCardActiveRef.current = false;
-          }
+          // Threshold 0: ativa assim que qualquer pixel do card aparece
+          isLastCardActiveRef.current = entry.isIntersecting;
         });
       },
-      { threshold: [0.05, 0.1, 0.2, 0.3, 0.5] }
+      { threshold: 0 }
     );
 
-    // Observer for the first card - tracks when it's active (visible enough)
+    // Observer for the first card - tracks when it's active
     const firstCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // Ativar mais cedo (10%) para capturar gestos de saída antes do snap travar
-          isFirstCardActiveRef.current = entry.isIntersecting && entry.intersectionRatio > 0.1;
+          // Threshold 0: ativa assim que qualquer pixel do card aparece
+          isFirstCardActiveRef.current = entry.isIntersecting;
         });
       },
-      { threshold: [0.05, 0.1, 0.2, 0.3, 0.5] }
+      { threshold: 0 }
     );
 
     // Release snap when user tries to scroll DOWN while on last card or UP while on first card

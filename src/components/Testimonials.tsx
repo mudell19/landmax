@@ -3,27 +3,32 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Star } from "lucide-react";
 
+// Testimonial avatars
+import pedroAvatar from "@/assets/testimonials/pedro.jpg";
+import fernandaAvatar from "@/assets/testimonials/fernanda.jpg";
+import carlosAvatar from "@/assets/testimonials/carlos.jpg";
+
 const testimonials = [
   {
     name: "Pedro Henrique",
-    role: "Dono de E-commerce",
+    role: "Infoprodutos",
     content: "Sinceramente? Eu duvidei que entregariam em 2 dias. Mas cumpriram. Eu precisava do site urgente pra rodar tráfego pago e não podia esperar 30 dias com agência tradicional. O site tá voando de rápido e a conversão dos anúncios melhorou na hora. Recomendo pra quem quer resultado e não enrolação.",
     date: "há 2 dias",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+    avatar: pedroAvatar
   },
   {
     name: "Dra. Fernanda S.",
     role: "Harmonização Facial",
     content: "Meu Instagram era lindo, mas meu site antigo era uma vergonha. Eu perdia clientes high-ticket por isso. A equipe reformulou tudo. Ficou clean, chique e muito fácil de usar no celular. Hoje quando mando o link no WhatsApp, o cliente já sente firmeza. O investimento se pagou na primeira semana.",
     date: "há 5 dias",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+    avatar: fernandaAvatar
   },
   {
     name: "Carlos Eduardo",
     role: "Engenharia e Reformas",
-    content: "Eu não entendo nada de programação e nem quero entender. Só queria um portfólio pra mostrar minhas obras. O pessoal da SitePro resolveu tudo: domínio, hospedagem, e-mail. Eu só mandei as fotos pelo Zap e aprovei. Serviço de primeira, sem tecniquês.",
+    content: "Eu não entendo nada de programação e nem quero entender. Só queria um portfólio pra mostrar minhas obras. O pessoal da LandMax resolveu tudo: domínio, hospedagem, e-mail. Eu só mandei as fotos pelo Zap e aprovei. Serviço de primeira, sem tecniquês.",
     date: "há 1 semana",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face"
+    avatar: carlosAvatar
   }
 ];
 
@@ -61,7 +66,7 @@ const Testimonials = () => {
           </h2>
           <p className="text-base xs:text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
             Veja o que nossos clientes dizem<br className="hidden md:block" />
-            sobre a experiência com a SitePro.
+            sobre a experiência com a LandMax.
           </p>
         </motion.div>
 

@@ -119,7 +119,7 @@ const Portfolio = () => {
               className="group relative cursor-pointer"
             >
               {/* Card Container - Full Bleed Image */}
-              <div className="relative aspect-[9/20] md:aspect-[9/18] rounded-xl xs:rounded-2xl md:rounded-3xl overflow-hidden">
+              <div className="relative aspect-[9/16] md:aspect-[9/14] rounded-xl xs:rounded-2xl md:rounded-3xl overflow-hidden">
                 {/* Full Bleed Background Image */}
                 <img
                   src={project.image}
@@ -169,24 +169,33 @@ const Portfolio = () => {
           ))}
         </div>
 
-        {/* Stats Row */}
+        {/* Stats Row - Enhanced */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="flex flex-wrap items-center justify-center gap-6 xs:gap-8 md:gap-16 mt-10 xs:mt-12 sm:mt-16 md:mt-20 py-6 xs:py-8 border-y border-white/10"
+          className="mt-12 xs:mt-16 sm:mt-20 md:mt-24"
         >
-          <div className="text-center">
-            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">200+</p>
-            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Projetos entregues</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">50+</p>
-            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Segmentos atendidos</p>
-          </div>
-          <div className="text-center">
-            <p className="text-2xl xs:text-3xl md:text-4xl font-bold text-gradient">98%</p>
-            <p className="text-xs xs:text-sm text-neutral-500 mt-1">Clientes satisfeitos</p>
+          <div className="relative rounded-2xl md:rounded-3xl border border-primary/20 bg-gradient-to-b from-primary/5 to-transparent p-8 xs:p-10 md:p-14">
+            {/* Glow effect */}
+            <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-primary/5 blur-xl" />
+            
+            <div className="relative flex flex-wrap items-center justify-center gap-8 xs:gap-12 md:gap-20">
+              <div className="text-center">
+                <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">200+</p>
+                <p className="text-sm xs:text-base text-neutral-400">Projetos entregues</p>
+              </div>
+              <div className="hidden md:block w-px h-16 bg-primary/30" />
+              <div className="text-center">
+                <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">50+</p>
+                <p className="text-sm xs:text-base text-neutral-400">Segmentos atendidos</p>
+              </div>
+              <div className="hidden md:block w-px h-16 bg-primary/30" />
+              <div className="text-center">
+                <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">98%</p>
+                <p className="text-sm xs:text-base text-neutral-400">Clientes satisfeitos</p>
+              </div>
+            </div>
           </div>
         </motion.div>
 

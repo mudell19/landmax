@@ -8,9 +8,7 @@ import advocaciaImg from "@/assets/portfolio/advocacia.png";
 import clinicaImg from "@/assets/portfolio/clinica.png";
 import dentistaImg from "@/assets/portfolio/dentista.jpg";
 import arquiteturaImg from "@/assets/portfolio/arquitetura.png";
-import imobiliariaImg from "@/assets/portfolio/imobiliaria.jpg";
 import infoprodutoImg from "@/assets/portfolio/infoproduto.jpg";
-import suplementoImg from "@/assets/portfolio/suplemento.jpg";
 import energiaSolarImg from "@/assets/portfolio/energia-solar.jpg";
 import segurancaImg from "@/assets/portfolio/seguranca.jpg";
 import esteticaImg from "@/assets/portfolio/estetica.png";
@@ -41,22 +39,10 @@ const projects = [
     title: "Projetos que Inspiram"
   },
   {
-    image: imobiliariaImg,
-    clientName: "Prime Imóveis",
-    category: "IMOBILIÁRIA",
-    title: "Venda com Elegância"
-  },
-  {
     image: infoprodutoImg,
     clientName: "Método Acelerador",
     category: "INFOPRODUTO",
     title: "Conversão Máxima"
-  },
-  {
-    image: suplementoImg,
-    clientName: "NutriFit Pro",
-    category: "SUPLEMENTOS",
-    title: "Resultados Reais"
   },
   {
     image: energiaSolarImg,

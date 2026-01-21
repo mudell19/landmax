@@ -94,7 +94,7 @@ const Benefits = () => {
       exitCooldownRef.current = window.setTimeout(() => {
         isExitingRef.current = false;
         exitCooldownRef.current = null;
-      }, 1200);
+      }, 2000);
     };
 
     // Observer for the section - enables snap when entering (unless exiting)
@@ -159,21 +159,20 @@ const Benefits = () => {
       lastTouchYRef.current = e.touches[0].clientY;
     };
 
-    // Detect exit intention DURING movement (not after) for faster unlock
-    // Using very low threshold for immediate response
+    // Detect exit intention DURING movement - AGGRESSIVE VERSION
+    // Ultra-low threshold + preventDefault to block browser snap settle
     const handleTouchMove = (e: TouchEvent) => {
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
-      const isScrollingDown = deltaY > 8; // Very low threshold - unlock fast
-      const isScrollingUp = deltaY < -8;
+      const isScrollingDown = deltaY > 5; // Ultra-low threshold
+      const isScrollingUp = deltaY < -5;
       
-      if (isLastCardActiveRef.current && isScrollingDown && !isExitingRef.current) {
-        startExitCooldown();
-        document.documentElement.classList.remove('snap-benefits-active');
-        // Update touch reference to prevent repeated triggers
-        lastTouchYRef.current = currentY;
-      }
-      if (isFirstCardActiveRef.current && isScrollingUp && !isExitingRef.current) {
+      const shouldExitDown = isLastCardActiveRef.current && isScrollingDown;
+      const shouldExitUp = isFirstCardActiveRef.current && isScrollingUp;
+      
+      if ((shouldExitDown || shouldExitUp) && !isExitingRef.current) {
+        // Block the browser's snap-settle behavior
+        e.preventDefault();
         startExitCooldown();
         document.documentElement.classList.remove('snap-benefits-active');
         lastTouchYRef.current = currentY;

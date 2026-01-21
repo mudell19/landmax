@@ -4,16 +4,16 @@ import { useRef, useState } from "react";
 import WhatsAppButton from "./WhatsAppButton";
 
 // Portfolio images
-import advocaciaImg from "@/assets/portfolio/advocacia.jpg";
-import clinicaImg from "@/assets/portfolio/clinica.jpg";
+import advocaciaImg from "@/assets/portfolio/advocacia.png";
+import clinicaImg from "@/assets/portfolio/clinica.png";
 import dentistaImg from "@/assets/portfolio/dentista.jpg";
-import arquiteturaImg from "@/assets/portfolio/arquitetura.jpg";
+import arquiteturaImg from "@/assets/portfolio/arquitetura.png";
 import imobiliariaImg from "@/assets/portfolio/imobiliaria.jpg";
 import infoprodutoImg from "@/assets/portfolio/infoproduto.jpg";
 import suplementoImg from "@/assets/portfolio/suplemento.jpg";
 import energiaSolarImg from "@/assets/portfolio/energia-solar.jpg";
 import segurancaImg from "@/assets/portfolio/seguranca.jpg";
-import esteticaImg from "@/assets/portfolio/estetica.jpg";
+import esteticaImg from "@/assets/portfolio/estetica.png";
 
 const projects = [
   {

@@ -119,7 +119,7 @@ const Portfolio = () => {
               className="group relative cursor-pointer"
             >
               {/* Card Container - Full Bleed Image */}
-              <div className="relative aspect-[9/18] md:aspect-[9/16] rounded-xl xs:rounded-2xl md:rounded-3xl overflow-hidden">
+              <div className="relative aspect-[9/20] md:aspect-[9/18] rounded-xl xs:rounded-2xl md:rounded-3xl overflow-hidden">
                 {/* Full Bleed Background Image */}
                 <img
                   src={project.image}
@@ -128,8 +128,8 @@ const Portfolio = () => {
                   loading="lazy"
                 />
                 
-                {/* Bottom gradient for text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                {/* Subtle bottom gradient for text readability */}
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/60 to-transparent" />
                 
                 {/* Hover glow effect */}
                 <motion.div 

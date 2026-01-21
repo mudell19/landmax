@@ -68,9 +68,9 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-4 xs:mb-5 sm:mb-6 hero-text-shadow"
+            className="mb-4 xs:mb-5 sm:mb-6"
           >
-            Seu site profissional<br />
+            <span className="hero-text-shadow">Seu site profissional</span><br />
             <span className="text-gradient">pronto em 2 dias</span>
           </motion.h1>
 

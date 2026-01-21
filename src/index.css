@@ -126,6 +126,10 @@
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-primary);
+    filter: 
+      drop-shadow(0 2px 4px hsl(265, 89%, 40%, 0.6))
+      drop-shadow(0 4px 12px hsl(265, 89%, 30%, 0.4))
+      drop-shadow(0 8px 24px hsl(265, 89%, 20%, 0.3));
   }
 
   /* Glow Effects */

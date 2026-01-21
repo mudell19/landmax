@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState } from "react";
+import heroBg from "@/assets/hero-bg.png";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
@@ -35,17 +36,14 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-radial from-primary/10 via-transparent to-transparent" />
-      
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0 opacity-[0.02]" 
-        style={{
-          backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px'
-        }}
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg})` }}
       />
+      
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-background/70" />
 
       <div className="container-premium relative z-10">
         <div className="max-w-5xl mx-auto text-center">

@@ -60,7 +60,9 @@ const Benefits = () => {
   const firstCardRef = useRef<HTMLDivElement>(null);
   const isLastCardActiveRef = useRef(false);
   const isFirstCardActiveRef = useRef(false);
-  const lastTouchYRef = useRef(0);
+  const touchStartYRef = useRef(0);
+  const isExitingRef = useRef(false);
+  const exitCooldownRef = useRef<number | null>(null);
 
   useEffect(() => {
     // Generate random stars
@@ -126,6 +128,8 @@ const Benefits = () => {
 
     // Release snap when user tries to scroll DOWN while on last card or UP while on first card
     const handleWheel = (e: WheelEvent) => {
+      if (isExitingRef.current) return;
+      
       if (isLastCardActiveRef.current && e.deltaY > 0) {
         document.documentElement.classList.remove('snap-benefits-active');
       }
@@ -135,20 +139,50 @@ const Benefits = () => {
     };
 
     const handleTouchStart = (e: TouchEvent) => {
-      lastTouchYRef.current = e.touches[0].clientY;
+      touchStartYRef.current = e.touches[0].clientY;
     };
 
-    const handleTouchEnd = (e: TouchEvent) => {
-      const endY = e.changedTouches[0].clientY;
-      const deltaY = lastTouchYRef.current - endY;
-      const isScrollingDown = deltaY > 20; // Swipe up = scroll down
-      const isScrollingUp = deltaY < -20;  // Swipe down = scroll up
+    // Use touchmove with passive:false to intercept and prevent snap fighting
+    const handleTouchMove = (e: TouchEvent) => {
+      if (isExitingRef.current) return;
+      
+      const currentY = e.touches[0].clientY;
+      const deltaY = touchStartYRef.current - currentY;
+      const threshold = 15; // pixels of movement to trigger exit
+      
+      const isScrollingDown = deltaY > threshold; // Swipe up = scroll down
+      const isScrollingUp = deltaY < -threshold;  // Swipe down = scroll up
+      
+      let targetSection: Element | null = null;
       
       if (isLastCardActiveRef.current && isScrollingDown) {
-        document.documentElement.classList.remove('snap-benefits-active');
+        targetSection = section.nextElementSibling;
+      } else if (isFirstCardActiveRef.current && isScrollingUp) {
+        targetSection = section.previousElementSibling;
       }
-      if (isFirstCardActiveRef.current && isScrollingUp) {
+      
+      if (targetSection) {
+        isExitingRef.current = true;
+        
+        // Prevent default to stop snap from fighting
+        e.preventDefault();
+        
+        // Remove snap class immediately
         document.documentElement.classList.remove('snap-benefits-active');
+        
+        // Programmatic smooth scroll to next/previous section
+        requestAnimationFrame(() => {
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Cooldown to prevent re-triggering
+        if (exitCooldownRef.current) {
+          clearTimeout(exitCooldownRef.current);
+        }
+        exitCooldownRef.current = window.setTimeout(() => {
+          isExitingRef.current = false;
+          exitCooldownRef.current = null;
+        }, 800);
       }
     };
 
@@ -158,7 +192,7 @@ const Benefits = () => {
     
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
       sectionObserver.disconnect();
@@ -166,8 +200,11 @@ const Benefits = () => {
       firstCardObserver.disconnect();
       window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
+      window.removeEventListener('touchmove', handleTouchMove);
       document.documentElement.classList.remove('snap-benefits-active');
+      if (exitCooldownRef.current) {
+        clearTimeout(exitCooldownRef.current);
+      }
     };
   }, []);
 

@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
+import heroPoster from "@/assets/hero-poster.png";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
@@ -33,15 +34,32 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
 
 const Hero = () => {
   const projectCount = useCounter(200, 2000);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay foi impedido (Low Power Mode).
+          // O vídeo ficará pausado no 'poster'.
+          console.log('Autoplay bloqueado pelo modo de economia de energia.');
+        });
+      }
+    }
+  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
       {/* Background Video */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
+        poster={heroPoster}
         className="absolute inset-0 w-full h-full object-cover"
       >
         <source src={heroVideo} type="video/mp4" />

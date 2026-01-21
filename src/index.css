@@ -108,10 +108,25 @@
 }
 
 @layer components {
+  /* Hero Text Shadows for Video Background */
+  .hero-text-shadow {
+    text-shadow: 
+      0 2px 8px hsl(0, 0%, 0%, 0.8),
+      0 4px 16px hsl(0, 0%, 0%, 0.6),
+      0 8px 32px hsl(0, 0%, 0%, 0.4);
+  }
+
+  .hero-text-shadow-sm {
+    text-shadow: 
+      0 1px 4px hsl(0, 0%, 0%, 0.9),
+      0 2px 8px hsl(0, 0%, 0%, 0.7);
+  }
+
   /* Gradient Text */
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: var(--gradient-primary);
+    filter: drop-shadow(0 2px 8px hsl(265, 89%, 62%, 0.4));
   }
 
   /* Glow Effects */

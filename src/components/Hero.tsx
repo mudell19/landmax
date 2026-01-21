@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState } from "react";
-import heroBg from "@/assets/hero-bg.png";
+import heroVideo from "@/assets/hero-video.mp4";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
@@ -36,11 +36,16 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
       
 
       <div className="container-premium relative z-10">

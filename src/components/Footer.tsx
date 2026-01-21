@@ -17,7 +17,7 @@ const Footer = () => {
           className="text-center mb-20"
         >
           <h2 className="mb-6">
-            Comece agora e tenha seu site em <span className="text-gradient">7 dias</span>
+            Comece agora e tenha seu site em <span className="text-gradient">2 dias</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
             Não perca mais clientes por não ter presença online. 
@@ -30,7 +30,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12 border-t border-border">
           {/* Brand */}
           <div>
-            <p className="text-3xl font-bold text-gradient mb-4">SitePro</p>
+            <p className="text-3xl font-bold text-gradient mb-4">LandMax</p>
             <p className="text-muted-foreground text-lg mb-6">
               Sites profissionais que convertem visitantes em clientes.
             </p>
@@ -83,7 +83,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-12 mt-12 border-t border-border">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} SitePro. Todos os direitos reservados.
+            © {currentYear} LandMax. Todos os direitos reservados.
           </p>
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
             <a href="#" className="hover:text-primary transition-colors">Termos de Uso</a>

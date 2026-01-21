@@ -1,5 +1,5 @@
 import Hero from "@/components/Hero";
-import Benefits from "@/components/Benefits";
+import Benefits from "@/components/BenefitsStage";
 import Comparison from "@/components/Comparison";
 import Process from "@/components/Process";
 import Portfolio from "@/components/Portfolio";

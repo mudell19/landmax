@@ -94,7 +94,7 @@ const Benefits = () => {
       exitCooldownRef.current = window.setTimeout(() => {
         isExitingRef.current = false;
         exitCooldownRef.current = null;
-      }, 800);
+      }, 1200);
     };
 
     // Observer for the section - enables snap when entering (unless exiting)
@@ -160,19 +160,23 @@ const Benefits = () => {
     };
 
     // Detect exit intention DURING movement (not after) for faster unlock
+    // Using very low threshold for immediate response
     const handleTouchMove = (e: TouchEvent) => {
       const currentY = e.touches[0].clientY;
       const deltaY = lastTouchYRef.current - currentY;
-      const isScrollingDown = deltaY > 15; // Swipe up = scroll down
-      const isScrollingUp = deltaY < -15;  // Swipe down = scroll up
+      const isScrollingDown = deltaY > 8; // Very low threshold - unlock fast
+      const isScrollingUp = deltaY < -8;
       
       if (isLastCardActiveRef.current && isScrollingDown && !isExitingRef.current) {
         startExitCooldown();
         document.documentElement.classList.remove('snap-benefits-active');
+        // Update touch reference to prevent repeated triggers
+        lastTouchYRef.current = currentY;
       }
       if (isFirstCardActiveRef.current && isScrollingUp && !isExitingRef.current) {
         startExitCooldown();
         document.documentElement.classList.remove('snap-benefits-active');
+        lastTouchYRef.current = currentY;
       }
     };
 
@@ -182,7 +186,7 @@ const Benefits = () => {
     
     window.addEventListener('wheel', handleWheel, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
     return () => {
       sectionObserver.disconnect();

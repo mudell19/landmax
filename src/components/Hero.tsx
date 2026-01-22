@@ -58,6 +58,7 @@ const Hero = () => {
         src={heroMobileBg}
         alt=""
         className="absolute inset-0 w-full h-full object-cover sm:hidden"
+        style={{ objectPosition: 'center 30%' }}
       />
       
       {/* Desktop Background Video */}

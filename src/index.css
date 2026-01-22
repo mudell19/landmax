@@ -294,6 +294,19 @@
 }
 
 @layer utilities {
+  /* Mobile Viewport Scaling - Força largura fixa de 375px em mobiles maiores */
+  @media screen and (min-width: 376px) and (max-width: 639px) {
+    .mobile-scale-wrapper {
+      width: 375px;
+      min-width: 375px;
+      transform-origin: top left;
+      transform: scale(calc(100vw / 375));
+    }
+    
+    body {
+      overflow-x: hidden;
+    }
+  }
   /* Scroll snap for Benefits section - only active when section is in view */
   html.snap-benefits-active {
     scroll-snap-type: y mandatory;

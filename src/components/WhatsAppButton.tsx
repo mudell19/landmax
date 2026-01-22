@@ -19,8 +19,7 @@ interface WhatsAppButtonProps {
   showResponseTime?: boolean;
 }
 
-const WhatsAppButton = ({ floating = false, className = "", text, showResponseTime = false }: WhatsAppButtonProps) => {
-  const displayText = text || "SOLICITAR SITE EM 24H";
+const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SITE EM 24 HORAS", showResponseTime = false }: WhatsAppButtonProps) => {
   const whatsappNumber = "5511994801846";
   const message = encodeURIComponent("Olá! Tenho interesse em criar um site profissional. Podemos conversar?");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;

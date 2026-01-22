@@ -6,7 +6,7 @@ import WhatsAppButton from "./WhatsAppButton";
 
 const comparisonData = [
   {
-    feature: "Entrega",
+    feature: "Tempo de entrega",
     us: "24 horas",
     others: "30-60 dias"
   },
@@ -16,23 +16,23 @@ const comparisonData = [
     others: "50% antecipado"
   },
   {
-    feature: "Domínio + hospedagem",
-    us: "1 ano grátis",
-    others: "Custo extra"
+    feature: "Domínio e hospedagem",
+    us: "1 ano grátis incluso",
+    others: "Custo adicional"
   },
   {
-    feature: "Suporte",
-    us: "30 dias grátis",
+    feature: "Suporte pós-entrega",
+    us: "30 dias gratuito",
     others: "Pago à parte"
   },
   {
-    feature: "Revisões",
-    us: "3 rodadas grátis",
-    others: "Por hora"
+    feature: "Ajustes e revisões",
+    us: "Até 3 rodadas inclusas",
+    others: "Cobrado por hora"
   },
   {
-    feature: "Investimento",
-    us: "R$ 490",
+    feature: "Investimento total",
+    us: "R$ 490 fixo",
     others: "R$ 2.000+"
   }
 ];

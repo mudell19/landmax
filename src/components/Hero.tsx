@@ -88,7 +88,7 @@ const Hero = () => {
           >
             <Zap className="h-3.5 w-3.5 xs:h-4 xs:w-4 text-primary" />
             <span className="text-xs xs:text-sm font-medium text-white/90">
-              +{projectCount} projetos entregues
+              +{projectCount} projetos entregues com sucesso
             </span>
           </motion.div>
 
@@ -110,9 +110,7 @@ const Hero = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/80 mb-6 xs:mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed hero-text-shadow-lg"
           >
-            Landing pages de alta conversão<br className="sm:hidden" />
-            que transformam visitantes<br className="sm:hidden" />
-            em clientes. <span className="text-white font-semibold">Pague somente na entrega.</span>
+            Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-white font-semibold">Pague somente na entrega.</span>
           </motion.p>
 
           {/* Price Card */}

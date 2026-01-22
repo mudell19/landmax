@@ -73,7 +73,7 @@ const Comparison = () => {
             <div></div>
             <div className="text-center">
               <div className="inline-block px-2 py-1.5 xs:px-3 xs:py-2 md:px-6 md:py-3 rounded-lg xs:rounded-xl bg-gradient-primary">
-                <span className="text-xs xs:text-sm md:text-lg font-bold text-primary-foreground">SitePro</span>
+                <span className="text-xs xs:text-sm md:text-lg font-bold text-primary-foreground">LandMax</span>
               </div>
             </div>
             <div className="text-center">

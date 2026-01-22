@@ -127,9 +127,12 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mb-8 xs:mb-10 sm:mb-12"
+            className="flex flex-col items-center gap-3"
           >
-            <WhatsAppButton showResponseTime />
+            <WhatsAppButton />
+            <span className="text-sm xs:text-base font-bold text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+              Resposta em até 5 minutos
+            </span>
           </motion.div>
 
         </div>

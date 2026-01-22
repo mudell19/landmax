@@ -7,7 +7,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="section-padding border-t border-border bg-background">
+    <footer className="section-padding border-t border-border bg-black">
       <div className="container-premium">
         {/* Final CTA */}
         <motion.div

@@ -4,7 +4,7 @@ import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
 import heroPoster from "@/assets/hero-poster.webp";
-import heroMobileBg from "@/assets/hero-mobile-bg.jpeg";
+import heroMobileBg from "@/assets/hero-mobile-bg.webp";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {

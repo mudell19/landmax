@@ -79,7 +79,7 @@ const Footer = () => {
                 </div>
               </div>
               <p className="text-sm text-muted-foreground">
-                Respondemos mensagens de WhatsApp em até 2 horas durante o horário comercial.
+                Respondemos mensagens de WhatsApp em até 5 minutos.
               </p>
             </div>
           </div>

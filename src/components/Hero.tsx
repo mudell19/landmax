@@ -97,7 +97,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/80 mb-6 xs:mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed hero-text-shadow"
+            className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/80 mb-6 xs:mb-8 sm:mb-10 max-w-3xl mx-auto leading-relaxed hero-text-shadow-lg"
           >
             Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-white font-semibold">Pague somente na entrega.</span>
           </motion.p>

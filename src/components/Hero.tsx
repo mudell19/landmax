@@ -60,7 +60,7 @@ const Hero = () => {
         muted
         playsInline
         poster={heroPoster}
-        className="absolute inset-0 w-full h-full object-cover object-[center_30%] sm:object-center"
+        className="absolute inset-0 w-full h-full object-contain sm:object-cover"
       >
         <source src={heroVideo} type="video/mp4" />
       </video>

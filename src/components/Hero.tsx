@@ -89,7 +89,7 @@ const Hero = () => {
             className="mb-4 xs:mb-5 sm:mb-6"
           >
             <span className="hero-text-shadow">Seu site profissional</span><br />
-            <span className="text-gradient-hero">pronto em 2 dias</span>
+            <span className="text-gradient-hero">pronto em 24 horas</span>
           </motion.h1>
 
           {/* Subheadline */}

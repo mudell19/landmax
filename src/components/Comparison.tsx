@@ -7,7 +7,7 @@ import WhatsAppButton from "./WhatsAppButton";
 const comparisonData = [
   {
     feature: "Tempo de entrega",
-    us: "2 dias úteis",
+    us: "24 horas",
     others: "30-60 dias"
   },
   {

@@ -11,8 +11,8 @@ const benefits = [
   },
   {
     icon: Rocket,
-    title: "Entrega em 2 Dias",
-    description: "Seu site pronto em até 2 dias úteis. Velocidade incomparável no mercado.",
+    title: "Entrega em 24 Horas",
+    description: "Seu site pronto em até 24 horas. Velocidade incomparável no mercado.",
   },
   {
     icon: Headphones,

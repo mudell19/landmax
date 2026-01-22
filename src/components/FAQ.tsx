@@ -12,7 +12,7 @@ import WhatsAppButton from "./WhatsAppButton";
 const faqs = [
   {
     question: "Como funciona o processo de criação?",
-    answer: "É simples: você entra em contato pelo WhatsApp, conversamos sobre seu negócio e objetivos, desenvolvemos seu site em até 2 dias e você só paga após aprovar o resultado final."
+    answer: "É simples: você entra em contato pelo WhatsApp, conversamos sobre seu negócio e objetivos, desenvolvemos seu site em até 24 horas e você só paga após aprovar o resultado final."
   },
   {
     question: "Por que o preço é tão acessível?",

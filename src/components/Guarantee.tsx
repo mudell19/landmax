@@ -12,7 +12,7 @@ const guarantees = [
   },
   {
     icon: Clock,
-    title: "Entrega em 2 Dias",
+    title: "Entrega em 24 Horas",
     description: "Prazo garantido ou seu projeto ganha desconto proporcional."
   },
   {
@@ -94,7 +94,7 @@ const Guarantee = () => {
               <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-lg mx-auto leading-relaxed">
                 Clique no botão abaixo e fale<br className="hidden md:block" />
                 diretamente conosco no WhatsApp.<br />
-                <span className="text-foreground font-medium">Em 2 dias seu site estará no ar.</span>
+                <span className="text-foreground font-medium">Em 24 horas seu site estará no ar.</span>
               </p>
               
               <div className="flex justify-center">

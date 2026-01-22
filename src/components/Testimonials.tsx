@@ -12,7 +12,7 @@ const testimonials = [
   {
     name: "Pedro Henrique",
     role: "Infoprodutos",
-    content: "Sinceramente? Eu duvidei que entregariam em 2 dias. Mas cumpriram. Eu precisava do site urgente pra rodar tráfego pago e não podia esperar 30 dias com agência tradicional. O site tá voando de rápido e a conversão dos anúncios melhorou na hora. Recomendo pra quem quer resultado e não enrolação.",
+    content: "Sinceramente? Eu duvidei que entregariam em 24 horas. Mas cumpriram. Eu precisava do site urgente pra rodar tráfego pago e não podia esperar 30 dias com agência tradicional. O site tá voando de rápido e a conversão dos anúncios melhorou na hora. Recomendo pra quem quer resultado e não enrolação.",
     date: "há 2 dias",
     avatar: pedroAvatar
   },

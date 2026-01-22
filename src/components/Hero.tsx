@@ -73,8 +73,8 @@ const Hero = () => {
         <source src={heroVideo} type="video/mp4" />
       </video>
       
-      {/* Subtle dark overlay */}
-      <div className="absolute inset-0 bg-black/15" />
+      {/* Subtle dark overlay - desktop only */}
+      <div className="absolute inset-0 bg-black/15 hidden sm:block" />
       
 
       <div className="container-premium relative z-10">

@@ -4,6 +4,7 @@ import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
 import heroPoster from "@/assets/hero-poster.webp";
+import heroMobileBg from "@/assets/hero-mobile-bg.jpeg";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
@@ -52,7 +53,14 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Background Video */}
+      {/* Mobile Background Image */}
+      <img
+        src={heroMobileBg}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover sm:hidden"
+      />
+      
+      {/* Desktop Background Video */}
       <video
         ref={videoRef}
         autoPlay
@@ -60,7 +68,7 @@ const Hero = () => {
         muted
         playsInline
         poster={heroPoster}
-        className="absolute inset-0 w-full h-full object-cover scale-[1.3] sm:scale-100 object-[center_-20%] sm:object-center"
+        className="absolute inset-0 w-full h-full object-cover hidden sm:block"
       >
         <source src={heroVideo} type="video/mp4" />
       </video>

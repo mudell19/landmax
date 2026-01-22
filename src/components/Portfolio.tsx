@@ -168,7 +168,7 @@ const Portfolio = () => {
             
             <div className="relative flex flex-wrap items-center justify-center gap-8 xs:gap-12 md:gap-20">
               <div className="text-center">
-                <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">200+</p>
+                <p className="text-4xl xs:text-5xl md:text-6xl font-bold text-gradient mb-2">600+</p>
                 <p className="text-sm xs:text-base text-neutral-400">Projetos entregues</p>
               </div>
               <div className="hidden md:block w-px h-16 bg-primary/30" />

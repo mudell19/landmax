@@ -33,7 +33,7 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
 };
 
 const Hero = () => {
-  const projectCount = useCounter(200, 2000);
+  const projectCount = useCounter(600, 2000);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {

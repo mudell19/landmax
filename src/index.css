@@ -299,8 +299,8 @@
     .mobile-scale-wrapper {
       width: 375px;
       min-width: 375px;
-      transform-origin: top left;
-      transform: scale(calc(100vw / 375));
+      margin: 0 auto;
+      zoom: calc(100vw / 375);
     }
     
     body {

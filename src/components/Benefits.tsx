@@ -186,8 +186,9 @@ const Benefits = () => {
               </span>
             </h2>
             <p className="text-sm xs:text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto px-4">
-              Simplificamos todo o processo para que você<br className="hidden md:block" />
-              tenha um site profissional sem dor de cabeça.
+              Simplificamos todo o processo<br className="sm:hidden" />
+              para que você tenha um site<br className="sm:hidden" />
+              profissional sem dor de cabeça.
             </p>
           </motion.div>
         </div>

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MapPin, Phone, Mail, Clock, Building2 } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
+import logoLandmax from "@/assets/logo-landmax.png";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,7 +18,7 @@ const Footer = () => {
           className="text-center mb-20"
         >
           <h2 className="mb-6">
-            Comece agora e tenha seu site em <span className="text-gradient">2 dias</span>
+            Comece agora e tenha seu site em <span className="text-gradient">24 horas</span>
           </h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
             Não perca mais clientes por não ter presença online. 
@@ -30,7 +31,11 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pt-12 border-t border-border">
           {/* Brand */}
           <div>
-            <p className="text-3xl font-bold text-gradient mb-4">LandMax</p>
+            <img 
+              src={logoLandmax} 
+              alt="LandMax - Pro Landing Pages" 
+              className="h-20 w-auto mb-4"
+            />
             <p className="text-muted-foreground text-lg mb-6">
               Sites profissionais que convertem visitantes em clientes.
             </p>

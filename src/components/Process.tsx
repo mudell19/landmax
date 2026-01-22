@@ -15,7 +15,7 @@ const steps = [
     icon: Palette,
     step: "02",
     title: "Criação",
-    description: "Nossa equipe desenvolve seu site exclusivo em até 2 dias."
+    description: "Nossa equipe desenvolve seu site exclusivo em até 24 horas."
   },
   {
     icon: CheckCircle,

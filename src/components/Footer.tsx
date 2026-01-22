@@ -34,7 +34,7 @@ const Footer = () => {
             <img 
               src={logoLandmax} 
               alt="LandMax - Pro Landing Pages" 
-              className="h-20 w-auto mb-4"
+              className="h-28 md:h-32 w-auto mb-4"
             />
             <p className="text-muted-foreground text-lg mb-6">
               Sites profissionais que convertem visitantes em clientes.

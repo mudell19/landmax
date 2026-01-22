@@ -111,9 +111,10 @@
   /* Hero Text Shadows for Video Background */
   .hero-text-shadow {
     text-shadow: 
-      0 2px 8px hsl(0, 0%, 0%, 0.8),
-      0 4px 16px hsl(0, 0%, 0%, 0.6),
-      0 8px 32px hsl(0, 0%, 0%, 0.4);
+      0 2px 8px hsl(0, 0%, 0%, 1),
+      0 4px 16px hsl(0, 0%, 0%, 0.9),
+      0 8px 32px hsl(0, 0%, 0%, 0.7),
+      0 16px 48px hsl(0, 0%, 0%, 0.5);
   }
 
   .hero-text-shadow-sm {

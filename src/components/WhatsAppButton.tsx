@@ -20,7 +20,7 @@ interface WhatsAppButtonProps {
 }
 
 const WhatsAppButton = ({ floating = false, className = "", text = "SOLICITAR SITE EM 24 HORAS", showResponseTime = false }: WhatsAppButtonProps) => {
-  const whatsappNumber = "5511999999999"; // Replace with actual number
+  const whatsappNumber = "5511994801846";
   const message = encodeURIComponent("Olá! Tenho interesse em criar um site profissional. Podemos conversar?");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 

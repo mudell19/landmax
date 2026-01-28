@@ -53,13 +53,10 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Mobile Background Image - LCP optimized */}
+      {/* Mobile Background Image */}
       <img
         src={heroMobileBg}
         alt=""
-        loading="eager"
-        fetchPriority="high"
-        decoding="async"
         className="absolute inset-0 w-full h-full object-cover sm:hidden"
         style={{ objectPosition: 'center 0%' }}
       />

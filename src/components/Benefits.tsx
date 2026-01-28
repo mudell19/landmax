@@ -56,9 +56,10 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
   const sectionRef = useRef<HTMLElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const lastCardRef = useRef<HTMLDivElement>(null);
   const isLastCardVisibleRef = useRef(false);
-  const [snapEnabled, setSnapEnabled] = useState(true); // Start with snap ENABLED by default
+  const [snapEnabled, setSnapEnabled] = useState(false);
 
   useEffect(() => {
     // Generate random stars
@@ -75,14 +76,25 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
-  // Touch direction-based snap control
+  // Scroll-position based snap control
   useEffect(() => {
     const section = sectionRef.current;
     const lastCard = lastCardRef.current;
     if (!section || !lastCard) return;
 
-    let startY = 0;
-    let touchStartScrollTop = 0;
+    // Observer for section visibility - only enable snap when section is in view
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio < 0.05) {
+            // Section is out of view - disable snap completely
+            setSnapEnabled(false);
+            isLastCardVisibleRef.current = false;
+          }
+        });
+      },
+      { threshold: [0.05] }
+    );
 
     // Observer for last card - disable snap when reaching the bottom
     const lastCardObserver = new IntersectionObserver(
@@ -97,88 +109,45 @@ const Benefits = () => {
       { threshold: [0.5] }
     );
 
-    // Observer for section - re-enable snap when section comes back into view from above
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) {
-            // Reset snap to enabled when section is out of view
-            // This ensures snap is ready when user scrolls back
-            isLastCardVisibleRef.current = false;
-          }
-        });
-      },
-      { threshold: [0.05] }
-    );
-
-    const handleTouchStart = (e: TouchEvent) => {
-      startY = e.touches[0].clientY;
-      const sectionRect = section.getBoundingClientRect();
-      touchStartScrollTop = -sectionRect.top;
+    // Scroll handler for position-based snap control
+    const handleScroll = () => {
+      if (!section) return;
       
-      // Always enable snap on touch start (strong grip)
-      if (!isLastCardVisibleRef.current) {
-        setSnapEnabled(true);
-      }
-    };
-
-    const handleTouchMove = (e: TouchEvent) => {
-      const currentY = e.touches[0].clientY;
-      const isPullingDown = currentY > startY; // Finger moving down = scrolling up (toward Hero)
       const sectionRect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate how much we've scrolled into the section
+      // When section top is at viewport top, scrollIntoSection = 0
+      // As we scroll down, scrollIntoSection increases
       const scrollIntoSection = -sectionRect.top;
-      const isNearTop = scrollIntoSection <= 10; // Near the top of the section
-
-      if (isNearTop && isPullingDown) {
-        // At top and pulling down -> Release snap to go to Hero
+      
+      // Release zone at top (first 5px of scroll into section)
+      // This allows smooth exit upward to Hero while activating snap almost immediately
+      if (scrollIntoSection < 5) {
         setSnapEnabled(false);
-      } else if (!isLastCardVisibleRef.current) {
-        // Any other movement (scrolling down) -> Strong snap
+        return;
+      }
+      
+      // If last card is visible, keep snap disabled (handled by observer)
+      if (isLastCardVisibleRef.current) {
+        return;
+      }
+      
+      // Activation zone - enable snap when scrolled past the release threshold
+      // and we're still within the section
+      if (scrollIntoSection >= 5 && sectionRect.bottom > viewportHeight) {
         setSnapEnabled(true);
       }
     };
 
-    const handleTouchEnd = () => {
-      // Re-enable snap after touch ends if not at last card
-      if (!isLastCardVisibleRef.current) {
-        const sectionRect = section.getBoundingClientRect();
-        const scrollIntoSection = -sectionRect.top;
-        // Only re-enable if we're still in the section
-        if (scrollIntoSection > 10) {
-          setSnapEnabled(true);
-        }
-      }
-    };
-
-    // Mouse wheel handler for desktop
-    const handleWheel = (e: WheelEvent) => {
-      const sectionRect = section.getBoundingClientRect();
-      const scrollIntoSection = -sectionRect.top;
-      const isNearTop = scrollIntoSection <= 10;
-      const isScrollingUp = e.deltaY < 0;
-
-      if (isNearTop && isScrollingUp) {
-        setSnapEnabled(false);
-      } else if (!isLastCardVisibleRef.current && scrollIntoSection > 10) {
-        setSnapEnabled(true);
-      }
-    };
-
-    lastCardObserver.observe(lastCard);
     sectionObserver.observe(section);
-    
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: true });
-    window.addEventListener('touchend', handleTouchEnd, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    lastCardObserver.observe(lastCard);
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      lastCardObserver.disconnect();
       sectionObserver.disconnect();
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('touchend', handleTouchEnd);
-      window.removeEventListener('wheel', handleWheel);
+      lastCardObserver.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

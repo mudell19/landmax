@@ -56,10 +56,10 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
   const sectionRef = useRef<HTMLElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const lastCardRef = useRef<HTMLDivElement>(null);
-  const firstCardRef = useRef<HTMLDivElement>(null);
-  const isLastCardActiveRef = useRef(false);
-  const isFirstCardActiveRef = useRef(false);
+  const isLastCardVisibleRef = useRef(false);
+  const [snapEnabled, setSnapEnabled] = useState(false);
 
   useEffect(() => {
     // Generate random stars
@@ -76,81 +76,93 @@ const Benefits = () => {
     setStars(generatedStars);
   }, []);
 
-  // Toggle scroll-snap on html when Benefits section is in view
+  // Scroll-position based snap control
   useEffect(() => {
     const section = sectionRef.current;
     const lastCard = lastCardRef.current;
-    const firstCard = firstCardRef.current;
-    if (!section || !lastCard || !firstCard) return;
+    if (!section || !lastCard) return;
 
-    // Observer for the section - enables snap when entering
+    // Observer for section visibility - only enable snap when section is in view
     const sectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0.1) {
-            document.documentElement.classList.add('snap-benefits-active');
-          } else if (entry.intersectionRatio < 0.05) {
-            document.documentElement.classList.remove('snap-benefits-active');
-            isLastCardActiveRef.current = false;
-            isFirstCardActiveRef.current = false;
+          if (entry.intersectionRatio < 0.05) {
+            // Section is out of view - disable snap completely
+            setSnapEnabled(false);
+            isLastCardVisibleRef.current = false;
           }
         });
       },
-      { threshold: [0.05, 0.1, 0.5] }
+      { threshold: [0.05] }
     );
 
-    // Observer for the last card - disables snap proactively when visible
+    // Observer for last card - disable snap when reaching the bottom
     const lastCardObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          isLastCardActiveRef.current = entry.isIntersecting && entry.intersectionRatio > 0.5;
-          if (isLastCardActiveRef.current) {
-            // Disable snap BEFORE user tries to scroll out
-            document.documentElement.classList.remove('snap-benefits-active');
+          isLastCardVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0.5;
+          if (isLastCardVisibleRef.current) {
+            setSnapEnabled(false);
           }
         });
       },
       { threshold: [0.5] }
     );
 
-    // Observer for the first card - disables snap proactively when visible
-    const firstCardObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isFirstCardActiveRef.current = entry.isIntersecting && entry.intersectionRatio > 0.5;
-          if (isFirstCardActiveRef.current) {
-            // Disable snap BEFORE user tries to scroll up
-            document.documentElement.classList.remove('snap-benefits-active');
-          }
-        });
-      },
-      { threshold: [0.5] }
-    );
-
-    // Backup for desktop: also remove snap on wheel intent
-    const handleWheel = (e: WheelEvent) => {
-      if (isLastCardActiveRef.current && e.deltaY > 0) {
-        document.documentElement.classList.remove('snap-benefits-active');
+    // Scroll handler for position-based snap control
+    const handleScroll = () => {
+      if (!section) return;
+      
+      const sectionRect = section.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      // Calculate how much we've scrolled into the section
+      // When section top is at viewport top, scrollIntoSection = 0
+      // As we scroll down, scrollIntoSection increases
+      const scrollIntoSection = -sectionRect.top;
+      
+      // Release zone at top (first 50px of scroll into section)
+      // This allows smooth exit upward to Hero
+      if (scrollIntoSection < 50) {
+        setSnapEnabled(false);
+        return;
       }
-      if (isFirstCardActiveRef.current && e.deltaY < 0) {
-        document.documentElement.classList.remove('snap-benefits-active');
+      
+      // If last card is visible, keep snap disabled (handled by observer)
+      if (isLastCardVisibleRef.current) {
+        return;
+      }
+      
+      // Activation zone - enable snap when scrolled past the release threshold
+      // and we're still within the section
+      if (scrollIntoSection >= 50 && sectionRect.bottom > viewportHeight) {
+        setSnapEnabled(true);
       }
     };
 
     sectionObserver.observe(section);
     lastCardObserver.observe(lastCard);
-    firstCardObserver.observe(firstCard);
-    
-    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       sectionObserver.disconnect();
       lastCardObserver.disconnect();
-      firstCardObserver.disconnect();
-      window.removeEventListener('wheel', handleWheel);
-      document.documentElement.classList.remove('snap-benefits-active');
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  // Apply snap class to html element based on state
+  useEffect(() => {
+    if (snapEnabled) {
+      document.documentElement.classList.add('snap-benefits-active');
+    } else {
+      document.documentElement.classList.remove('snap-benefits-active');
+    }
+    
+    return () => {
+      document.documentElement.classList.remove('snap-benefits-active');
+    };
+  }, [snapEnabled]);
 
   return (
     <section id="benefits-section" ref={sectionRef} className="relative bg-black">
@@ -203,8 +215,8 @@ const Benefits = () => {
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
-            ref={index === 0 ? firstCardRef : index === benefits.length - 1 ? lastCardRef : undefined}
-            className="h-screen w-full flex flex-col justify-center items-center px-6 snap-start"
+            ref={index === benefits.length - 1 ? lastCardRef : undefined}
+            className={`h-screen w-full flex flex-col justify-center items-center px-6 snap-start ${index === 0 ? 'scroll-mt-12' : ''}`}
             style={{ marginTop: index === 0 ? '-100vh' : '0' }}
           >
             <motion.div

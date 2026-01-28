@@ -3,32 +3,24 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Star } from "lucide-react";
 
-// Testimonial avatars
-import pedroAvatar from "@/assets/testimonials/pedro.jpg";
-import fernandaAvatar from "@/assets/testimonials/fernanda.jpg";
-import carlosAvatar from "@/assets/testimonials/carlos.jpg";
-
 const testimonials = [
   {
     name: "Pedro Henrique",
     role: "Infoprodutos",
     content: "Sinceramente? Eu duvidei que entregariam em 24 horas. Mas cumpriram. Eu precisava do site urgente pra rodar tráfego pago e não podia esperar 30 dias com agência tradicional. O site tá voando de rápido e a conversão dos anúncios melhorou na hora. Recomendo pra quem quer resultado e não enrolação.",
-    date: "há 2 dias",
-    avatar: pedroAvatar
+    date: "há 2 dias"
   },
   {
     name: "Dra. Fernanda S.",
     role: "Harmonização Facial",
     content: "Meu Instagram era lindo, mas meu site antigo era uma vergonha. Eu perdia clientes high-ticket por isso. A equipe reformulou tudo. Ficou clean, chique e muito fácil de usar no celular. Hoje quando mando o link no WhatsApp, o cliente já sente firmeza. O investimento se pagou na primeira semana.",
-    date: "há 5 dias",
-    avatar: fernandaAvatar
+    date: "há 5 dias"
   },
   {
     name: "Carlos Eduardo",
     role: "Engenharia e Reformas",
     content: "Eu não entendo nada de programação e nem quero entender. Só queria um portfólio pra mostrar minhas obras. O pessoal da LandMax resolveu tudo: domínio, hospedagem, e-mail. Eu só mandei as fotos pelo Zap e aprovei. Serviço de primeira, sem tecniquês.",
-    date: "há 1 semana",
-    avatar: carlosAvatar
+    date: "há 1 semana"
   }
 ];
 
@@ -101,17 +93,10 @@ const Testimonials = () => {
                 "{testimonial.content}"
               </p>
 
-              {/* Author with Avatar */}
-              <div className="flex items-center gap-3">
-                <img 
-                  src={testimonial.avatar} 
-                  alt={testimonial.name}
-                  className="w-10 h-10 xs:w-12 xs:h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-bold text-gray-900 text-sm xs:text-base">{testimonial.name}</p>
-                  <p className="text-gray-500 text-xs xs:text-sm">{testimonial.role}</p>
-                </div>
+              {/* Author */}
+              <div>
+                <p className="font-bold text-gray-900 text-sm xs:text-base">{testimonial.name}</p>
+                <p className="text-gray-500 text-xs xs:text-sm">{testimonial.role}</p>
               </div>
             </motion.div>
           ))}

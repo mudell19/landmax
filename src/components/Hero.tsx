@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap } from "lucide-react";
+import { Zap, Check } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
@@ -114,23 +114,40 @@ const Hero = () => {
             Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-white font-semibold">Pague somente na entrega.</span>
           </motion.p>
 
-          {/* Price Card */}
+          {/* Pain & Solution Section */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
             className="mb-6 xs:mb-8"
           >
-            <div className="inline-flex flex-col items-center gap-2 xs:gap-3 p-5 xs:p-6 sm:p-8 rounded-2xl xs:rounded-3xl bg-black/70 border border-white/10 backdrop-blur-xl shadow-2xl">
-              <span className="text-xs xs:text-sm text-white/70 uppercase tracking-wider">Investimento único</span>
-              <div className="flex items-baseline gap-0.5 xs:gap-1">
-                <span className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-bold text-gradient">R$ 490</span>
-                <span className="text-lg xs:text-xl sm:text-2xl text-white/60">,00</span>
-              </div>
-              <div className="text-sm xs:text-base text-white/70 mt-1 text-center leading-relaxed">
-                + 1 ano de Domínio e Hospedagem<br />
-                <span className="text-primary font-semibold">Grátis</span>
-              </div>
+            <div className="inline-flex flex-col items-center gap-4 xs:gap-5 p-5 xs:p-6 sm:p-8 rounded-2xl xs:rounded-3xl bg-black/70 border border-white/10 backdrop-blur-xl shadow-2xl max-w-2xl">
+              {/* Pain Point Title */}
+              <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold text-white text-center leading-tight">
+                Pare de perder clientes<br />
+                <span className="text-gradient">para a concorrência</span>
+              </h2>
+
+              {/* Benefits List */}
+              <ul className="space-y-2.5 xs:space-y-3 text-left w-full">
+                <li className="flex items-start gap-2.5 xs:gap-3">
+                  <Check className="h-5 w-5 xs:h-6 xs:w-6 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm xs:text-base text-white/90">Tenha um site que realmente vende, não apenas um cartão de visitas.</span>
+                </li>
+                <li className="flex items-start gap-2.5 xs:gap-3">
+                  <Check className="h-5 w-5 xs:h-6 xs:w-6 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm xs:text-base text-white/90">Estrutura otimizada para anúncios (Google e Meta Ads).</span>
+                </li>
+                <li className="flex items-start gap-2.5 xs:gap-3">
+                  <Check className="h-5 w-5 xs:h-6 xs:w-6 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-sm xs:text-base text-white/90">Design exclusivo focado em conversão imediata.</span>
+                </li>
+              </ul>
+
+              {/* Closing Text */}
+              <p className="text-sm xs:text-base sm:text-lg font-semibold text-primary text-center">
+                Entrega garantida em tempo recorde.
+              </p>
             </div>
           </motion.div>
 

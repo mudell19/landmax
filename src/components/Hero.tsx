@@ -114,6 +114,25 @@ const Hero = () => {
             Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-white font-semibold">Pague somente na entrega.</span>
           </motion.p>
 
+          {/* Price Card */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mb-6 xs:mb-8"
+          >
+            <div className="inline-flex flex-col items-center gap-2 xs:gap-3 p-5 xs:p-6 sm:p-8 rounded-2xl xs:rounded-3xl bg-black/70 border border-white/10 backdrop-blur-xl shadow-2xl">
+              <span className="text-xs xs:text-sm text-white/70 uppercase tracking-wider">Investimento único</span>
+              <div className="flex items-baseline gap-0.5 xs:gap-1">
+                <span className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-bold text-gradient">R$ 490</span>
+                <span className="text-lg xs:text-xl sm:text-2xl text-white/60">,00</span>
+              </div>
+              <div className="text-sm xs:text-base text-white/70 mt-1 text-center leading-relaxed">
+                + 1 ano de Domínio e Hospedagem<br />
+                <span className="text-primary font-semibold">Grátis</span>
+              </div>
+            </div>
+          </motion.div>
 
           {/* CTA */}
           <motion.div

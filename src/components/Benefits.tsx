@@ -121,9 +121,9 @@ const Benefits = () => {
       // As we scroll down, scrollIntoSection increases
       const scrollIntoSection = -sectionRect.top;
       
-      // Release zone at top (first 50px of scroll into section)
-      // This allows smooth exit upward to Hero
-      if (scrollIntoSection < 50) {
+      // Release zone at top (first 5px of scroll into section)
+      // This allows smooth exit upward to Hero while activating snap almost immediately
+      if (scrollIntoSection < 5) {
         setSnapEnabled(false);
         return;
       }
@@ -135,7 +135,7 @@ const Benefits = () => {
       
       // Activation zone - enable snap when scrolled past the release threshold
       // and we're still within the section
-      if (scrollIntoSection >= 50 && sectionRect.bottom > viewportHeight) {
+      if (scrollIntoSection >= 5 && sectionRect.bottom > viewportHeight) {
         setSnapEnabled(true);
       }
     };
@@ -216,7 +216,7 @@ const Benefits = () => {
           <div
             key={benefit.title}
             ref={index === benefits.length - 1 ? lastCardRef : undefined}
-            className={`h-screen w-full flex flex-col justify-center items-center px-6 snap-start ${index === 0 ? 'scroll-mt-12' : ''}`}
+            className={`h-screen w-full flex flex-col justify-center items-center px-6 snap-start snap-always ${index === 0 ? 'scroll-mt-12' : ''}`}
             style={{ marginTop: index === 0 ? '-100vh' : '0' }}
           >
             <motion.div

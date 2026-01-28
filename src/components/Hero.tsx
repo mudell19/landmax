@@ -114,30 +114,6 @@ const Hero = () => {
             Landing pages de alta conversão que transformam visitantes em clientes. <span className="text-white font-semibold">Pague somente na entrega.</span>
           </motion.p>
 
-          {/* Value Proposition Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="mb-6 xs:mb-8"
-          >
-            <div className="inline-flex flex-col items-center gap-2 xs:gap-3 p-5 xs:p-6 sm:p-8 rounded-2xl xs:rounded-3xl bg-black/70 border border-white/10 backdrop-blur-xl shadow-2xl">
-              {/* Main Text */}
-              <span className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl font-bold text-gradient">
-                Venda Mais
-              </span>
-              
-              {/* Subtext */}
-              <p className="text-sm xs:text-base text-white/70 text-center leading-relaxed max-w-sm">
-                Design estratégico para converter visitantes em clientes.
-              </p>
-              
-              {/* Final Highlight */}
-              <p className="text-sm xs:text-base sm:text-lg font-semibold text-primary mt-1">
-                Sua empresa com presença digital de elite.
-              </p>
-            </div>
-          </motion.div>
 
           {/* CTA */}
           <motion.div

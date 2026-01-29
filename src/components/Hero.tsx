@@ -50,17 +50,20 @@ const Hero = () => {
   const [videoPlaying, setVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // Força o play manualmente após montagem do vídeo
   useEffect(() => {
     const video = videoRef.current;
-    if (video) {
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          console.log('Autoplay bloqueado pelo modo de economia de energia.');
-          if (isMobile) setVideoFailed(true);
-        });
-      }
-    }
+    if (!video) return;
+    
+    // Pequeno delay para garantir que o vídeo está montado no DOM
+    const timer = setTimeout(() => {
+      video.play().catch((error) => {
+        console.log('Autoplay bloqueado:', error);
+        if (isMobile) setVideoFailed(true);
+      });
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [isMobile]);
 
   return (
@@ -73,6 +76,9 @@ const Hero = () => {
             <MobileHeroImage />
           ) : (
             <>
+              {/* Imagem de backup PRIMEIRO no DOM (z-10) */}
+              <MobileHeroImage />
+              {/* Vídeo DEPOIS no DOM (z-20) - sobrepõe a imagem */}
               <video
                 ref={videoRef}
                 autoPlay
@@ -80,15 +86,13 @@ const Hero = () => {
                 muted
                 playsInline
                 preload="auto"
-                className={`absolute top-0 left-0 w-full h-full object-cover object-center z-20 transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${videoPlaying ? 'opacity-100' : 'opacity-0'}`}
+                className="absolute top-0 left-0 w-full h-full object-cover object-center z-20 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden"
                 onPlay={() => setVideoPlaying(true)}
                 onError={() => setVideoFailed(true)}
                 onStalled={() => setVideoFailed(true)}
               >
                 <source src={new URL('@/assets/hero-mobile-video.mp4', import.meta.url).href} type="video/mp4" />
               </video>
-              {/* Mobile poster shown while video loads */}
-              {!videoPlaying && <MobileHeroImage />}
             </>
           )}
         </>

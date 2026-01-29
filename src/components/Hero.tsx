@@ -86,7 +86,7 @@ const Hero = () => {
                 muted
                 playsInline
                 preload="auto"
-                className="absolute top-0 left-0 w-full h-full object-cover object-center z-20 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden"
+                className="absolute top-0 left-0 w-full h-full object-cover object-center z-[1] [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden"
                 onPlay={() => setVideoPlaying(true)}
                 onError={() => setVideoFailed(true)}
                 onStalled={() => setVideoFailed(true)}

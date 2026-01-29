@@ -2,7 +2,9 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
-import { useIsMobile } from "@/hooks/use-mobile";
+import heroVideo from "@/assets/hero-video.mp4";
+import heroMobileVideo from "@/assets/hero-mobile-video.mp4";
+import heroMobileBg from "@/assets/hero-mobile-bg.webp";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
@@ -31,85 +33,94 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
   return count;
 };
 
-// Componente de imagem fallback para mobile (lazy loaded)
-const MobileHeroImage = () => (
-  <img
-    src={new URL('@/assets/hero-mobile-bg.webp', import.meta.url).href}
-    alt="Hero background"
-    className="absolute inset-0 w-full h-full object-cover object-center"
-    loading="eager"
-    fetchPriority="high"
-    decoding="async"
-  />
-);
-
 const Hero = () => {
-  const isMobile = useIsMobile();
   const projectCount = useCounter(600, 2000);
-  const [videoFailed, setVideoFailed] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
+  const [mobileVideoFailed, setMobileVideoFailed] = useState(false);
+  const [mobileVideoPlaying, setMobileVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
+    // Desktop video autoplay
     const video = videoRef.current;
     if (video) {
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
           console.log('Autoplay bloqueado pelo modo de economia de energia.');
-          if (isMobile) setVideoFailed(true);
         });
       }
     }
-  }, [isMobile]);
+
+    // Mobile video autoplay
+    const mobileVideo = mobileVideoRef.current;
+    if (mobileVideo) {
+      const playPromise = mobileVideo.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback para imagem estática no mobile
+          setMobileVideoFailed(true);
+        });
+      }
+    }
+  }, []);
 
   return (
-    <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Renderização condicional: Mobile carrega APENAS assets mobile, Desktop carrega APENAS assets desktop */}
-      {isMobile ? (
-        /* Mobile Background - Video with Image Fallback */
-        <div className="absolute inset-0 w-full h-full">
-          {videoFailed ? (
-            <MobileHeroImage />
-          ) : (
-            <>
-              <video
-                ref={videoRef}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-                className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${videoPlaying ? 'opacity-100' : 'opacity-0'}`}
-                onPlay={() => setVideoPlaying(true)}
-                onError={() => setVideoFailed(true)}
-                onStalled={() => setVideoFailed(true)}
-              >
-                <source src={new URL('@/assets/hero-mobile-video.mp4', import.meta.url).href} type="video/mp4" />
-              </video>
-              {/* Mobile poster shown while video loads */}
-              {!videoPlaying && <MobileHeroImage />}
-            </>
-          )}
-        </div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
+      {/* Mobile Background - Video with Image Fallback */}
+      {mobileVideoFailed ? (
+        <img
+          src={heroMobileBg}
+          alt="Hero background"
+          className="absolute inset-0 w-full h-full object-cover object-center sm:hidden"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
       ) : (
-        /* Desktop Background Video */
-        <div className="absolute inset-0 w-full h-full">
-          <video
-            ref={videoRef}
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ transform: 'translateY(-7%) scale(1.15)' }}
-          >
-            <source src={new URL('@/assets/hero-video.mp4', import.meta.url).href} type="video/mp4" />
-          </video>
-          {/* Subtle dark overlay - desktop only */}
-          <div className="absolute inset-0 bg-black/15" />
-        </div>
+        <video
+          ref={mobileVideoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          className={`absolute inset-0 w-full h-full object-cover object-center sm:hidden transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${mobileVideoPlaying ? 'opacity-100' : 'opacity-0'}`}
+          onPlay={() => setMobileVideoPlaying(true)}
+          onError={() => setMobileVideoFailed(true)}
+          onStalled={() => setMobileVideoFailed(true)}
+        >
+          <source src={heroMobileVideo} type="video/mp4" />
+        </video>
       )}
+      
+      {/* Mobile poster shown while video loads */}
+      {!mobileVideoFailed && !mobileVideoPlaying && (
+        <img
+          src={heroMobileBg}
+          alt="Hero background"
+          className="absolute inset-0 w-full h-full object-cover object-center sm:hidden"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
+        />
+      )}
+      
+      {/* Desktop Background Video */}
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover hidden sm:block"
+        style={{ transform: 'translateY(-7%) scale(1.15)' }}
+      >
+        <source src={heroVideo} type="video/mp4" />
+      </video>
+      
+      {/* Subtle dark overlay - desktop only */}
+      <div className="absolute inset-0 bg-black/15 hidden sm:block" />
       
 
       <div className="container-premium relative z-10">

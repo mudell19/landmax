@@ -64,11 +64,11 @@ const Hero = () => {
   }, [isMobile]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
+    <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
       {/* Renderização condicional: Mobile carrega APENAS assets mobile, Desktop carrega APENAS assets desktop */}
       {isMobile ? (
-        <>
-          {/* Mobile Background - Video with Image Fallback */}
+        /* Mobile Background - Video with Image Fallback */
+        <div className="absolute inset-0 w-full h-full">
           {videoFailed ? (
             <MobileHeroImage />
           ) : (
@@ -91,10 +91,10 @@ const Hero = () => {
               {!videoPlaying && <MobileHeroImage />}
             </>
           )}
-        </>
+        </div>
       ) : (
-        <>
-          {/* Desktop Background Video */}
+        /* Desktop Background Video */
+        <div className="absolute inset-0 w-full h-full">
           <video
             ref={videoRef}
             autoPlay
@@ -108,7 +108,7 @@ const Hero = () => {
           </video>
           {/* Subtle dark overlay - desktop only */}
           <div className="absolute inset-0 bg-black/15" />
-        </>
+        </div>
       )}
       
 

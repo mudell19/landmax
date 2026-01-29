@@ -4,10 +4,10 @@ import { useRef, useState } from "react";
 import WhatsAppButton from "./WhatsAppButton";
 
 // Portfolio images
-import advocaciaImg from "@/assets/portfolio/advocacia.png";
-import clinicaImg from "@/assets/portfolio/clinica.png";
+import advocaciaImg from "@/assets/portfolio/advocacia.webp";
+import clinicaImg from "@/assets/portfolio/clinica.webp";
 import dentistaImg from "@/assets/portfolio/dentista.jpg";
-import arquiteturaImg from "@/assets/portfolio/arquitetura.png";
+import arquiteturaImg from "@/assets/portfolio/arquitetura.webp";
 import infoprodutoImg from "@/assets/portfolio/infoproduto.jpg";
 import energiaSolarImg from "@/assets/portfolio/energia-solar.jpg";
 import segurancaImg from "@/assets/portfolio/seguranca.jpg";

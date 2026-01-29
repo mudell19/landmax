@@ -2,9 +2,7 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
-import heroVideo from "@/assets/hero-video.mp4";
-import heroPoster from "@/assets/hero-poster.webp";
-import heroMobileBg from "@/assets/hero-mobile-bg.webp";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Animated counter hook
 const useCounter = (end: number, duration: number = 2000, startCounting: boolean = true) => {
@@ -33,8 +31,23 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
   return count;
 };
 
+// Componente de imagem fallback para mobile (lazy loaded)
+const MobileHeroImage = () => (
+  <img
+    src={new URL('@/assets/hero-mobile-bg.webp', import.meta.url).href}
+    alt="Hero background"
+    className="absolute inset-0 w-full h-full object-cover object-center"
+    loading="eager"
+    fetchPriority="high"
+    decoding="async"
+  />
+);
+
 const Hero = () => {
+  const isMobile = useIsMobile();
   const projectCount = useCounter(600, 2000);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -43,39 +56,60 @@ const Hero = () => {
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // Autoplay foi impedido (Low Power Mode).
-          // O vídeo ficará pausado no 'poster'.
           console.log('Autoplay bloqueado pelo modo de economia de energia.');
+          if (isMobile) setVideoFailed(true);
         });
       }
     }
-  }, []);
+  }, [isMobile]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Mobile Background Image */}
-      <img
-        src={heroMobileBg}
-        alt=""
-        className="absolute inset-0 w-full h-full object-cover sm:hidden"
-        style={{ objectPosition: 'center 0%' }}
-      />
-      
-      {/* Desktop Background Video */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={heroPoster}
-        className="absolute inset-0 w-full h-full object-cover hidden sm:block"
-      >
-        <source src={heroVideo} type="video/mp4" />
-      </video>
-      
-      {/* Subtle dark overlay - desktop only */}
-      <div className="absolute inset-0 bg-black/15 hidden sm:block" />
+    <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
+      {/* Renderização condicional: Mobile carrega APENAS assets mobile, Desktop carrega APENAS assets desktop */}
+      {isMobile ? (
+        /* Mobile Background - Video with Image Fallback */
+        <div className="absolute inset-0 w-full h-full">
+          {videoFailed ? (
+            <MobileHeroImage />
+          ) : (
+            <>
+              <video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${videoPlaying ? 'opacity-100' : 'opacity-0'}`}
+                onPlay={() => setVideoPlaying(true)}
+                onError={() => setVideoFailed(true)}
+                onStalled={() => setVideoFailed(true)}
+              >
+                <source src={new URL('@/assets/hero-mobile-video.mp4', import.meta.url).href} type="video/mp4" />
+              </video>
+              {/* Mobile poster shown while video loads */}
+              {!videoPlaying && <MobileHeroImage />}
+            </>
+          )}
+        </div>
+      ) : (
+        /* Desktop Background Video */
+        <div className="absolute inset-0 w-full h-full">
+          <video
+            ref={videoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ transform: 'translateY(-7%) scale(1.15)' }}
+          >
+            <source src={new URL('@/assets/hero-video.mp4', import.meta.url).href} type="video/mp4" />
+          </video>
+          {/* Subtle dark overlay - desktop only */}
+          <div className="absolute inset-0 bg-black/15" />
+        </div>
+      )}
       
 
       <div className="container-premium relative z-10">
@@ -129,7 +163,7 @@ const Hero = () => {
               </div>
               <div className="text-sm xs:text-base text-white/70 mt-1 text-center leading-relaxed">
                 + 1 ano de Domínio e Hospedagem<br />
-                <span className="text-primary font-semibold">Grátis</span>
+                <span className="text-primary font-bold text-lg xs:text-xl sm:text-2xl">Grátis</span>
               </div>
             </div>
           </motion.div>
@@ -151,7 +185,7 @@ const Hero = () => {
       </div>
 
       {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 };

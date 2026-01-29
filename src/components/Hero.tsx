@@ -37,30 +37,17 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
 const Hero = () => {
   const projectCount = useCounter(600, 2000);
   const [mobileVideoFailed, setMobileVideoFailed] = useState(false);
-  const [mobileVideoPlaying, setMobileVideoPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Desktop video autoplay
     const video = videoRef.current;
     if (video) {
       const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
+          // Autoplay foi impedido (Low Power Mode).
+          // O vídeo ficará pausado no 'poster'.
           console.log('Autoplay bloqueado pelo modo de economia de energia.');
-        });
-      }
-    }
-
-    // Mobile video autoplay
-    const mobileVideo = mobileVideoRef.current;
-    if (mobileVideo) {
-      const playPromise = mobileVideo.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Fallback para imagem estática no mobile
-          setMobileVideoFailed(true);
         });
       }
     }
@@ -73,38 +60,23 @@ const Hero = () => {
         <img
           src={heroMobileBg}
           alt="Hero background"
-          className="absolute inset-0 w-full h-full object-contain sm:hidden bg-black"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover sm:hidden"
+          style={{ objectPosition: 'center 0%' }}
         />
       ) : (
         <video
-          ref={mobileVideoRef}
           autoPlay
           loop
           muted
           playsInline
-          preload="auto"
-          className={`absolute inset-0 w-full h-full object-contain sm:hidden bg-black transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${mobileVideoPlaying ? 'opacity-100' : 'opacity-0'}`}
-          onPlay={() => setMobileVideoPlaying(true)}
+          poster={heroMobileBg}
+          className="absolute inset-0 w-full h-full object-cover sm:hidden"
+          style={{ objectPosition: 'center 0%' }}
           onError={() => setMobileVideoFailed(true)}
           onStalled={() => setMobileVideoFailed(true)}
         >
           <source src={heroMobileVideo} type="video/mp4" />
         </video>
-      )}
-      
-      {/* Mobile poster shown while video loads */}
-      {!mobileVideoFailed && !mobileVideoPlaying && (
-        <img
-          src={heroMobileBg}
-          alt="Hero background"
-          className="absolute inset-0 w-full h-full object-contain sm:hidden bg-black"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-        />
       )}
       
       {/* Desktop Background Video */}

@@ -222,7 +222,7 @@ const Benefits = () => {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: false, amount: 0.5 }}
+              viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.5 }}
               className="w-full max-w-2xl mx-auto text-center pt-32 pb-20"
             >

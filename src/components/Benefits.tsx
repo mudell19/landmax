@@ -210,13 +210,13 @@ const Benefits = () => {
         </div>
       </div>
 
-      {/* Cards in normal document flow - scroll with the page */}
-      <div ref={cardsContainerRef} className="relative z-0">
+      {/* Cards com snap-y snap-mandatory no container */}
+      <div ref={cardsContainerRef} className="relative z-0 h-auto snap-y snap-mandatory">
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
             ref={index === benefits.length - 1 ? lastCardRef : undefined}
-            className={`h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center px-6 snap-start snap-always scroll-snap-stop-always ${index === 0 ? 'scroll-mt-12' : ''}`}
+            className={`h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center px-6 snap-center snap-always scroll-my-4 ${index === 0 ? 'scroll-mt-12' : ''}`}
             style={{ marginTop: index === 0 ? '-100dvh' : '0' }}
           >
             <motion.div

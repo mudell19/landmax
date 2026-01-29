@@ -6,13 +6,13 @@ import WhatsAppButton from "./WhatsAppButton";
 const benefits = [
   {
     icon: DollarSign,
-    title: "Pagamento Após Entrega",
-    description: "Você só paga quando receber o site. Risco zero para você.",
+    title: "Risco Zero",
+    description: "Você só paga quando receber o site.",
   },
   {
     icon: Rocket,
     title: "Entrega em 24 Horas",
-    description: "Seu site pronto em até 24 horas. Velocidade incomparável no mercado.",
+    description: "Velocidade incomparável no mercado.",
   },
   {
     icon: Headphones,

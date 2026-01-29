@@ -64,11 +64,11 @@ const Hero = () => {
   }, [isMobile]);
 
   return (
-    <section className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
+    <section className="relative min-h-[100dvh] w-full max-w-[100vw] flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20 snap-start">
       {/* Renderização condicional: Mobile carrega APENAS assets mobile, Desktop carrega APENAS assets desktop */}
       {isMobile ? (
         /* Mobile Background - Video with Image Fallback */
-        <div className="absolute inset-0 w-full h-full">
+        <div className="absolute inset-0 w-full h-[100dvh] max-w-[100vw] overflow-hidden">
           {videoFailed ? (
             <MobileHeroImage />
           ) : (

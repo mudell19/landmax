@@ -56,12 +56,15 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
       {/* Mobile Background - Video with Image Fallback */}
-      {mobileVideoFailed ? (
+{mobileVideoFailed ? (
         <img
           src={heroMobileBg}
           alt="Hero background"
           className="absolute inset-0 w-full h-full object-cover sm:hidden"
           style={{ objectPosition: 'center 0%' }}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
         />
       ) : (
         <video

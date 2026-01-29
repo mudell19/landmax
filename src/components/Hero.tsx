@@ -88,7 +88,7 @@ const Hero = () => {
         playsInline
         poster={heroPoster}
         className="absolute inset-0 w-full h-full object-cover hidden sm:block"
-        style={{ objectPosition: 'center 30%' }}
+        style={{ objectPosition: 'center 15%' }}
       >
         <source src={heroVideo} type="video/mp4" />
       </video>

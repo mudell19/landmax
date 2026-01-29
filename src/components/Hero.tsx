@@ -36,7 +36,7 @@ const MobileHeroImage = () => (
   <img
     src={new URL('@/assets/hero-mobile-bg.webp', import.meta.url).href}
     alt="Hero background"
-    className="absolute top-0 left-0 w-full h-full object-cover object-center z-10"
+    className="absolute top-0 left-0 w-full h-full object-cover object-center z-0"
     loading="eager"
     fetchPriority="high"
     decoding="async"

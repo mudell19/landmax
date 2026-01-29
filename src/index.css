@@ -81,8 +81,9 @@
   html {
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
-    overflow-x: hidden;
     background-color: #000;
+    /* Impede bounce lateral */
+    overscroll-behavior-x: none;
     overscroll-behavior-y: none;
   }
 
@@ -90,6 +91,18 @@
     @apply bg-background text-foreground antialiased;
     background-color: #000;
     font-feature-settings: "rlig" 1, "calt" 1;
+    /* OBRIGATÓRIO: Mata a tremedeira lateral no site todo */
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    /* OBRIGATÓRIO: Garante scroll vertical */
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  #root {
+    width: 100%;
+    overflow-x: hidden;
   }
 
   /* Premium Typography - Headlines Imponentes */

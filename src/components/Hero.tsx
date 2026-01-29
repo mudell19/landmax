@@ -4,7 +4,6 @@ import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
 import heroPoster from "@/assets/hero-poster.webp";
-import heroMobileVideo from "@/assets/hero-mobile-video.mp4";
 import heroMobileBg from "@/assets/hero-mobile-bg.webp";
 
 // Animated counter hook
@@ -36,7 +35,6 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
 
 const Hero = () => {
   const projectCount = useCounter(600, 2000);
-  const [mobileVideoFailed, setMobileVideoFailed] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -55,29 +53,13 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden section-padding pt-20 xs:pt-24 pb-20">
-      {/* Mobile Background - Video with Image Fallback */}
-      {mobileVideoFailed ? (
-        <img
-          src={heroMobileBg}
-          alt="Hero background"
-          className="absolute inset-0 w-full h-full object-cover sm:hidden"
-          style={{ objectPosition: 'center 0%' }}
-        />
-      ) : (
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster={heroMobileBg}
-          className="absolute inset-0 w-full h-full object-cover sm:hidden"
-          style={{ objectPosition: 'center 0%' }}
-          onError={() => setMobileVideoFailed(true)}
-          onStalled={() => setMobileVideoFailed(true)}
-        >
-          <source src={heroMobileVideo} type="video/mp4" />
-        </video>
-      )}
+      {/* Mobile Background Image */}
+      <img
+        src={heroMobileBg}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover sm:hidden"
+        style={{ objectPosition: 'center 0%' }}
+      />
       
       {/* Desktop Background Video */}
       <video
@@ -88,7 +70,6 @@ const Hero = () => {
         playsInline
         poster={heroPoster}
         className="absolute inset-0 w-full h-full object-cover hidden sm:block"
-        style={{ objectPosition: 'center -20%' }}
       >
         <source src={heroVideo} type="video/mp4" />
       </video>
@@ -148,7 +129,7 @@ const Hero = () => {
               </div>
               <div className="text-sm xs:text-base text-white/70 mt-1 text-center leading-relaxed">
                 + 1 ano de Domínio e Hospedagem<br />
-                <span className="text-primary font-bold text-lg xs:text-xl sm:text-2xl">Grátis</span>
+                <span className="text-primary font-semibold">Grátis</span>
               </div>
             </div>
           </motion.div>

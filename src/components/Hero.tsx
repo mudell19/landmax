@@ -31,12 +31,12 @@ const useCounter = (end: number, duration: number = 2000, startCounting: boolean
   return count;
 };
 
-// Componente de imagem fallback para mobile (lazy loaded)
+// Componente de imagem fallback para mobile (z-10 para ficar abaixo do vídeo)
 const MobileHeroImage = () => (
   <img
     src={new URL('@/assets/hero-mobile-bg.webp', import.meta.url).href}
     alt="Hero background"
-    className="absolute inset-0 w-full h-full object-cover object-center"
+    className="absolute top-0 left-0 w-full h-full object-cover object-center z-10"
     loading="eager"
     fetchPriority="high"
     decoding="async"
@@ -80,7 +80,7 @@ const Hero = () => {
                 muted
                 playsInline
                 preload="auto"
-                className={`absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${videoPlaying ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute top-0 left-0 w-full h-full object-cover object-center z-20 transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${videoPlaying ? 'opacity-100' : 'opacity-0'}`}
                 onPlay={() => setVideoPlaying(true)}
                 onError={() => setVideoFailed(true)}
                 onStalled={() => setVideoFailed(true)}

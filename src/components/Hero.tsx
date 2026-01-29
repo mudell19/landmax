@@ -73,7 +73,7 @@ const Hero = () => {
         <img
           src={heroMobileBg}
           alt="Hero background"
-          className="absolute inset-0 w-full h-full object-contain sm:hidden bg-black"
+          className="absolute inset-0 w-full h-full object-cover object-center sm:hidden"
           loading="eager"
           fetchPriority="high"
           decoding="async"
@@ -86,7 +86,7 @@ const Hero = () => {
           muted
           playsInline
           preload="auto"
-          className={`absolute inset-0 w-full h-full object-contain sm:hidden bg-black transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${mobileVideoPlaying ? 'opacity-100' : 'opacity-0'}`}
+          className={`absolute inset-0 w-full h-full object-cover object-center sm:hidden transition-opacity duration-300 [&::-webkit-media-controls]:hidden [&::-webkit-media-controls-start-playback-button]:hidden [&::-webkit-media-controls-play-button]:hidden ${mobileVideoPlaying ? 'opacity-100' : 'opacity-0'}`}
           onPlay={() => setMobileVideoPlaying(true)}
           onError={() => setMobileVideoFailed(true)}
           onStalled={() => setMobileVideoFailed(true)}
@@ -100,7 +100,7 @@ const Hero = () => {
         <img
           src={heroMobileBg}
           alt="Hero background"
-          className="absolute inset-0 w-full h-full object-contain sm:hidden bg-black"
+          className="absolute inset-0 w-full h-full object-cover object-center sm:hidden"
           loading="eager"
           fetchPriority="high"
           decoding="async"
@@ -198,7 +198,7 @@ const Hero = () => {
       </div>
 
       {/* Bottom Gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent z-10" />
     </section>
   );
 };

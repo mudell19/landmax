@@ -3,7 +3,6 @@ import { Zap } from "lucide-react";
 import WhatsAppButton from "./WhatsAppButton";
 import { useEffect, useState, useRef } from "react";
 import heroVideo from "@/assets/hero-video.mp4";
-import heroPoster from "@/assets/hero-poster.webp";
 import heroMobileVideo from "@/assets/hero-mobile-video.mp4";
 import heroMobileBg from "@/assets/hero-mobile-bg.webp";
 
@@ -114,7 +113,6 @@ const Hero = () => {
         loop
         muted
         playsInline
-        poster={heroPoster}
         className="absolute inset-0 w-full h-full object-cover hidden sm:block"
         style={{ transform: 'translateY(-7%) scale(1.15)' }}
       >

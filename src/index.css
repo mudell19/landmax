@@ -80,32 +80,16 @@
 
   html {
     scroll-behavior: smooth;
-    /* Permite o scroll, mas evita o 'bounce' elástico no topo/fundo */
+    scrollbar-gutter: stable;
+    overflow-x: hidden;
+    background-color: #000;
     overscroll-behavior-y: none;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    /* CORREÇÃO: min-height permite crescer. height:100% travava o site. */
-    min-height: 100vh;
-    width: 100%;
-    position: relative;
-    /* Mantém a blindagem contra o 'samba' lateral */
-    overflow-x: hidden;
-    /* Garante a rolagem vertical nativa */
-    overflow-y: auto;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  #root {
-    width: 100%;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  
-  /* Scroll snap stop utility */
-  .scroll-snap-stop-always {
-    scroll-snap-stop: always;
+    background-color: #000;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 
   /* Premium Typography - Headlines Imponentes */
@@ -314,16 +298,8 @@
 
 @layer utilities {
   /* Scroll snap for Benefits section - only active when section is in view */
-  /* IMPORTANT: Uses proximity by default, mandatory only when explicitly enabled */
   html.snap-benefits-active {
     scroll-snap-type: y mandatory;
-    /* Ensure scroll container works with height: 100% */
-    overflow-y: auto;
-  }
-  
-  /* Fallback smooth snap for browsers that support it */
-  html:not(.snap-benefits-active) {
-    scroll-snap-type: y proximity;
   }
 
   /* Hide scrollbar utility */

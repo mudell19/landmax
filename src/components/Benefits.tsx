@@ -211,13 +211,13 @@ const Benefits = () => {
       </div>
 
       {/* Cards in normal document flow - scroll with the page */}
-      <div className="relative z-0">
+      <div ref={cardsContainerRef} className="relative z-0">
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
             ref={index === benefits.length - 1 ? lastCardRef : undefined}
-            className={`h-screen w-full flex flex-col justify-center items-center px-6 snap-start snap-always ${index === 0 ? 'scroll-mt-12' : ''}`}
-            style={{ marginTop: index === 0 ? '-100vh' : '0' }}
+            className={`h-[100dvh] w-full max-w-[100vw] flex flex-col justify-center items-center px-6 snap-start snap-always scroll-snap-stop-always ${index === 0 ? 'scroll-mt-12' : ''}`}
+            style={{ marginTop: index === 0 ? '-100dvh' : '0' }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}

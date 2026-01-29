@@ -56,10 +56,6 @@ const Star = ({ style }: { style: React.CSSProperties }) => (
 const Benefits = () => {
   const [stars, setStars] = useState<Array<{ id: number; style: React.CSSProperties }>>([]);
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsContainerRef = useRef<HTMLDivElement>(null);
-  const lastCardRef = useRef<HTMLDivElement>(null);
-  const isLastCardVisibleRef = useRef(false);
-  const [snapEnabled, setSnapEnabled] = useState(false);
 
   useEffect(() => {
     // Generate random stars
@@ -75,94 +71,6 @@ const Benefits = () => {
     }));
     setStars(generatedStars);
   }, []);
-
-  // Scroll-position based snap control
-  useEffect(() => {
-    const section = sectionRef.current;
-    const lastCard = lastCardRef.current;
-    if (!section || !lastCard) return;
-
-    // Observer for section visibility - only enable snap when section is in view
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.intersectionRatio < 0.05) {
-            // Section is out of view - disable snap completely
-            setSnapEnabled(false);
-            isLastCardVisibleRef.current = false;
-          }
-        });
-      },
-      { threshold: [0.05] }
-    );
-
-    // Observer for last card - disable snap when reaching the bottom
-    const lastCardObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isLastCardVisibleRef.current = entry.isIntersecting && entry.intersectionRatio > 0.5;
-          if (isLastCardVisibleRef.current) {
-            setSnapEnabled(false);
-          }
-        });
-      },
-      { threshold: [0.5] }
-    );
-
-    // Scroll handler for position-based snap control
-    const handleScroll = () => {
-      if (!section) return;
-      
-      const sectionRect = section.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      
-      // Calculate how much we've scrolled into the section
-      // When section top is at viewport top, scrollIntoSection = 0
-      // As we scroll down, scrollIntoSection increases
-      const scrollIntoSection = -sectionRect.top;
-      
-      // Release zone at top (first 5px of scroll into section)
-      // This allows smooth exit upward to Hero while activating snap almost immediately
-      if (scrollIntoSection < 5) {
-        setSnapEnabled(false);
-        return;
-      }
-      
-      // If last card is visible, keep snap disabled (handled by observer)
-      if (isLastCardVisibleRef.current) {
-        return;
-      }
-      
-      // Activation zone - enable snap when scrolled past the release threshold
-      // and we're still within the section
-      if (scrollIntoSection >= 5 && sectionRect.bottom > viewportHeight) {
-        setSnapEnabled(true);
-      }
-    };
-
-    sectionObserver.observe(section);
-    lastCardObserver.observe(lastCard);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    return () => {
-      sectionObserver.disconnect();
-      lastCardObserver.disconnect();
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Apply snap class to html element based on state
-  useEffect(() => {
-    if (snapEnabled) {
-      document.documentElement.classList.add('snap-benefits-active');
-    } else {
-      document.documentElement.classList.remove('snap-benefits-active');
-    }
-    
-    return () => {
-      document.documentElement.classList.remove('snap-benefits-active');
-    };
-  }, [snapEnabled]);
 
   return (
     <section id="benefits-section" ref={sectionRef} className="relative bg-black">
@@ -215,8 +123,7 @@ const Benefits = () => {
         {benefits.map((benefit, index) => (
           <div
             key={benefit.title}
-            ref={index === benefits.length - 1 ? lastCardRef : undefined}
-            className={`h-screen w-full flex flex-col justify-center items-center px-6 snap-start snap-always ${index === 0 ? 'scroll-mt-12' : ''}`}
+            className="h-screen w-full flex flex-col justify-center items-center px-6"
             style={{ marginTop: index === 0 ? '-100vh' : '0' }}
           >
             <motion.div
